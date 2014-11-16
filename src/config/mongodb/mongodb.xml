@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:mongo="http://www.springframework.org/schema/data/mongo" xsi:schemaLocation="http://www.springframework.org/schema/context   
-          http://www.springframework.org/schema/context/spring-context-3.0.xsd   
-          http://www.springframework.org/schema/data/mongo   
-          http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd   
-          http://www.springframework.org/schema/beans   
-          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
 	<!-- 加载mongodb的属性配置文件 -->
-	<!-- <context:property-placeholder location="classpath:config/properties/mongodb.properties" /> -->
+<!-- 	<context:property-placeholder location="classpath:config/properties/mongodb.properties" /> -->
 
 	<!-- 定义mongo对象，对应的是mongodb官方jar包中的Mongo，replica-set设置集群副本的ip地址和端口 -->
 	<mongo:mongo id="mongo" replica-set="${mongo.host}">
-	<!--replicaSetMongo 为配置多个mongos或
-        配置多个relicasetmongo,但是所配置的必须为同一类型-->
 		<!-- 一些连接属性的设置 -->
 		<mongo:options 
 		 connections-per-host="${mongo.connectionsPerHost}" 
@@ -27,11 +26,15 @@
 		 write-timeout="0" 
 		 write-fsync="true" />
 	</mongo:mongo>
-	<mongo:db-factory dbname="database" mongo-ref="mongo" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongo" />
-		<constructor-arg name="databaseName" value="${mongo.dataname}" />
+		<constructor-arg name="databaseName" value="${mongo.databaseName}" />
 	</bean>
-
+	
+	<!-- 映射转换器，扫描back-package目录下的文件，根据注释，把它们作为mongodb的一个collection的映射 -->  
+    <mongo:mapping-converter base-package="climing.mongodb.example.data.model" />  
+  
+    <!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->  
+    <mongo:repositories base-package="liming.mongodb.example.data.impl" />
 </beans>

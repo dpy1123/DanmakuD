@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>DanmakuD</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+	<display-name>DanmakuD</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
   
-  
+    <!-- Spring的log4j监听器****************************************** -->  
+    <!-- 设置log4j配置文件路径 -->  
     <context-param>  
         <param-name>log4jConfigLocation</param-name>  
         <param-value>classpath:config/properties/log4j.properties</param-value>  
     </context-param>  
-    <!-- Spring的log4j监听器****************************************** -->  
-    <!-- 设置log4j配置文件路径 -->  
   
     <!-- 开一条watchdog线程每60秒扫描一下配置文件的变化 -->  
     <context-param>  
@@ -27,16 +26,19 @@
     <listener>  
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
     </listener>  
+    
     <!-- ************************************************** -->  
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
         <param-value>classpath:config/spring/applicationContext.xml</param-value>  
     </context-param>  
   
+ 	<!-- Spring 监听器 -->
     <listener>  
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
     </listener>  
       
+    <!-- Spring MVC Servlet -->  
     <servlet>  
         <servlet-name>SpringDispatcher</servlet-name>  
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
@@ -48,23 +50,24 @@
     </servlet>  
     <servlet-mapping>  
         <servlet-name>SpringDispatcher</servlet-name>  
-        <url-pattern>/</url-pattern>  
+        <url-pattern>*</url-pattern>  
     </servlet-mapping>  
-  
+  	
+  	<!-- 字符编码过滤器 -->
     <filter>  
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
         <init-param>  
             <param-name>encoding</param-name>  
-            <param-value> UTF-8</param-value>  
+            <param-value>UTF-8</param-value>  
         </init-param>  
         <init-param>  
             <param-name>forceEncoding</param-name>  
-            <param-value> true </param-value>  
+            <param-value>true</param-value>  
         </init-param>  
     </filter>  
     <filter-mapping>  
         <filter-name>encodingFilter</filter-name>  
-        <url-pattern> /**/ /*</url-pattern>  
+        <url-pattern>/*</url-pattern>  
     </filter-mapping>  
 </web-app>
