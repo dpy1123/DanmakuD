@@ -1,0 +1,263 @@
+/*网站公共样式*/
+/*=============================网页整体样式=========================================*/
+/*html,body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.gridContainer {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -60px;/*margin-bottom的负值等于footer高度*/
+}
+/*#footer_push,
+#footer {
+	height: 60px;
+	clear: both;
+}*/
+/*============================↑做了一下footer的固定在页脚=======================================*/
+
+footer,header,nav,section {
+	display: block;
+	/*float: left;*/
+}
+
+ul,ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: #4166B5;
+	/* slightly darker shade than original #456cbc achieves color contrast of 4.5:1 in footer */
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a:hover {
+	text-shadow: 1px 1px 1px #eee;
+	text-decoration: none; /* default hover style for links */
+}
+
+body {
+	font-family: adobe-clean, "HelveticaNeue-light", "HelveticaNeue",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	color: #686868;
+	/* slightly darker shade than original #848484 achieves color contrast of 4.5:1 in body */
+	font-size: 16px;
+	line-height: 1.375em;
+	background: #e8e8e8;
+	-webkit-text-size-adjust: 100%;
+	/* corrects font-sizing strangeness in iOS */
+
+
+
+}
+
+/*=============================头部导航栏样式=========================================*/
+/*custom*/
+
+/*网站logo*/
+.site-logo {
+line-height: 40px;
+-webkit-transition: line-height 0.3s linear;
+-moz-transition: line-height 0.3s linear;
+-o-transition: line-height 0.3s linear;
+-ms-transition: line-height 0.3s linear;
+transition: line-height 0.3s linear;
+}
+
+
+/*
+header { /*整个头部阴影
+	width: 100%;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .11);
+	background: #fff;
+	border-radius: 0 0 5px 5px;
+	margin: 0 auto 10px auto;
+}
+
+header .container { /*头部菜单内容居中
+	height: 28px;
+	position: relative;
+	padding: 12px 12px;
+	max-width: 1140px;
+}
+
+header #menuIcon { /*用于移动设备的菜单按钮，先不显示
+	display: none;
+}
+
+header p { /*头部文字logo
+	float: left;
+	font-size: 30px;
+	margin: 0 30px 0 30px;
+}
+
+header p a { /*头部文字logo
+	color: #000;
+}
+
+header ul {
+	float: left;
+	font-size: 14px;
+	margin: 0;
+}
+/*用于header中的ul都是横排的
+header ul>li {
+	display: inline-block;
+	position: relative;
+}
+
+/*用于header中li里的a和.nolink的元素，都视为菜单项
+header ul>li>a, header .nolink{
+	line-height: 40px;
+	font-size: 13px;
+	font-weight: 400;
+	-webkit-transition: line-height 0.3s linear;
+	-moz-transition: line-height 0.3s linear;
+	-o-transition: line-height 0.3s linear;
+	-ms-transition: line-height 0.3s linear;
+	transition: line-height 0.3s linear;
+	padding: 8px 15px;
+	position: relative;
+}*/
+
+
+
+
+
+/*一级子菜单样式*/
+.inner_menu {
+background: #fff;
+box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+position: absolute;
+z-index: 999;
+display: none;/*默认不显示*/
+list-style: none;
+text-align: left;
+}
+
+header ul>li:hover >ul.inner_menu {/*当鼠标移动到第一级菜单上，显示第二级菜单*/
+display: block;
+}
+
+.inner_menu li {
+	min-width: 150px;
+}
+
+.inner_menu >li:not(.last) {
+border-bottom: 1px solid #F2F2F2;
+}
+
+/*二级子菜单样式*/
+ul.inner_menu ul.inner_menu {/*第三级菜单距左100%*/
+top: 0;
+left: 100%;
+z-index: 1000;
+}
+ul.inner_menu li:hover >ul.inner_menu {/*当鼠标移动到第二级菜单上，显示第三级菜单*/
+display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.search_panel {/*搜索框样式*/
+	float: right;
+	border-radius: 5px;
+	margin: 4px;
+	line-height: 16px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 0 5px rgb(173, 173, 173);
+	-moz-box-shadow: 0 0 5px rgb(173, 173, 173);
+	box-shadow: 0 0 5px rgb(173, 173, 173);
+}
+
+.search_panel button {/*搜索按钮样式*/
+	font-size: 18px;
+	font-family: Arial, 微软雅黑;
+	cursor: pointer;
+	overflow: hidden;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.function_panel {/*上传按钮样式*/
+	float: right;
+	overflow: hidden;
+	font-family: Arial, 微软雅黑;
+	padding: 2px; border-radius : 5px; margin : 4px; line-height : 18px;
+	background-color: rgb(238, 238, 238);
+	-webkit-box-shadow: 0 0 5px rgb(173, 173, 173);
+	-moz-box-shadow: 0 0 5px rgb(173, 173, 173);
+	box-shadow: 0 0 5px rgb(173, 173, 173);
+	line-height: 18px;
+	border-radius: 5px; margin: 4px;
+}
+
+.function_panel a:visited {
+	color: #686868;
+}
+/*=============================页面底部样式=========================================*/
+/*footer {
+	width: 100%;
+	box-shadow: 0 0 5px #ddd;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px 5px 0 0;
+	margin: 15px auto 0px auto;
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: center;
+}
+footer {
+	box-shadow: 0 0 5px #ddd;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px 5px 0 0;
+	margin: 8px auto 0px auto;
+	line-height: 1.5;
+	text-align: center;
+	background-image: -webkit-linear-gradient(rgba(242, 242, 242, 0.9),
+		rgba(222, 222, 222, 0.9) );
+	bottom: 0;
+	color: #7F7F7F;
+	font-size: 0.9em;
+	font-weight: bold;
+	overflow: hidden;
+	width: 100%;
+}*/
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
