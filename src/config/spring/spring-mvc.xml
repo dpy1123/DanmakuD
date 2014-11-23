@@ -23,17 +23,17 @@
 	</bean>
 
 	<!-- 靜態資源訪問 -->
-	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>    
-	<mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>    
-	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/>
+<!-- 	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>     -->
+<!-- 	<mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>     -->
+<!-- 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/> -->
 	<mvc:default-servlet-handler/> 
 	
 	<!-- 对mvc使用拦截器，这种方式不会拦截静态资源的请求 -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">  
-	       <property name="interceptors">  
-	           <list>  
+<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">   -->
+<!-- 	       <property name="interceptors">   -->
+<!-- 	           <list>   -->
 <!-- 	               <bean class="com.MyHandlerInterceptor"/>   -->
-	           </list>  
-	       </property>  
-	</bean>  
+<!-- 	           </list>   -->
+<!-- 	       </property>   -->
+<!-- 	</bean>   -->
 </beans>
