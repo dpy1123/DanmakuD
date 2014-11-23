@@ -42,19 +42,19 @@
 <!--     </listener>   -->
       
 	<!-- Spring MVC Servlet -->
-<!--     <servlet>   -->
-<!--         <servlet-name>SpringDispatcher</servlet-name>   -->
-<!--         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>   -->
-<!--         <init-param>   -->
-<!--             <param-name>contextConfigLocation</param-name>   -->
-<!--             <param-value>classpath:config/spring/spring-mvc.xml</param-value>   -->
-<!--         </init-param>   -->
-<!--         <load-on-startup>1</load-on-startup>   -->
-<!--     </servlet>   -->
-<!--     <servlet-mapping>   -->
-<!--         <servlet-name>SpringDispatcher</servlet-name>   -->
-<!--         <url-pattern>*</url-pattern>   -->
-<!--     </servlet-mapping>   -->
+    <servlet>  
+        <servlet-name>SpringDispatcher</servlet-name>  
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+        <init-param>  
+            <param-name>contextConfigLocation</param-name>  
+            <param-value>classpath:config/spring/spring-mvc.xml</param-value>  
+        </init-param>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>SpringDispatcher</servlet-name>  
+        <url-pattern>*</url-pattern>  
+    </servlet-mapping>  
   	
   	<!-- 字符编码过滤器 -->
     <filter>  
