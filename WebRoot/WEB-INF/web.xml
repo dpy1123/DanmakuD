@@ -31,16 +31,11 @@
 <!--     </listener>   -->
     
     <!-- ************************************************** -->  
-<!--     <context-param>   -->
-<!--         <param-name>contextConfigLocation</param-name>   -->
-<!--         <param-value>classpath:config/spring/applicationContext.xml</param-value>   -->
-<!--     </context-param>   -->
+    <context-param>  
+        <param-name>contextConfigLocation</param-name>  
+        <param-value>classpath:config/spring/applicationContext.xml</param-value>  
+    </context-param>  
   
- 	<!-- Spring 监听器 -->
-<!--     <listener>   -->
-<!--         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>   -->
-<!--     </listener>   -->
-      
 	<!-- Spring MVC Servlet -->
     <servlet>  
         <servlet-name>SpringDispatcher</servlet-name>  
@@ -73,4 +68,8 @@
         <filter-name>encodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>  
+    
+    <listener>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+    </listener>  
 </web-app>
