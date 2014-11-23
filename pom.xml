@@ -114,25 +114,21 @@
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>DanmakuD</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.4</version>
-					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
-						<encoding>UTF-8</encoding>
-		                <webResources>
-		                    <resource>
-		                        <directory>WebRoot</directory>
-		                    </resource>
-		                </webResources>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-war-plugin</artifactId>
+	            <version>2.1.1</version>
+	            <configuration>
+	                <webResources>
+	                    <resource>
+	                        <!-- this is relative to the pom.xml directory -->
+	                        <directory>WebRoot</directory>
+	                    </resource>
+	                </webResources>
+	            </configuration>
+	        </plugin>
+	    </plugins>
 	</build>
 
 </project>
