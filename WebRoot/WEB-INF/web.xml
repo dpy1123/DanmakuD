@@ -37,9 +37,9 @@
 <!--     </context-param>   -->
   
  	<!-- Spring 监听器 -->
-    <listener>  
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
-    </listener>  
+<!--     <listener>   -->
+<!--         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>   -->
+<!--     </listener>   -->
       
 	<!-- Spring MVC Servlet -->
 <!--     <servlet>   -->
