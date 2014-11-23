@@ -45,7 +45,7 @@
     </servlet>  
     <servlet-mapping>  
         <servlet-name>SpringDispatcher</servlet-name>  
-        <url-pattern>*</url-pattern>  
+        <url-pattern>*.do</url-pattern>  
     </servlet-mapping>  
   	
   	<!-- 字符编码过滤器 -->
