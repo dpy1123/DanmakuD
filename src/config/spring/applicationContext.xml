@@ -28,5 +28,5 @@
 		</property>
 	</bean>
 	
-<!-- 	<import resource="classpath:/config/mongodb/mongodb.xml"/> -->
+	<import resource="classpath:/config/mongodb/mongodb.xml"/>
 </beans>
