@@ -114,6 +114,17 @@
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>DanmakuD</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<outputDirectory>WebRoot/WEB-INF/classes</outputDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		
+		<resources>
+			<resource>
+				<targetPath>config</targetPath>
+				<directory>src/config</directory>  
+			</resource>
+		</resources>
 		<plugins>
 	        <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>

@@ -3,7 +3,7 @@
 	<display-name>DanmakuD</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-		<welcome-file>views/home.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
@@ -50,7 +50,7 @@
     </servlet>  
     <servlet-mapping>  
         <servlet-name>SpringDispatcher</servlet-name>  
-        <url-pattern>*.do</url-pattern>  
+        <url-pattern>*</url-pattern>  
     </servlet-mapping>  
   	
   	<!-- 字符编码过滤器 -->
