@@ -31,9 +31,9 @@
 	<link rel="stylesheet" href="css/common.css" type="text/css" /> 
 
 	<link rel="stylesheet" href="css/animate.css" type="text/css" />
-	<link rel="stylesheet" href="css/hoverex-all.css" />
+	<!--<link rel="stylesheet" href="css/hoverex-all.css" />-->
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/jquery.hoverex.js"></script>
+	<!--<script type="text/javascript" src="js/jquery.hoverex.js"></script>-->
 
 
 
@@ -160,7 +160,7 @@
 					</div>
 					<div id="items" class="panel_content">
 						<!--<c:forEach items="${subCategory.value}" var="item" >-->
-							<div id="item" class="he-wrap panel_content_item animated fadeInLeft " data-animate="fadeInLeft">
+							<div id="item" class="he-wrap panel_content_item" >
 								<a href="/view.do?videoId=${item.videoId }" target="_blank"> 
 									<img src="${item.previewImgPath }" />
 									<div class="panel_content_item_hud info">
@@ -176,7 +176,7 @@
 							</div>
 					
 
-							<div id="item" class="panel_content_item rating-block animated fadeInLeft " >
+							<div id="item" class="panel_content_item rating-block" >
 								<a href="/view.do?videoId=${item.videoId }" target="_blank"> 
 									<img src="${item.previewImgPath }" />
 									<div class="panel_content_item_hud info">
@@ -435,7 +435,7 @@
 	
 	<footer class="footer">
 		<div class="container">
-			<p class="text-muted">© 2013 <span>DD</span> present.</p>
+			<p class="text-muted">© 2013-2014 <span>DD</span> present.</p>
 		</div>
 	</footer>
 
@@ -450,6 +450,29 @@
 				$("#go-to-top").css("bottom","20px");
 			  else	
 				$("#go-to-top").css("bottom","-100px");
+
+			$(".panel_content").each(function(){
+				if(document.body.scrollTop + window.innerHeight - $(this).offset().top > 0) {
+					$(this).find(".panel_content_item").each(function(i){
+						$(this).addClass(" animated "+(i%2==1?"fadeInLeft":"fadeInRight"))
+					});
+				}
+			
+			});
+
+
+			 /* if(document.body.scrollTop + window.innerHeight - $(".panel_content").offset().top > 0) {
+				  $(".panel_content_item").each(function(i){
+					//$(this).addClass("a"+i+" animated fadeInLeft")
+					$(this).addClass("a"+i+" animated "+(i%2==1?"fadeInLeft":"fadeInRight"))
+				});
+			}*/
+				/*if(document.body.scrollTop + window.innerHeight - $("#items").offset().top > 300){
+					
+					$(".panel_content_item").each(function(i){
+						$(this).removeClass("fadeInLeft fadeInRight");
+						});
+				}*/
 		  });
 		  $("#go-to-top").click(function(){
 			  $('body').animate({scrollTop: '0px'}, 500,'easeOutQuad');

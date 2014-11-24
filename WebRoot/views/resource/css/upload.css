@@ -1,0 +1,117 @@
+/* CSS Document */
+body {
+	font-family: "微软雅黑", adobe-clean, "HelveticaNeue-light", "HelveticaNeue",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	color: #686868;
+	font-size: 16px;
+	line-height: 1.375em;
+	background: #e8e8e8;
+	-webkit-text-size-adjust: 100%;
+}
+
+.uploadFrm input {
+	vertical-align: baseline;
+	color: #000;
+	font-size: 12px;
+}
+
+.uploadFrm input[type=text],
+.uploadFrm textarea {
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.uploadFrm input[type="text"] {
+	border: solid 1px #999;
+	background: -webkit-gradient(linear, left top, left 15, from(white),
+		color-stop(4%, #f9f9f9), to(white) );
+	background: -moz-linear-gradient(top, white, #f9f9f9 1px, white 15px);
+	padding: 4px;
+}
+
+.uploadFrm button { /*display: inline-block;
+zoom: 1;*/
+	vertical-align: baseline;
+	margin: 0 2px;
+	/*outline: 0;*/
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	padding: 4px 10px 4px 10px;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#ededed) );
+	background: -moz-linear-gradient(top, #fff, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#ededed' );
+}
+
+.uploadFrm button:hover {
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#dcdcdc) );
+	background: -moz-linear-gradient(top, #fff, #dcdcdc);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#dcdcdc' );
+}
+
+.uploadFrm select {
+	border-radius: 4px;
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#ededed) );
+	background: -moz-linear-gradient(top, #fff, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#ededed' );
+}
+
+.uploadFrm textarea {
+	border: 1px solid #ccc;
+	background: -webkit-gradient(linear, left top, left 15, from(#fff),
+		color-stop(4%, #f9f9f9), to(#fff) );
+	background: -moz-linear-gradient(top, #fff, #f9f9f9 1px, #fff 15px);
+}
+
+.uploadDiv {
+	margin: 5px 0 3px 10px;
+	display: block;
+	overflow: hidden;
+	/*width: 800px;*/
+	padding: 10px 0 10px 0;
+}
+
+.uploadDiv .title {
+	width: 31.25%;
+	text-align: right;
+	float: left;
+}
+
+.uploadDiv .value {
+	float: right;
+	width: 67.5%;
+}
+
+.uploadDiv .title b {
+	color: #111;
+}
+
+.uploadDiv .value input[type=text] {
+	width: 180px;
+}
+
+.uploadFrm span {
+	margin-right: 10px;
+	color: #999;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>My JSP 'video.jsp' starting page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!-- 公共 -->
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+	<!-- 独特 -->
+	<!--<link href="resource/css/view_layout.css" rel="stylesheet" type="text/css">-->
+	<link href="resource/css/view.css" rel="stylesheet" type="text/css">
+	<!-- 公共样式，因为要覆盖前面的，所以最后导入 -->
+	<link rel="stylesheet" href="css/common.css" type="text/css" />
+	<!-- 弹幕 -->
+	<link rel="stylesheet" href="playr/playr.css" type="text/css">
+	<script type="text/javascript" src="playr/danmu.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="playr/playr.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<div class="gridContainer clearfix">
+		
+<div class="container">
+	<div class="row">
+		<div id="title" class="col-xs-12 col-sm-6 col-md-8">
+			<div class="title_panel">
+				<h2>${resource.title }</h2>
+		        <div class="navi_info">
+		            <a href="<%=path%>">主页</a>
+		            &gt;
+		            <span><a href="channel.do?categoryName=${mainCategory }">${mainCategoryDisplayName }</a></span> 
+		            &gt; 
+		            <span><a href="list.do?categoryName=${subCategory }">${subCategoryDisplayName }</a></span> 
+		            &gt; 
+		            <time><i>${resource.uploadDTM }</i></time>
+		        </div>
+		        <div class="play_info">
+				            播放:<i id="dianji">${resource.clickCount }</i>
+				            收藏:<i id="stow_count">${resource.favorCount }</i>
+				            评分:<i><span id="v_ctimes" title="硬币数量">${resource.score }</span></i>
+		        </div>
+			</div>
+		</div>
+		<div id="upper" class="col-xs-12 col-sm-6 col-md-4">
+			<div class="upper_panel media">
+				<div class="face media-left">
+					<img src="images/myface.jpg">
+				</div>
+				<div class="info  media-body">
+					<div class="name media-heading" id="upper_name">
+						<a target="_blank">dpy1123</a>
+					</div>
+					<div class="sign">这个人很懒，什么都没有写……简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长简介可以很长</div>
+				</div>
+			</div>
+		</div>
+
+	</div><!-- end row -->
+		<div id="video">
+			<div class="video_panel">
+				<video class="playr_video" >
+					<source src="${videoUrl }" type="video/mp4"></source> 
+					<danmu get="getDanmus?vid=video001" send="${danmuWsUrl }?vid=video001&uid=user001"></danmu>
+				</video>
+			</div>
+		</div>
+		<div id="info">
+			<div class="info_panel">
+				<div class="tag">
+					<b>TAG:</b>
+					<ul>
+						<c:forEach items="${resource.tags }" var="tag">
+							<li>
+								<a href="search.do?keyWords=${tag.name }&type=tag&categoryName=&order=">
+									<c:if test="${tag.isSpecialEdition }"><span class="sp">专</span></c:if>${tag.name }
+								</a>
+							</li>
+						</c:forEach>
+					</ul>
+					<span class="new_tag">
+						<a href="javascript:;" onclick="">增加新TAG</a>
+					</span>
+				</div>
+
+				<div class="description">
+					${resource.description }
+				</div>
+			</div>
+		</div>
+		
+</div><!-- end container -->		
+
+	</div>
+	
+	
+
+		
+</body>
+</html>

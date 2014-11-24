@@ -1,0 +1,186 @@
+
+.title_panel {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.title_panel h2 {
+	float: left;
+	display: block;
+	width: 100%;
+	font-size: 1.25em;
+	overflow: hidden;
+	margin: 1%;
+}
+
+.title_panel .navi_info {
+	float: left;
+	padding: 1%;
+	line-height: 16px;
+	color: #777;
+	font-size: 14px;
+	font-family: 微软雅黑, Arial;
+}
+
+.title_panel .play_info {
+	float: right;
+	padding: 1%;
+	line-height: 16px;
+	font-size: 12px;
+	font-family: 微软雅黑, Arial;
+}
+
+.title_panel .play_info i {
+	color: #999;
+}
+
+.upper_panel {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.upper_panel .face {
+	float: left;
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	background: url(/images/common/z.png) no-repeat -703px -344px;
+}
+
+.upper_panel .face img {
+	width: 76px;
+	height: 76px;
+	margin-left: 2px;
+	margin-top: 2px;
+}
+
+.upper_panel .info {
+	/*float: left;*/
+	padding: 0 2px;
+	/*width: 158px;*/
+	position: relative;
+	font-size: 12px;
+	font-family: 微软雅黑, Arial;
+}
+
+.upper_panel .info .name {
+	border-bottom: 1px solid #ddd;
+}
+
+.upper_panel .info .sign {
+	max-height: 70px;
+	line-height: 16px;
+	min-height: 23px;
+	color: #999;
+}
+
+.video_panel {
+	width: 100%;
+	text-align: center;
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+video {
+width: 100%;
+max-width: 720px;
+}
+
+.info_panel {
+	width: 100%;
+	text-align: center;
+	float: left;
+	/*	overflow: hidden;
+display: block;*/
+}
+
+.tag {
+	width: 100%;
+	/*padding: 5px;*/
+	border-radius: 5px;
+	background: #f2f2f2;
+	float: left;
+	border-bottom: 1px solid #eee;
+	font: 12px/1.125 Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+
+.tag b {
+	float: left;
+	display: block;
+	height: 28px;
+	line-height: 32px;
+}
+
+.tag ul {
+	color: #999;
+	display: block;
+	float: left;
+	font-family: Arial, 微软雅黑;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.tag ul li {
+	margin: 4px 3px 2px 3px;
+	float: left;
+	display: block;
+	overflow: hidden;
+	height: 20px;
+	line-height: 20px;
+	/*padding: 2px 4px 2px 4px;*/
+	border-radius: 5px;
+}
+
+.tag li a {
+	display: block;
+	float: left;
+	height: 20px;
+	line-height: 20px;
+	padding: 2px 5px 2px 5px;
+}
+
+.tag li a:hover {
+	color: #fff;
+	text-shadow: #777 1px 1px 0;
+	background-color: #999;
+	border-radius: 6px;
+}
+
+.tag .new_tag {
+	float: right;
+	display: block;
+	height: 28px;
+	line-height: 28px;
+}
+
+.tag .new_tag a {
+	color: #555;
+}
+.tag .sp {/*如果标签是专辑，打上'专'字样*/
+	color: rgb(252, 252, 252);
+	background-color: rgb(214, 30, 30);
+	box-shadow: 0 0 3px rgb(155, 42, 42);
+	border: 1px solid rgb(146, 59, 59);
+	padding: 0 1px 0 1px;
+	margin-right: 2px;
+}
+.description {
+	float: left;
+	width: 100%;
+	line-height: 180%;
+	padding: 1%;
+	font-size: 14px;
+	overflow: hidden;
+	background: #f6f6f6;
+	border-radius: 5px;
+	text-align: left;
+}
+

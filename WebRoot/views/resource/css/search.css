@@ -1,0 +1,219 @@
+/* CSS Document */
+
+/*==============================search页样式========================================*/
+
+.search_head {
+	width: 100%;
+	line-height: 27px;
+	border-bottom: 1px solid #ddd;
+	height: 28px;
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, EndColorStr='#f3f3f3', StartColorStr='#ffffff');
+	background: -webkit-gradient(linear, left top, left 25, from(#fff), color-stop(100%, #f6f6f6), to(#f6f6f6));
+	background: -moz-linear-gradient(top, #fff, #f6f6f6 3px, #f6f6f6 15px);
+	text-shadow: #fff 1px 1px 0;
+	border-radius: 5px;
+	padding:2px 0 2px 0;
+	margin:15px 0 5px 0;
+}
+.search_head .hdt {
+	font-size: 16px;
+	font-family: Arial, 微软雅黑;
+	margin: 1px 0 0 5px;
+	color: #555;
+	float: left;
+}
+.search_head .order {
+	overflow: hidden;
+	display: block;
+	padding-top: 2px;
+	float: right;
+}
+.search_head .category {
+	float: right;
+	padding-right: 7px;
+	color: #bbb;
+}
+.search_head .category a {
+	border-radius: 5px;
+	display: block;
+	float: left;
+	background: #eee;
+	line-height: 14px;
+	margin: 4px 0 3px 5px;
+	color: #666;
+	padding: 2px 5px 4px 6px;
+}
+.search_head .category a:hover {
+	filter: none;
+	background: #bbb;
+	color: #fff;
+	text-shadow: #ccc 1px 1px 0;
+}
+.search_head .category a.cur {
+	filter: none;
+	background: #39C;
+	color: #fff;
+	text-shadow: 0 0 5px #DDD;
+}
+.search_usage {
+	border: 1px solid #ccc;
+	background-color: #eee;
+	padding: 3px;
+}
+.search_list .item:nth-of-type(2n+1) {
+	background-color: rgb(250, 250, 250);
+}
+.search_list .item {
+	background-color: rgb(241, 241, 241);
+	padding: 15px;
+	margin: 15px 0 15px 0;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 0 5px #ddd;
+	-moz-box-shadow: 0 0 5px #ddd;
+	box-shadow: 0 0 5px #ddd;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+}
+.search_list .item:hover {
+	border-color: #ccc;
+	box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+.search_list .item a {
+	outline: 0;
+	color: #1184b4;
+	cursor: pointer;
+}
+.item:hover .title {
+	color: #fe3676;
+}
+.search_list .item img {
+	float: left;
+	width: 120px;
+	height: 90px;
+	margin: 0 10px 0 0;
+	border: 1px solid #ddd;
+	padding: 3px;
+}
+.search_list .item .title {
+	font-size: 14px;
+	margin: 0 0 5px 0;
+	line-height: 20px;
+	word-break: break-all;
+	word-wrap: break-word;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+}
+.search_list .item .title span {
+	-webkit-text-size-adjust: none;
+	font-size: 11px;
+	background: #1BF;
+	color: white;
+	line-height: 16px;
+	display: block;
+	float: left;
+	height: 16px;
+	padding: 2px;
+	border-radius: 5px;
+	font-family: 微软雅黑, Arial;
+	text-shadow: none;
+	margin: 0 5px 0 0;
+}
+.search_list .item .info {
+	/*float: left;*/
+	margin: 5px 0 5px 2px;
+	word-break: break-all;
+	word-wrap: break-word;
+	font: 12px/1.125 Arial, Helvetica, sans-serif;
+	color: #333;
+}
+.search_list .item .tag {
+	/*width: 690px;*/
+	width: 100%;
+	padding: 0 0 0 5px;
+	border-radius: 5px 5px 0 0;
+	background: rgb(231, 231, 231);
+	float: left;
+	border-bottom: 1px solid #eee;
+	font: 12px/1.125 Arial, Helvetica, sans-serif;
+}
+.search_list .item .tag b {
+	float: left;
+	display: block;
+	height: 28px;
+	line-height: 28px;
+}
+.search_list .item .tag ul {
+	color: #999;
+	display: block;
+	float: left;
+	font-family: Arial, 微软雅黑;
+}
+.search_list .item .tag li {
+	margin: 2px 3px 2px 3px;
+	float: left;
+	display: block;
+	overflow: hidden;
+	height: 20px;
+	line-height: 20px;
+	padding: 2px 4px 2px 4px;
+	border-radius: 5px;
+}
+.search_list .item .tag li a {
+	display: block;
+	float: left;
+	height: 20px;
+	line-height: 20px;
+}
+.search_list .item .tag li:hover a {
+	color: #fff;
+	text-shadow: #777 1px 1px 0;
+	background: #999;
+	border-radius: 6px;
+}
+.item .intro {
+	float: left;
+	width: 100%;
+	line-height: 150%;
+	padding: 2px 0 2px 5px;
+	font-size: 13px;
+	overflow: hidden;
+	color: #777;
+	background: #f6f6f6;
+	border-radius: 0 0 5px 5px;
+}
+
+
+@media only screen and (min-width: 660px) {
+.search_list .item .info {
+	float:left;
+}
+.search_list .item .tag {
+	width: 70%;
+}
+.item .intro {
+	width: 70%;
+}
+}
+@media only screen and (min-width: 710px) {
+.search_list .item .tag {
+	width: 75%;
+}
+.item .intro {
+	width: 75%;
+}
+}
+@media only screen and (min-width: 900px) {
+.search_list .item .tag {
+	width: 80%;
+}
+.item .intro {
+	width: 80%;
+}
+}
+
