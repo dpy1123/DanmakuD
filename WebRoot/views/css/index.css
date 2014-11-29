@@ -370,15 +370,45 @@ padding-left: 20px;
 background: #FFF;
 position: fixed;
 left: -305px;
--webkit-transition: left 0.5s linear;
+/*-webkit-transition: left 0.5s linear;
 -moz-transition: left 0.5s linear;
 -o-transition: left 0.5s linear;
--ms-transition: left 0.5s linear;
-transition: left 0.5s linear;
+-ms-transition: left 0.5s linear;*/
+
+-webkit-transition: all 450ms cubic-bezier(0.38, 1, 0.47, 1) 0ms; 
+-moz-transition: all 450ms cubic-bezier(0.38, 1, 0.47, 1) 0ms;
+-o-transition: all 450ms cubic-bezier(0.38, 1, 0.47, 1) 0ms;
+ transition: all 450ms cubic-bezier(0.38, 1, 0.47, 1) 0ms;
+
 top: 96px;
 z-index: 999;
 box-shadow: 0 0 3px 0 rgba(0,0,0,0.08);
+
 }
+
+.quickpannel * {/*pannel下所有元素层级定义*/
+position:relative;
+z-index: 999;
+}
+ .quickpannel  .overlay{
+ left: -100%; 
+}
+
+.quickpannel.open .overlay {
+position: fixed;
+height: 100%;
+width: 100%;
+/*z-index: 9;*/
+background-color: rgba(0, 0, 0, 0.54);
+left: 0px;
+top: 0px;
+-webkit-transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, background-color 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+-moz-transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, background-color 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+-o-transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, background-color 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, background-color 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+
 .quickpannel .title {
 font-size: 14px;
 font-weight: bold;
@@ -392,6 +422,8 @@ margin: 0;
 /*padding: 2px 18px 10px;*/
 width: 305px;
 height: 350px;
+
+background-color: inherit;/*内容背景继承pannel的背景*/
 }
 .quickpannel_toggle {
 box-shadow: 0 0 3px 0 rgba(0,0,0,0.08);
@@ -405,7 +437,7 @@ height: 44px;
 position: absolute;
 right: -44px;
 /*text-indent: -9999px;*/
-top: 0px;
+top: -42px;
 width: 44px;
 cursor: pointer;
 }

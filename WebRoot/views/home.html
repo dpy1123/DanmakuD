@@ -440,6 +440,7 @@
 
 		<div id="quickpannel" class="block quickpannel">
 			  <div class="inner"></div>
+			  <div class="overlay"></div>
 			  <h2 class="title  no-subtitle">消息动态</h2>
 				
 			  <div class="content">
@@ -502,7 +503,9 @@
 					$('.quickpannel_toggle').click(function(){
 					  $('#quickpannel').toggleClass('open');
 					})
-
+					$('.quickpannel .overlay').click(function(){
+					  $('#quickpannel').toggleClass('open');
+					})
 				  })
 				</script>  
 		</div>
