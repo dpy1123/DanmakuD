@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource;
+package com.dd.danmaku.resource.bean;
 
 
 import java.util.Date;
