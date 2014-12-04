@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title> New Document </title>
+<!--   <script type="text/javascript" src="DDplayer.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/Sprite.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/Frame.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/CommentFrame.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/Comment.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/Player.js"></script> -->
+<!-- 	<script type="text/javascript" src="core/Loader.js"></script> -->
+
+<!-- 	<script type="text/javascript" src="customDanmu.js"></script> -->
+<!--	<script type="text/javascript" src="ddplayer.min.js"></script>  -->
+	
+<!-- 	<script type="text/javascript" src="stats.min.js"></script> -->
+<!-- 	<link rel="stylesheet" href="Playr-master/playr.css" type="text/css"> -->
+<!-- 	<script type="text/javascript" src="Playr-master/playr.js"></script> -->
+	<script>
+	window.addEventListener('DOMContentLoaded',function(){
+		//��Ϊchrome��firefox����video���غ�load�������õ�ʱ��ͬ���ڴ���fix����������¼.txt
+		//load();
+	}, false);
+
+		var player;
+		function load() {
+			/*֡���⹤��
+			var stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			var container = document.getElementById( 'container' );
+			container.appendChild( stats.domElement );*/
+
+			/*���Զ�������
+			var sprite = new DD.Sprite(0, 0, 20, 20);
+			var ctx = document.getElementById('canvas').getContext("2d");
+			var frame = new DD.Frame(480, 320, ctx);
+			frame.addSprite(sprite);
+			frame.begin();*/
+
+			/*���Ե�Ļ���������
+			var ctx = document.getElementById('canvas').getContext("2d");
+			var frame = new DD.CommentFrame(480, 320, ctx);
+			for(var i =0; i<300;i++){
+				frame.addSprite("DD"+i);
+			}
+			frame.begin = function(stats){
+				if(this.renderTimer != null) return;//��ֹ�ظ�����				
+				//ʹ��html5������requestAnimFrame API
+				var that = this;
+				( function animate (){
+					that.updateSprite();//����Sprite
+					that.clearSprite();//�����ЧSprite
+					that.render();
+					stats.update();//����д���Ա����֡��ߡ�
+					that.renderTimer = requestAnimationFrame(animate, that);
+				} )();
+			};
+			frame.begin(stats);*/
+
+			/*����extend����
+			var f = {
+				say:function(){alert("f-say");}
+				}
+			var s = {}
+			//jQuery.extend(s,f);
+			DD.extend(s,f);
+			s.say();*/
+
+			/*����loader
+			var loader = new DD.Loader(true);
+			var div = loader.addStatusElement();
+			document.getElementById('container').appendChild(div);
+			loader.load("http://www.baidu.com/s?wd=withCredentials&rsv_bp=0&ch=&tn=nbmagician_ql&bar=&rsv_spt=3&ie=utf-8&rsv_n=2&rsv_sug3=1&rsv_sug1=1&rsv_sug4=88&inputT=526",function(a){alert(a);});*/
+
+			/*���Կ������*/
+			//var v = document.getElementById('dd'); //��Chrome����'dd',��Ϊ��ʱ��playr������video��û����Ⱦ��dom,����ǰ��videoԪ�ػ�û��ɾ��
+			//var v = document.getElementById('playr_video_0');//��firefox��,playr������video������Ч��ԭ����video�Ѿ�ɾ��,�����������playr��id
+			var v = document.querySelector("video");//������querySelectorû��ʲô����,��֮��ֻ��1��videoԪ��
+
+			 
+			var playr = new Playr("dd", v);//[��ʼ����Ƶ������]
+			player = new DD.Player("dd", v);//[��ʼ����Ļ������]
+			var url = "http://getDanmus";
+			var wsUrl = "ws://realTimeDanmus";
+			//֧��ws��
+			//player.init("canvas", url, wsUrl);
+			//player.sendDanmus(wsUrl,"vid","uid","DDtext����","Scroll");
+			//ajax��
+			player.init("canvas", url);//[��ʼ����Ļ������]
+			player.sendDanmus("http://sendDanmus","vid","uid","DDtext����","Scroll","Red");
+			
+
+			
+			//����ģ��video�ؼ�����ӵ�play�¼�����Ӱ��
+			//v.addEventListener('play', function(){ 
+					//alert("another play action");
+			//}, false);
+
+			//Ԥ�õ��Զ��嵯Ļ��
+			document.getElementById('customDanmu').value = 
+					"CustomComment = function(param){"+"\n"+
+					"	DD.Comment.call(this, param);"+"\n"+
+					"};"+"\n"+
+
+					"CustomComment.prototype = Object.create(DD.Comment.prototype);"+"\n"+
+
+					"CustomComment.prototype.draw = function(ctx) {"+"\n"+
+					"	ctx.save();"+"\n"+
+
+					"	ctx.fillStyle = this.color;"+"\n"+
+					"	ctx.rotate(Math.PI/6);"+"\n"+
+					"	ctx.fillText('Love', this.x, 0)"+"\n"+
+						
+					"	ctx.restore();"+"\n"+
+					"};"+"\n"+
+
+					"CustomComment.prototype.move = function() {"+"\n"+
+					"	this.x++;"+"\n"+
+					"};";
+		}
+
+		function sendCustomDanmu(){
+			var clazz = document.getElementById('customDanmu').value;
+			if(typeof clazz == "undefined") return;
+			var param = document.getElementById('param').value;
+			player.sendCustomDanmus("http://sendDanmus","vid","uid",clazz,param);
+		}
+	</script>
+
+ </head>
+
+ <body >
+	<div id="container"></div>
+	<div id="player" style="display: inline-block;">
+		<video id="dd" class="playr_video" controls="controls">
+			<source src="getVideo.do?filename=test.mp4" type="video/mp4"></source>
+		</video>
+	</div>
+	<div style="display: inline-block;">
+		<div>custom def: <textarea id="customDanmu" style="margin: 2px; width: 480px; height: 220px;"></textarea></div>
+		<div>param: <input id="param" value="{'lifeTime':4*60}"></div>
+		<button onclick="sendCustomDanmu()">�Զ��嵯Ļ</button>
+	</div>
+ </body>
+</html>

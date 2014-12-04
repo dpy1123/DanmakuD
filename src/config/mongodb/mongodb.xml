@@ -31,10 +31,16 @@
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
 	</bean>
 	
+	<!-- MongoDB GridFS Template 支持，操作mongodb存放的文件 -->
+    <mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory"/>
+	<bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+      <constructor-arg ref="mongoDbFactory"/>
+      <constructor-arg ref="converter"/>
+    </bean>
+    
 	<!-- 映射转换器，扫描back-package目录下的文件，根据注释，把它们作为mongodb的一个collection的映射 -->  
      <mongo:mapping-converter base-package="com.dd.danmaku" />  
   
     <!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->  
     <mongo:repositories base-package="com.dd.danmaku" /> 
-    
 </beans>
