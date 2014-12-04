@@ -13,7 +13,7 @@
  	<context:annotation-config />
 	<!-- 使Spring支持自动检测组件，如注解的Controller -->
  	<context:component-scan base-package="com.dd.danmaku" />
-
+	<!-- spring的子配置文件中还是要加上，否则不生效 -->
 	<mvc:annotation-driven /> 
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
