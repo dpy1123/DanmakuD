@@ -1,11 +1,8 @@
-package com.dd.danmaku;
+package com.dd.danmaku.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -24,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dd.danmaku.utils.DateUtils;
 
+/**
+ * 用于从GridFS获取文件数据，并返回客户端
+ * @author dd
+ * @version 1.0 [2014.12.4]
+ */
 @Controller
-public class VideoController {
+public class VideoStreamServ {
 	
-	/**
-     * MIME multipart separation string
-     */
-    protected static final String mimeSeparation = "DD_MIME_BOUNDARY";
     /**
      * The MIME mappings for this web application, keyed by extension.
      */
@@ -47,11 +45,8 @@ public class VideoController {
 	GridFsTemplate gridFsTemplate;
 	
 	
-	
-	
 	@RequestMapping("getVideo.do")
 	public ResponseEntity<byte[]> downloadStream(String filename, HttpServletRequest request, HttpServletResponse response) throws IOException{
-		System.out.println("visit "+filename);
 		
 		HttpHeaders headers = new HttpHeaders();
 		byte[] body = null;
@@ -63,6 +58,11 @@ public class VideoController {
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}
 		
+		// Checking If headers
+		if (!checkIfHeaders(request, response, resource)) {
+			return new ResponseEntity<byte[]>(HttpStatus.NOT_MODIFIED);
+		}
+				
 		headers.set("Content-Type", getMimeType(filename));
 		headers.set("Content-Disposition", "attachment; filename=\"" + filename+"\"");
 
@@ -71,7 +71,7 @@ public class VideoController {
 		ranges = parseRange(request, response, resource);
 		// ETag header
 		headers.setETag(getETag(resource));
-		headers.setLastModified(resource.lastModified());
+		headers.setLastModified(getLastModifidDate(resource));
 		
 		if ( ( ranges == null || ranges.isEmpty() ) && request.getHeader("Range") == null ) {
 			//如果没有分段请求，直接返回整个内容
@@ -96,7 +96,14 @@ public class VideoController {
 		return new ResponseEntity<byte[]>(body, headers, status);
 	}
 	
-	
+	/**
+	 * 获取带下载的数据Buffer
+	 * @param in
+	 * @param offset
+	 * @param size
+	 * @return
+	 * @throws IOException
+	 */
 	private byte[] getBytes(InputStream in, long offset, long size) throws IOException {
 		//移动到请求下载的部分
 		try {
@@ -122,95 +129,6 @@ public class VideoController {
 
 
 
-	
-	public void getVideoStream(String filename,
-			HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		System.out.println("visit "+filename);
-		
-		GridFsResource resource = gridFsTemplate.getResource(filename);
-		
-		if(!resource.exists()){// 如果请求的静态资源不存在
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return;
-		}
-		
-		// Checking If headers
-		if (!checkIfHeaders(request, response, resource)) {
-			System.out.println("缓存 ");
-			return;
-		}
-        
-		InputStream ins = resource.getInputStream();
-		OutputStream out = response.getOutputStream();
-		
-		//Find content type.
-		String contentType = getMimeType(filename);
-		response.setContentType(contentType);
-		response.setHeader("Content-Disposition", "attachment; filename=" + filename);
-		response.setHeader("Connection", "Keep-Alive");
-		// Parse range specifier
-		Vector<Range> ranges = null;
-		ranges = parseRange(request, response, resource);
-		
-		// ETag header
-		response.setHeader("ETag", getETag(resource));
-
-		response.setHeader("Last-Modified", getLastModifidDate(resource));
-		
-		
-		
-		if ( ( ranges == null || ranges.isEmpty() ) && request.getHeader("Range") == null ) {
-			//如果没有分段请求，直接返回整个内容
-			response.setContentLength((int) resource.contentLength());
-			//response.sendHeaders();//header由ResponseStream在首次flushbuff的时候发送
-			System.out.println("返回整个内容 ");
-			if("GET".equals(request.getMethod()))
-				downloadData(ins, out);
-		}
-		else {
-			if ((ranges == null) || (ranges.isEmpty()))
-				return;
-			// Partial content response.
-			response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-			
-			if (ranges.size() == 1) {
-				System.out.println("返回part内容 ");
-				Range range = (Range) ranges.elementAt(0);
-				response.setHeader("Content-Range", "bytes " + range.start
-						+ "-" + range.end + "/" + range.length);
-				response.setContentLength((int) (range.end - range.start + 1));
-				//response.sendHeaders();
-				downloadData(ins, out, range.start, (range.end - range.start + 1));
-				
-			}else{
-				response.setContentType("multipart/byteranges; boundary=" + mimeSeparation);
-				PrintWriter writer = response.getWriter();
-				while (((Enumeration<?>) ranges).hasMoreElements() ) {
-		            Range currentRange = (Range) ((Enumeration<?>) ranges).nextElement();
-		            
-		            // Writing MIME header.
-					writer.println("--" + mimeSeparation);
-					if (contentType != null)
-						writer.println("Content-Type: " + contentType);
-					writer.println("Content-Range: bytes " + currentRange.start
-							+ "-" + currentRange.end + "/"
-							+ currentRange.length);
-					writer.println();
-
-		            // Printing content
-		            downloadData(ins, out, currentRange.start, (currentRange.end - currentRange.start + 1));
-		        }
-
-				writer.print("--" + mimeSeparation + "--");
-			}
-			
-//			ins.close();
-//			out.close();
-		}
-	}
-	
-	
 	/**
      * Check if the conditions specified in the optional If headers are
      * satisfied.
@@ -357,7 +275,7 @@ public class VideoController {
 	private Vector<Range> parseRange(HttpServletRequest request, HttpServletResponse response, GridFsResource file) throws IOException {
 		// Checking If-Range
 		//IF-Range头部需配合Range，如果没有Range参数，则If-Range会被视为无效。
-		//如果If-Range匹配上，那么客户端已经存在的部分是有效的，服务器将返回缺失部分，也就是Range里指定的，然后返回206（Partial content)
+		//如果If-Range匹配上，那么客户端已经存在的部分是有效的，服务器将返回缺失部分，也就是Range里指定的，然后返回206(Partial content)
 		//否则证明客户端的部分已无效（可能已经更改），那么服务器将整个实体内容全部返回给客户端，同时返回200OK
         String headerValue = request.getHeader("If-Range");
         if (headerValue != null) {
@@ -465,14 +383,13 @@ public class VideoController {
 		return "W/\"" + file.contentLength() + "-" + file.lastModified() + "\"";
 	}
     
-	@SuppressWarnings("deprecation")
-	private String getLastModifidDate(GridFsResource file) throws IOException {
-		String date = null;
+	private long getLastModifidDate(GridFsResource file) throws IOException {
+		long date = 0;
 		long times = file.lastModified();
 		if(times == 0L){
-			date = DateUtils.getCurrentDate().toGMTString();
+			date = System.currentTimeMillis();
 		}else{
-			date = new Date(times).toGMTString();
+			date = new Date(times).getTime();
 		}
 		return date;
 	}
@@ -496,65 +413,6 @@ public class VideoController {
     }
 	
     
-    /**
-	 * 
-	 * @param in 待下载的数据流
-	 * @param out 输出到的数据流
-	 * @param offset
-	 * @param size
-     * @throws IOException 
-	 */
-	public void downloadData(InputStream in, OutputStream out, long offset, long size) throws IOException {
-		//移动到请求下载的部分
-		try {
-			in.skip(offset);
-		} catch (IOException e) {
-			System.out.println("InputStream seek失败！"+e.getStackTrace());
-		}
-		//保存文件
-//		int readSize = 0;
-//		long downloadSize = 0;
-		
-		long bytesToRead = size;
-		byte[] buffer = new byte[BUFFER_SIZE];
-		int len = buffer.length;
-		while ((bytesToRead > 0) && (len >= buffer.length)) {
-			try {
-				len = in.read(buffer);
-				if (bytesToRead >= len) {
-					out.write(buffer, 0, len);
-					bytesToRead -= len;
-				} else {
-					out.write(buffer, 0, (int) bytesToRead);
-					bytesToRead = 0;
-				}
-			} catch (IOException e) {
-//				e.printStackTrace();//忽略应客户端取消导致的Software caused connection abort: socket write error 的错误 
-				len = -1;
-			}
-			if (len < buffer.length)
-				break;
-			out.flush();
-		}
-	}
-    
-    public void downloadData(InputStream in, OutputStream out) throws IOException {
-		byte buffer[] = new byte[BUFFER_SIZE];
-		int len = buffer.length;
-		while (true) {
-			try {
-				len = in.read(buffer);
-				if (len == -1)
-					break;
-				out.write(buffer, 0, len);
-			} catch (IOException e) {
-//				e.printStackTrace();
-				len = -1;
-				break;
-			}
-			out.flush();
-		}
-	}
     
     
 	// ------------------------------------------------------ Range Inner Class

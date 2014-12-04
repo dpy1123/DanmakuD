@@ -54,10 +54,6 @@
          <servlet-name>SpringDispatcher</servlet-name>   
          <url-pattern>*.do</url-pattern>   
      </servlet-mapping>   
-     <servlet-mapping>   
-         <servlet-name>SpringDispatcher</servlet-name>   
-         <url-pattern>/video/*</url-pattern>   
-     </servlet-mapping>   
   	
   	<!-- 字符编码过滤器 -->
     <filter>  
