@@ -28,7 +28,7 @@ public class FileUploadServ {
 	
 	@RequestMapping("upload.do")
 	public void uploadFile(@RequestParam MultipartFile[] files) {
-		System.out.println("=================uploadFile=======================");  
+		logger.info("=================uploadFile=======================");  
 		for(MultipartFile myfile : files){  
             if(!myfile.isEmpty()){  
                 System.out.println("文件长度: " + myfile.getSize());  
