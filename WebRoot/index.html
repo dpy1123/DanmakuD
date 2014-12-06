@@ -5,9 +5,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-Test!!!
-	<video  controls="controls">
-			<source src="getVideo.do?filename=test.mp4" type="video/mp4"></source>
-		</video>
+	Test!!!
+
+	<form name="form1"
+		action="upload.do"
+		method="post" enctype="multipart/form-data">
+		<input type="file" multiple name="files"><br> 
+		<input type="submit" value="Commit">
+	</form>
 </body>
 </html>

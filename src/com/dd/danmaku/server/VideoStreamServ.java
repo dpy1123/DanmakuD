@@ -1,5 +1,8 @@
 package com.dd.danmaku.server;
 
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dd.danmaku.utils.DateUtils;
+import com.mongodb.gridfs.GridFSDBFile;
 
 /**
  * 用于从GridFS获取文件数据，并返回客户端
@@ -52,11 +56,13 @@ public class VideoStreamServ {
 		byte[] body = null;
 		HttpStatus status = HttpStatus.OK;
 		
-		GridFsResource resource = gridFsTemplate.getResource(filename);
-		
-		if(!resource.exists()){// 如果请求的静态资源不存在
+//		GridFsResource resource = gridFsTemplate.getResource(filename);
+		//gridFsTemplate#getResource的参数不能为null,否则会报错。本方法源码也是找到相关的GridFSDBFile，再包装成GridFsResource。如下：
+		GridFSDBFile file = gridFsTemplate.findOne(query(whereFilename().is(filename)));
+		if(file == null ){// 如果请求的资源不存在
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}
+		GridFsResource resource = new GridFsResource(file);
 		
 		// Checking If headers
 		if (!checkIfHeaders(request, response, resource)) {
@@ -73,7 +79,7 @@ public class VideoStreamServ {
 		headers.setETag(getETag(resource));
 		headers.setLastModified(getLastModifidDate(resource));
 		
-		if ( ( ranges == null || ranges.isEmpty() ) && request.getHeader("Range") == null ) {
+		if ( ranges == null || ranges.isEmpty() ) {
 			//如果没有分段请求，直接返回整个内容
 			headers.setContentLength(resource.contentLength());
 			body = getBytes(resource.getInputStream(), 0, resource.contentLength());

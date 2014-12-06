@@ -37,4 +37,18 @@
 <!-- 	           </list>   -->
 <!-- 	       </property>   -->
 <!-- 	</bean>   -->
+
+
+	<!--    SpringMVC上传文件时，处理文件的解析器，还可以配置文件的大小和异常处理-->
+	<!-- 但是在后端配置文件的大小是不明智的，一般前端的上传文件插件中都提供了这个功能， 所以在前端设置会更好 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 表示用来解析request请求的默认编码格式，当没有指定的时候根据Servlet规范会使用默认值ISO-8859-1。当request自己指明了它的编码格式的时候就会忽略这里指定的defaultEncoding。 -->
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- 设置上传文件时的临时目录，路径是相对于项目WebRoot下的路径，默认是Servlet容器的临时目录。 -->
+		<property name="uploadTempDir" value="/tmp/" />
+		<!-- maxUploadSize：设置允许上传的最大文件大小，以字节为单位计算。当设为-1时表示无限制，默认是-1。 -->
+<!-- 		<property name="maxUploadSize" value="-1"/>  -->
+		<!-- maxInMemorySize：设置在文件上传时允许写到内存中的最大值，以字节为单位计算，默认是10240。 -->
+<!-- 		<property name="maxInMemorySize" value="100000"/>  -->
+	</bean>  
 </beans>
