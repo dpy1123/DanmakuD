@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,9 @@ import com.mongodb.gridfs.GridFSFile;
  */
 @Controller
 public class FileUploadServ {
+	
+	Logger logger= Logger.getLogger(FileUploadServ.class);
+	
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	
@@ -32,10 +36,13 @@ public class FileUploadServ {
 //                System.out.println("文件名称: " + myfile.getName());  
                 System.out.println("文件原名: " + myfile.getOriginalFilename());  
                 
+                logger.info("文件原名: " + myfile.getOriginalFilename());
+                
 				try {
 					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), myfile.getOriginalFilename());
 					System.out.println(gfile.getLength());
 				} catch (IOException e) {
+					logger.error(e.getStackTrace());
 					e.printStackTrace();
 				}
             }  
