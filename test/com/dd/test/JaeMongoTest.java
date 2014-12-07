@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -22,6 +23,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dd.danmaku.resource.bean.Video;
+import com.jcloud.jss.JingdongStorageService;
+import com.jcloud.jss.domain.Bucket;
+import com.jcloud.jss.http.Method;
 import com.mongodb.DBCollection;
 import com.mongodb.gridfs.GridFSFile;
 
@@ -42,13 +46,28 @@ public class JaeMongoTest {
 //				new Update().set("status", "change"), Video.class);
 		
 		System.out.println("gridfs test");
-//		FileInputStream ins = new FileInputStream(new File("C:\\Users\\dd\\Downloads\\test.mp4"));
+//		FileInputStream ins = new FileInputStream(new File("C:\\Users\\DD\\Downloads\\test.mp4"));
 //		GridFSFile gfile = gridFsTemplate.store(ins, "test.mp4");
-		System.out.println(gridFsTemplate.getResource("test.mp4").contentLength())
-		;
-		FileOutputStream out = new FileOutputStream(new File("C:\\Users\\dd\\Downloads\\test000.mp4"));
-		downloadData(gridFsTemplate.getResource("test.mp4").getInputStream(), out);
+//		System.out.println(gridFsTemplate.getResource("test.mp4").contentLength());
 		
+//		FileOutputStream out = new FileOutputStream(new File("C:\\Users\\dd\\Downloads\\test000.mp4"));
+//		downloadData(gridFsTemplate.getResource("test.mp4").getInputStream(), out);
+		
+		System.out.println("jss test");
+		JingdongStorageService jss = new JingdongStorageService("6c9d23300af64f468899becb3da4a234","a783af9daa984e86938de67bdcb82ebf21PZvDVZ");
+		List<Bucket> buckets = jss.listBucket();
+		for (Bucket bucket : buckets) {
+			System.out.println(bucket.getName()+" "+bucket.getLocation());
+		}
+		
+//		File file = new File("C:\\Users\\DD\\Downloads\\test.mp4");
+//		FileInputStream ins = new FileInputStream(file);
+//		String md5 = jss.bucket("danmakufs").object("test.mp4").entity(file.length(), ins).put();
+//		System.out.println(md5);
+		
+		String url = jss.bucket("danmakufs").object("test.mp4").generatePresignedUrl(3600, Method.GET).toString();
+		System.out.println(url);
+		jss.destroy();
 	}
 	 public void downloadData(InputStream in, OutputStream out) throws IOException {
 			byte buffer[] = new byte[2048];
