@@ -54,20 +54,20 @@ public class JaeMongoTest {
 //		downloadData(gridFsTemplate.getResource("test.mp4").getInputStream(), out);
 		
 		System.out.println("jss test");
-		JingdongStorageService jss = new JingdongStorageService("6c9d23300af64f468899becb3da4a234","a783af9daa984e86938de67bdcb82ebf21PZvDVZ");
-		List<Bucket> buckets = jss.listBucket();
-		for (Bucket bucket : buckets) {
-			System.out.println(bucket.getName()+" "+bucket.getLocation());
-		}
+//		JingdongStorageService jss = new JingdongStorageService("6c9d23300af64f468899becb3da4a234","a783af9daa984e86938de67bdcb82ebf21PZvDVZ");
+//		List<Bucket> buckets = jss.listBucket();
+//		for (Bucket bucket : buckets) {
+//			System.out.println(bucket.getName()+" "+bucket.getLocation());
+//		}
 		
 //		File file = new File("C:\\Users\\DD\\Downloads\\test.mp4");
 //		FileInputStream ins = new FileInputStream(file);
 //		String md5 = jss.bucket("danmakufs").object("test.mp4").entity(file.length(), ins).put();
 //		System.out.println(md5);
 		
-		String url = jss.bucket("danmakufs").object("test.mp4").generatePresignedUrl(3600, Method.GET).toString();
-		System.out.println(url);
-		jss.destroy();
+//		String url = jss.bucket("danmakufs").object("test.mp4").generatePresignedUrl(3600, Method.GET).toString();
+//		System.out.println(url);
+//		jss.destroy();
 	}
 	 public void downloadData(InputStream in, OutputStream out) throws IOException {
 			byte buffer[] = new byte[2048];
