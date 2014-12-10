@@ -4,6 +4,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
+
 
 /**
  * 用于上传文件到GridFS
@@ -92,4 +94,23 @@ public class FileUploadServ {
         results.put("files", success);
         return results;
     }
+	
+	@RequestMapping(value = "test.do")
+	public @ResponseBody String test(){
+		String s = null;
+		try {
+			ProcessBuilder builder = new ProcessBuilder();
+			builder.command("echo hello cmd");
+			builder.redirectErrorStream(true);
+			Process process = builder.start();
+			InputStream in = process.getInputStream();
+			byte[] bs = new byte[1024];
+			while ((in.read(bs)) != -1) {//正在转换,输出cmd状态
+				s += new String(bs);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("格式转换中发生异常");
+		}
+		return s;
+	}
 }
