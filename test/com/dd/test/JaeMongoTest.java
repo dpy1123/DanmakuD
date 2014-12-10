@@ -69,6 +69,8 @@ public class JaeMongoTest {
 //		System.out.println(url);
 //		jss.destroy();
 	}
+	 
+	 
 	 public void downloadData(InputStream in, OutputStream out) throws IOException {
 			byte buffer[] = new byte[2048];
 			int len = buffer.length;
@@ -86,4 +88,23 @@ public class JaeMongoTest {
 				out.flush();
 			}
 		}
+
+	 @Test
+	 public void cmdtest() {
+		 String s = null;
+			try {
+				ProcessBuilder builder = new ProcessBuilder();
+				builder.command("java", "-version");
+				builder.redirectErrorStream(true);
+				Process process = builder.start();
+				InputStream in = process.getInputStream();
+				byte[] bs = new byte[1024];
+				while ((in.read(bs)) != -1) {//正在转换,输出cmd状态
+					s += new String(bs);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(s);
+	}
 }
