@@ -100,7 +100,7 @@ public class FileUploadServ {
 		String s = null;
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
-			builder.command("help");
+			builder.command("java", "-version");
 			builder.redirectErrorStream(true);
 			Process process = builder.start();
 			InputStream in = process.getInputStream();
