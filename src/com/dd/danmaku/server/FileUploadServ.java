@@ -100,7 +100,7 @@ public class FileUploadServ {
 		String s = null;
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
-			builder.command("echo hello cmd");
+			builder.command("ipconfig");
 			builder.redirectErrorStream(true);
 			Process process = builder.start();
 			InputStream in = process.getInputStream();
@@ -109,7 +109,7 @@ public class FileUploadServ {
 				s += new String(bs);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("格式转换中发生异常");
+			throw new RuntimeException("格式转换中发生异常: "+e.getMessage());
 		}
 		return s;
 	}
