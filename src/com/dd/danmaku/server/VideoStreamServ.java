@@ -26,7 +26,7 @@ import com.dd.danmaku.utils.DateUtils;
 import com.mongodb.gridfs.GridFSDBFile;
 
 /**
- * 用于从GridFS获取文件数据，并返回客户端
+ * 根据filename从GridFS获取文件数据，并返回客户端
  * @author dd
  * @version 1.0 [2014.12.4]
  */

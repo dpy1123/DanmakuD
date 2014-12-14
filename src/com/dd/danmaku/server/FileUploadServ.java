@@ -14,17 +14,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 
@@ -41,15 +38,14 @@ public class FileUploadServ {
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	
-	@RequestMapping(value = "upload.do", method = { RequestMethod.POST })
+	@RequestMapping(value = "uploadVideo.do", method = { RequestMethod.POST })
 	public @ResponseBody Map<String, Object> uploadFile(MultipartHttpServletRequest request) {
 		logger.info("=================uploadFile=======================");  
 		Iterator<String> itr = request.getFileNames();
         MultipartFile myfile;
         
 		List<Map<String, Object>> list = new LinkedList<Map<String, Object>>();
-//		for(MultipartFile myfile : files){  
-		 while (itr.hasNext()) {
+		while (itr.hasNext()) {
 			myfile = request.getFile(itr.next());
             if(!myfile.isEmpty()){  
                 System.out.println("文件长度: " + myfile.getSize());  
@@ -60,7 +56,10 @@ public class FileUploadServ {
                 logger.info("文件原名: " + myfile.getOriginalFilename());
                 
 				try {
-					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), myfile.getOriginalFilename());
+					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), myfile.getOriginalFilename(), myfile.getContentType());
+					// note: to set aliases, call put( "aliases" , List<String> )
+					gfile.put("aliases", myfile.getOriginalFilename());
+					gfile.save();
 					System.out.println(gfile.getLength());
 				} catch (IOException e) {
 					logger.error(e.getStackTrace());
@@ -71,7 +70,7 @@ public class FileUploadServ {
 				fileInfo.put("name", myfile.getOriginalFilename());
 				fileInfo.put("size", myfile.getSize());
 				fileInfo.put("url", "get?");
-				fileInfo.put("deleteUrl", "../delete.do?filename="+myfile.getOriginalFilename());
+				fileInfo.put("deleteUrl", "../deleteVideo.do?filename="+myfile.getOriginalFilename());
 				fileInfo.put("deleteType", "DELETE");
 				list.add(fileInfo);
             }  
@@ -82,7 +81,7 @@ public class FileUploadServ {
 		return result;  
 	}
 	
-	@RequestMapping(value = "delete.do", method = RequestMethod.DELETE)
+	@RequestMapping(value = "deleteVideo.do", method = RequestMethod.DELETE)
     public @ResponseBody Map<String, Object> delete(String filename) {
 		Map<String, Object> success = new HashMap<String, Object>();
 		System.out.println(filename);
