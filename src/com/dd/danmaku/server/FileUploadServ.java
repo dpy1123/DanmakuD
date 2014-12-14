@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -54,11 +55,13 @@ public class FileUploadServ {
                 System.out.println("文件原名: " + myfile.getOriginalFilename());  
                 
                 logger.info("文件原名: " + myfile.getOriginalFilename());
+                String filename = UUID.randomUUID().toString();
+                logger.info("存入fs文件名: " + filename);
                 
 				try {
-					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), myfile.getOriginalFilename(), myfile.getContentType());
+					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), filename, myfile.getContentType());
 					// note: to set aliases, call put( "aliases" , List<String> )
-					gfile.put("aliases", myfile.getOriginalFilename());
+					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
 					gfile.save();
 					System.out.println(gfile.getLength());
 				} catch (IOException e) {
@@ -67,10 +70,10 @@ public class FileUploadServ {
 				}
 				
 				Map<String, Object> fileInfo = new HashMap<String, Object>();
-				fileInfo.put("name", myfile.getOriginalFilename());
+				fileInfo.put("name", filename);
 				fileInfo.put("size", myfile.getSize());
 				fileInfo.put("url", "get?");
-				fileInfo.put("deleteUrl", "../deleteVideo.do?filename="+myfile.getOriginalFilename());
+				fileInfo.put("deleteUrl", "../deleteVideo.do?filename=" + filename);
 				fileInfo.put("deleteType", "DELETE");
 				list.add(fileInfo);
             }  
@@ -84,7 +87,7 @@ public class FileUploadServ {
 	@RequestMapping(value = "deleteVideo.do", method = RequestMethod.DELETE)
     public @ResponseBody Map<String, Object> delete(String filename) {
 		Map<String, Object> success = new HashMap<String, Object>();
-		System.out.println(filename);
+		System.out.println("delete..."+filename);
 		
 		gridFsTemplate.delete(query(whereFilename().is(filename)));
 		
