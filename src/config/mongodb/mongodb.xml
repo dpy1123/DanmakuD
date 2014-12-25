@@ -42,5 +42,5 @@
      <mongo:mapping-converter base-package="com.dd.danmaku" />  
   
     <!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->  
-    <mongo:repositories base-package="com.dd.danmaku" /> 
+<!--     <mongo:repositories base-package="com.dd.danmaku" />  -->
 </beans>
