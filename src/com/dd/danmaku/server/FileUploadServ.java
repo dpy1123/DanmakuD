@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dd.danmaku.resource.bean.Video;
+import com.dd.danmaku.resource.service.VideoService;
 import com.mongodb.gridfs.GridFSFile;
 
 
@@ -39,20 +41,23 @@ public class FileUploadServ {
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	
+	@Resource
+	VideoService videoService;
+	
 	@RequestMapping(value = "uploadVideo.do", method = { RequestMethod.POST })
 	public @ResponseBody Map<String, Object> uploadFile(MultipartHttpServletRequest request) {
 		logger.info("=================uploadFile=======================");  
-		Iterator<String> itr = request.getFileNames();
-        MultipartFile myfile;
-        
-		List<Map<String, Object>> list = new LinkedList<Map<String, Object>>();
+		MultipartFile myfile;
+        Iterator<String> itr = request.getFileNames();
+
+        List<Map<String, Object>> list = new LinkedList<Map<String, Object>>();
 		while (itr.hasNext()) {
 			myfile = request.getFile(itr.next());
             if(!myfile.isEmpty()){  
-                System.out.println("文件长度: " + myfile.getSize());  
-                System.out.println("文件类型: " + myfile.getContentType());  
+//                System.out.println("文件长度: " + myfile.getSize());  
+//                System.out.println("文件类型: " + myfile.getContentType());  
 //                System.out.println("文件名称: " + myfile.getName());  
-                System.out.println("文件原名: " + myfile.getOriginalFilename());  
+//                System.out.println("文件原名: " + myfile.getOriginalFilename());  
                 
                 logger.info("文件原名: " + myfile.getOriginalFilename());
                 String filename = UUID.randomUUID().toString();
@@ -63,10 +68,10 @@ public class FileUploadServ {
 					// note: to set aliases, call put( "aliases" , List<String> )
 					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
 					gfile.save();
-					System.out.println(gfile.getLength());
+					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
 				} catch (IOException e) {
-					logger.error(e.getStackTrace());
 					e.printStackTrace();
+					logger.error("文件保存至fs失败："+e.getStackTrace());
 				}
 				
 				Map<String, Object> fileInfo = new HashMap<String, Object>();
@@ -76,24 +81,44 @@ public class FileUploadServ {
 				fileInfo.put("deleteUrl", "../deleteVideo.do?filename=" + filename);
 				fileInfo.put("deleteType", "DELETE");
 				list.add(fileInfo);
+				
+				//文件信息入库
+				Video video = new Video(myfile.getOriginalFilename(), filename, myfile.getSize());
+				try {
+					String vId = videoService.add(video);
+					logger.info("文件信息入库，id：" + vId);
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("文件信息入库失败："+e.getStackTrace());
+				}
             }  
         }
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("files", list);
+		
 		return result;  
 	}
 	
 	@RequestMapping(value = "deleteVideo.do", method = RequestMethod.DELETE)
     public @ResponseBody Map<String, Object> delete(String filename) {
 		Map<String, Object> success = new HashMap<String, Object>();
-		System.out.println("delete..."+filename);
+		logger.info("从fs删除文件：" + filename);
 		
 		gridFsTemplate.delete(query(whereFilename().is(filename)));
 		
         Map<String, Object> results = new HashMap<String, Object>();
         success.put(filename, true);
         results.put("files", success);
+        
+        try {
+        	Video video = videoService.getByFileName(filename);
+        	videoService.del(video.getId());
+        	logger.info("删除文件信息，id：" + video.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("文件信息删除失败："+e.getStackTrace());
+		}
         return results;
     }
 	

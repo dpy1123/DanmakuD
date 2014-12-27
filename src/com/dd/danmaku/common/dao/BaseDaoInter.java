@@ -40,6 +40,14 @@ public interface BaseDaoInter {
 	void delete(Class<?> entityClass, Object pk);
 
 	/**
+	 * 查询实体
+	 * @param entityClass
+	 * @param whereJpql 指定查询条件
+	 * @return
+	 */
+	<T> T find(Class<T> entityClass, String whereJpql);
+	
+	/**
 	 * 执行查询的方法
 	 * @param entityClass 实体类
 	 * @param whereJpql 指定查询条件

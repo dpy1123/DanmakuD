@@ -20,6 +20,7 @@ public class Video {
 	private String originalName;//原始文件名
 	private String fsFileName;//在文件系统中的文件名
 	private long size;//视频大小
+	
 	private long duration;//视频时长
 	private String status;//视频转换状态，待转换/转换中/转换成功/转换失败
 	private byte[] previewImg;//视频预览图

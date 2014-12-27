@@ -73,6 +73,17 @@ public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 	}
 	
 	/**
+	 * 查询实体
+	 * @param entityClass
+	 * @param whereJpql mongo风格的查询语句
+	 * @return
+	 */
+	public <T> T find(Class<T> entityClass, String whereJpql) {
+		BasicQuery query = new BasicQuery(whereJpql);
+		return mongoTemplate.findOne(query, entityClass);
+	}
+	
+	/**
 	 * @param whereJpql mongo风格的查询语句
 	 * @param args [不使用]
 	 */
