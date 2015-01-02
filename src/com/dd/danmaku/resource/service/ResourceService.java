@@ -1,5 +1,7 @@
 package com.dd.danmaku.resource.service;
 
+import java.util.List;
+
 import com.dd.danmaku.resource.bean.Resource;
 
 
@@ -14,10 +16,9 @@ public interface ResourceService {
 	/**
 	 * 为资源添加标签
 	 * @param resourceId
-	 * @param tags
-	 * @return
+	 * @param tags 标签id的list
 	 */
-	public boolean addTags(String resourceId, Set<Tag> tags);
+	public void addTags(String resourceId, List<String> tags);
 
 	/**
 	 * 更改资源状态，待审核、上线、下线
@@ -56,12 +57,12 @@ public interface ResourceService {
 	 * @param criteria
 	 * @return
 	 */
-	public List<Resource> listByCriteria(ResourceCriteria criteria);
+//	public List<Resource> listByCriteria(ResourceCriteria criteria);
 
 	/**
 	 * 根据查询条件类返回符号条件的对象的数量
 	 * @param criteria
 	 * @return
 	 */
-	public int countByCriteria(ResourceCriteria criteria);
+//	public int countByCriteria(ResourceCriteria criteria);
 }
