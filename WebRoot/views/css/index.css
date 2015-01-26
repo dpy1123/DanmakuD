@@ -1,5 +1,39 @@
 /* CSS Document */
 
+
+/*在menu的二级菜单中加入customs-menu样式，覆盖bootstrap的dropdown-menu样式*/
+/*只在pc模式下使用，防止影响bootstrap对移动端的样式*/
+@media only screen and (min-width: 767px) {
+	.customs-menu>li>a {
+		width: 100%;
+		box-sizing: border-box;
+		line-height: 40px;
+		font-size: 14px;
+		text-decoration: none;
+		transition: all .33s;
+		float: left;
+		border-bottom: solid 1px #eeeeee;
+		margin: 0;
+		padding: 0px 10px 0px 37px;
+		background-color: #fff;
+		background: url(../images/icon/list-before.png);
+		background-repeat: no-repeat;
+		background-position: 15px 14px;
+		color: #555;
+	}
+	.customs-menu>li>a:hover {
+		padding-left: 50px;
+		padding-right: 0px;
+		background: url(../images/icon/list-after.png);
+		background-repeat: no-repeat;
+		background-position: 28px 14px;
+		background-color: #eeeeee;
+	}
+
+}
+
+
+
 #title span {
 	padding: 5px 0 10px 0;
 	font-size: 16px;
