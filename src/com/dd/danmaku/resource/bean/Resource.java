@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.dd.danmaku.utils.DateUtils;
+
 /**
  * 资源实体类.
  * @author DD
@@ -42,13 +44,27 @@ public class Resource {
 	private Integer score;//资源评分
 	private Date createDTM;//资源上传日期
 	
+	/**
+	 * 
+	 * @param uploaderId
+	 * @param title
+	 * @param description
+	 * @param status WAITING IN_USING DELETEED
+	 * @param isOriginal
+	 */
 	
-	public Resource(String uploaderId, String title, String description,
+	public Resource(String uploaderId, String title, String description, String status,
 			Boolean isOriginal) {
 		this.uploaderId = uploaderId;
 		this.title = title;
 		this.description = description;
+		this.status = status;
 		this.isOriginal = isOriginal;
+		this.clickCount = 0L;
+		this.danmuCount = 0L;
+		this.favorCount = 0L;
+		this.score = 0;
+		this.createDTM = DateUtils.getCurrentDate();
 	}
 
 
@@ -98,7 +114,10 @@ public class Resource {
 
 
 	public void setTags(List<String> tags) {
-		this.tags = tags;
+		if(this.tags == null)
+			this.tags = tags;
+		else
+			this.tags.addAll(tags);
 	}
 
 
