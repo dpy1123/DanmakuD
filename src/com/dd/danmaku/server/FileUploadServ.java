@@ -63,34 +63,42 @@ public class FileUploadServ {
                 String filename = UUID.randomUUID().toString();
                 logger.info("存入fs文件名: " + filename);
                 
+                //返回前台的信息
+            	Map<String, Object> fileInfo = new HashMap<String, Object>();
+				fileInfo.put("name", myfile.getOriginalFilename());
+				fileInfo.put("size", myfile.getSize());
+				
+				//保存文件
 				try {
 					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), filename, myfile.getContentType());
 					// note: to set aliases, call put( "aliases" , List<String> )
 					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
 					gfile.save();
 					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
+					
+					fileInfo.put("url", "get?");
+					fileInfo.put("deleteUrl", "../deleteVideo.do?filename=" + filename);
+					fileInfo.put("deleteType", "DELETE");
 				} catch (IOException e) {
 					e.printStackTrace();
 					logger.error("文件保存至fs失败："+e.getStackTrace());
+					fileInfo.put("error", "文件保存至fs失败");
 				}
 				
-				Map<String, Object> fileInfo = new HashMap<String, Object>();
-				fileInfo.put("name", filename);
-				fileInfo.put("size", myfile.getSize());
-				fileInfo.put("url", "get?");
-				fileInfo.put("deleteUrl", "../deleteVideo.do?filename=" + filename);
-				fileInfo.put("deleteType", "DELETE");
-				list.add(fileInfo);
 				
 				//文件信息入库
 				Video video = new Video(myfile.getOriginalFilename(), filename, myfile.getSize());
 				try {
 					String vId = videoService.add(video);
 					logger.info("文件信息入库，id：" + vId);
+					fileInfo.put("id", vId);
 				} catch (Exception e) {
 					e.printStackTrace();
 					logger.error("文件信息入库失败："+e.getStackTrace());
+					fileInfo.put("error", "文件信息入库失败");
 				}
+				
+				list.add(fileInfo);
             }  
         }
 		

@@ -1,0 +1,223 @@
+/* CSS Document */
+/*body {
+	font-family: "微软雅黑", adobe-clean, "HelveticaNeue-light", "HelveticaNeue",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	color: #686868;
+	font-size: 16px;
+	line-height: 1.375em;
+	background: #e8e8e8;
+	-webkit-text-size-adjust: 100%;
+}*/
+
+input {
+	vertical-align: baseline;
+	color: #000;
+	font-size: 12px;
+}
+
+input[type=text],
+textarea {
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	margin: 2px auto 2px auto;
+}
+
+input[type="text"] {
+	border: solid 1px #999;
+	background: -webkit-gradient(linear, left top, left 15, from(white),
+		color-stop(4%, #f9f9f9), to(white) );
+	background: -moz-linear-gradient(top, white, #f9f9f9 1px, white 15px);
+	padding: 4px;
+}
+
+/*老式按钮样式*/
+input[type="button"] { /*display: inline-block;
+zoom: 1;*/
+	vertical-align: baseline;
+	margin: 0 2px;
+
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	padding: 4px 10px 4px 10px;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#ededed) );
+	background: -moz-linear-gradient(top, #fff, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#ededed' );
+}
+
+input[type="button"]:hover {
+
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#dcdcdc) );
+	background: -moz-linear-gradient(top, #fff, #dcdcdc);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#dcdcdc' );
+}
+
+
+/*新按钮样式*/
+.button {
+	background: #fff;
+	border: 1px solid #ddd;
+	color: #45484d;
+	border-radius: 4px;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	width: auto;
+	display: inline-block;
+	border-bottom-width: 2px;
+	zoom: 1;
+
+	display: block;
+	/*margin: 20px auto 0;
+	width: 320px;*/
+	height: 40px;
+	margin: 1% auto 1%;
+width: 25%;
+min-width: 250px;
+	line-height: 40px;
+}
+
+.button:hover {
+	background: #f7f7f7;
+}
+
+
+select {
+	border-radius: 4px;
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#ededed) );
+	background: -moz-linear-gradient(top, #fff, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',
+		endColorstr='#ededed' );
+}
+
+textarea {
+	border: 1px solid #ccc;
+	background: -webkit-gradient(linear, left top, left 15, from(#fff),
+		color-stop(4%, #f9f9f9), to(#fff) );
+	background: -moz-linear-gradient(top, #fff, #f9f9f9 1px, #fff 15px);
+}
+
+.tips {
+	margin-right: 10px;
+	color: #999;
+}
+
+
+#next_step {
+	background: #00a1d6;
+
+	line-height: 30px;
+	color: #fff;
+	border-radius: 4px;
+
+	cursor: pointer;
+	border-bottom: 2px solid #0593c2;
+	text-align: center;
+}
+
+#next_step:hover {
+	background: #38afe1;
+}
+
+
+@media only screen and (min-width: 768px) {
+.upload_container .row .left {
+text-align: right;
+}
+}
+
+
+
+
+
+/*新样式*/
+.upload_container {
+
+border: 1px solid #DDD;
+border-radius: 4px;
+background-color: #fff;
+overflow: hidden;
+}
+
+.upload_container #title {
+
+background: #fff;
+border-top-left-radius: 6px;
+border-top-right-radius: 6px;
+border-bottom: #DDD solid 1px;
+padding: 5px 10px;
+
+text-shadow: #fff 1px 1px;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+.content-page-topsider {
+padding: 15px 10px;
+border-bottom: 1px solid #DDD;
+background-color: #f9f9f9;
+}
+
+.upload_container form .item {
+border-bottom: 1px solid #ddd;
+}
+
+.upload_container .row .right {
+float: left;
+padding: 20px 0 20px 16px;
+display: block;
+overflow: hidden;
+border-left: 1px solid #ddd;
+min-height: 40px;
+}
+
+.upload_container .row .left {
+float: left;
+padding: 5px 10px 0 10px;
+
+display: block;
+/*text-align: right;*/
+line-height: 24px;
+}
+
+.upload_container .input {
+height: 30px;
+padding: 0 8px;
+margin: 0;
+background: #fff;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+.upload_container .input:hover {
+border: 1px solid #b9b9b9;
+border-top: 1px solid #a0a0a0;
+-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
