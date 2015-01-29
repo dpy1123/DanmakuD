@@ -84,14 +84,15 @@ public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 	}
 	
 	/**
-	 * @param whereJpql mongo风格的查询语句
-	 * @param args [不使用]
+	 * @param whereJpql mongo风格的查询语句，使用'%1$s'做占位符
+	 * @param args
 	 */
 	public <T> List<T> getResultList(Class<T> entityClass 
 		, String whereJpql 
 		, LinkedHashMap<String, String> orderBy
 		, Object... args) {
 		//创建查询
+		whereJpql = String.format(whereJpql, args);
 		BasicQuery query = new BasicQuery(whereJpql);
 		
 		//设置排序
@@ -111,8 +112,8 @@ public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 	}
 	
 	/**
-	 * @param whereJpql mongo风格的查询语句
-	 * @param args [不使用]
+	 * @param whereJpql mongo风格的查询语句，使用'%1$s'做占位符
+	 * @param args
 	 */
 	public <T> List<T> getResultList(Class<T> entityClass 
 		, String whereJpql 
@@ -121,6 +122,7 @@ public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 		, LinkedHashMap<String, String> orderBy
 		, Object... args) {
 		//创建查询
+		whereJpql = String.format(whereJpql, args);
 		BasicQuery query = new BasicQuery(whereJpql);
 		//设置排序
 		if(orderBy != null && orderBy.size() > 0) {
@@ -140,12 +142,13 @@ public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 	}
 	
 	/**
-	 * @param whereJpql mongo风格的查询语句
-	 * @param args [不使用]
+	 * @param whereJpql mongo风格的查询语句，使用'%1$s'做占位符
+	 * @param args
 	 */
 	public <T> int getResultCount(Class<T> entityClass
 			, String whereJpql
 			, Object... args) {
+		whereJpql = String.format(whereJpql, args);
 		BasicQuery query = new BasicQuery(whereJpql);
 		return (int) mongoTemplate.count(query, entityClass);
 	}

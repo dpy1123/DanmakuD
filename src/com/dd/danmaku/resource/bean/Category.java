@@ -1,6 +1,7 @@
 package com.dd.danmaku.resource.bean;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -12,6 +13,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "category")
 public class Category {
 
+	/**
+	 * 第一层分类的父id标识
+	 */
+	@Transient
+	public static final String ROOT = "ROOT";
+	
 	private String id;//分类id
 	private String pid;//分类父id，一级分类的pid是ROOT
 	private String name;

@@ -1,5 +1,6 @@
 package com.dd.danmaku.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class UploadResource {
 	@RequestMapping(value = "uploadResource.do", method = { RequestMethod.POST })
 	public ModelAndView onUpload(MultipartHttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home.html");//设置跳转页面
 		String title = request.getParameter("title");
 		String tag = request.getParameter("tag");
 		String category = request.getParameter("category");
@@ -54,11 +56,10 @@ public class UploadResource {
 		}
 		
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
-		
+		List<String> videos = new ArrayList<String>();
 		for (String videoId : videoIds) {
-			System.out.println(videoId);
+			videos.add(videoId);
 		}
-		
 		resourceService.add(resource);
 		
 		return mv;
