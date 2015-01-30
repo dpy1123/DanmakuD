@@ -3,7 +3,6 @@ package com.dd.danmaku.resource.service;
 import java.util.List;
 
 import com.dd.danmaku.resource.bean.Resource;
-import com.dd.danmaku.resource.bean.criteria.ResourceCriteria;
 
 
 public interface ResourceService {

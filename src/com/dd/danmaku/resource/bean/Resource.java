@@ -1,5 +1,6 @@
 package com.dd.danmaku.resource.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -104,7 +105,16 @@ public class Resource {
 
 
 	public void setCategories(List<String> categories) {
-		this.categories = categories;
+		if(this.categories == null)
+			this.categories = categories;
+		else
+			try {
+				this.categories.addAll(categories);
+			} catch (UnsupportedOperationException e) {
+				//如果原有的this.categories是Arrays.asList来的，是没有实现addAll方法的，重新包装一下
+				this.categories = new ArrayList<String>(this.categories);
+				this.categories.addAll(categories);
+			}
 	}
 
 
@@ -117,7 +127,14 @@ public class Resource {
 		if(this.tags == null)
 			this.tags = tags;
 		else
-			this.tags.addAll(tags);
+			try {
+				this.tags.addAll(tags);
+			} catch (UnsupportedOperationException e) {
+				//如果原有的this.tags是Arrays.asList来的，是没有实现addAll方法的，重新包装一下
+				this.tags = new ArrayList<String>(this.tags);
+				this.tags.addAll(tags);
+			}
+			
 	}
 
 

@@ -1,6 +1,7 @@
 package com.dd.danmaku.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -49,10 +50,12 @@ public class UploadResource {
 		}
 		
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
+		resource.setCategories(Arrays.asList(category));
 		List<String> videos = new ArrayList<String>();
 		for (String videoId : videoIds) {
 			videos.add(videoId);
 		}
+		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
 		
 		return mv;
