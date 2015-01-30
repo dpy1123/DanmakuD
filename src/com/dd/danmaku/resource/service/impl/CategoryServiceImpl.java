@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource.service;
+package com.dd.danmaku.resource.service.impl;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.dao.CategoryDao;
+import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.utils.StringUtils;
 
 
@@ -55,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		
 		try {
-			return categoryDao.getResultList(Category.class, "{ name : '%1$s' }", null, name).get(0);
+			return categoryDao.getCategoryByName(name);
 		} catch (Exception e) {
 			throw new RuntimeException("获取分类失败");
 		}
@@ -72,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		
 		try {
-			Category parent = categoryDao.getResultList(Category.class, "{ name : '%1$s' }", null, name).get(0);
+			Category parent = categoryDao.getCategoryByName(name);
 			result = categoryDao.getSubCategories(parent.getId());
 		} catch (Exception e) {
 			throw new RuntimeException("获取分类失败");

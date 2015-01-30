@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource.dao;
+package com.dd.danmaku.resource.dao.impl;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -12,17 +12,16 @@ import org.springframework.stereotype.Repository;
 
 import com.dd.danmaku.common.dao.BaseDaoMongoImpl;
 import com.dd.danmaku.resource.bean.Category;
+import com.dd.danmaku.resource.dao.CategoryDao;
 
 
 @Repository
 public class CategoryDaoImpl extends BaseDaoMongoImpl implements CategoryDao {
 
 	public Category getCategoryByName(String name) {
-		Criteria criteria = Criteria.where("pid").is(pid);
+		Criteria criteria = Criteria.where("name").is(name);
 		Query query = new Query(criteria);
-		Sort sort = new Sort(Direction.ASC, "order");
-		query.with(sort);
-		return (LinkedList<Category>) mongoTemplate.find(query, Category.class);
+		return mongoTemplate.findOne(query, Category.class);
 	}
 	
 	public LinkedList<Category> getSubCategories(String pid) {

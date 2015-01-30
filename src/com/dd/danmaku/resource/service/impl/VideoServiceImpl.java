@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource.service;
+package com.dd.danmaku.resource.service.impl;
 
 import javax.annotation.Resource;
 
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.dao.VideoDao;
+import com.dd.danmaku.resource.service.VideoService;
 
 @Service("videoService")
 public class VideoServiceImpl implements VideoService {

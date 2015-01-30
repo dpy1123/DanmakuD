@@ -1,38 +1,38 @@
-package com.dd.danmaku.resource.service;
+package com.dd.danmaku.resource.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
+import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.dao.ResourceDao;
+import com.dd.danmaku.resource.service.ResourceService;
 
 @Service("resourceService")
 public class ResourceServiceImpl implements ResourceService {
 	
-	@Resource
+	@javax.annotation.Resource
 	protected ResourceDao resourceDao;
 
-	public String add(com.dd.danmaku.resource.bean.Resource resource) {
+	public String add(Resource resource) {
 		resourceDao.save(resource);
 		return resource.getId();
 	}
 
 	public void addTags(String resourceId, List<String> tags) {
-		com.dd.danmaku.resource.bean.Resource r = getById(resourceId);
+		Resource r = getById(resourceId);
 		r.setTags(tags);
 		resourceDao.update(r);
 	}
 
 	public void changeStatus(String resourceId, String status) {
-		com.dd.danmaku.resource.bean.Resource r = getById(resourceId);
+		Resource r = getById(resourceId);
 		r.setStatus(status);
 		resourceDao.update(r);
 	}
 
 	public void updateDuration(String resourceId, String duration) {
-		com.dd.danmaku.resource.bean.Resource r = getById(resourceId);
+		Resource r = getById(resourceId);
 		r.setDuration(duration);
 		resourceDao.update(r);
 	}
@@ -41,7 +41,8 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.updateCount(resourceId, propName, deta);
 	}
 
-	public com.dd.danmaku.resource.bean.Resource getById(String id) {
-		return resourceDao.get(com.dd.danmaku.resource.bean.Resource.class, id);
+	public Resource getById(String id) {
+		return resourceDao.get(Resource.class, id);
 	}
+
 }

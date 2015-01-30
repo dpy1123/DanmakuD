@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource.service;
+package com.dd.danmaku.resource.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dd.danmaku.resource.bean.Tag;
 import com.dd.danmaku.resource.dao.TagDao;
+import com.dd.danmaku.resource.service.TagService;
 import com.dd.danmaku.utils.StringUtils;
 
 

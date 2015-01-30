@@ -1,4 +1,4 @@
-package com.dd.danmaku.resource.dao;
+package com.dd.danmaku.resource.dao.impl;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dd.danmaku.common.dao.BaseDaoMongoImpl;
 import com.dd.danmaku.resource.bean.Resource;
+import com.dd.danmaku.resource.dao.ResourceDao;
 
 @Repository
 public class ResourceDaoImpl extends BaseDaoMongoImpl implements ResourceDao {
