@@ -18,7 +18,7 @@
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/views/" />
-<!-- 		<property name="suffix" value=".jsp" /> -->
+		<property name="suffix" value=".jsp" />
 		<!-- 如果使用jstl的话，配置下面的属性 -->
     	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 	</bean>

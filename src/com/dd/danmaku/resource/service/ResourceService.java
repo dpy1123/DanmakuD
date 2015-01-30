@@ -53,6 +53,13 @@ public interface ResourceService {
 	public Resource getById(String id);
 	
 	/**
+	 * 根据videoId返回相应对象
+	 * @param videoId
+	 * @return
+	 */
+	public Resource getByVideoId(String videoId);
+	
+	/**
 	 * 根据查询条件类返回符号条件的对象集合
 	 * @param criteria
 	 * @return

@@ -34,7 +34,7 @@ public class UploadResource {
 	@RequestMapping(value = "uploadResource.do", method = { RequestMethod.POST })
 	public ModelAndView onUpload(MultipartHttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home.html");//设置跳转页面
+		mv.setViewName("home");//设置跳转页面
 		String title = request.getParameter("title");
 		String tag = request.getParameter("tag");
 		String category = request.getParameter("category");
