@@ -1,7 +1,6 @@
 package com.dd.danmaku.resource.dao;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.dd.danmaku.common.dao.BaseDaoInter;
@@ -22,7 +21,7 @@ public interface CategoryDao extends BaseDaoInter {
 	 * @param pid
 	 * @return
 	 */
-	public LinkedList<Category> getSubCategories(String pid);
+	public List<Category> getSubCategories(String pid);
 	
 	/**
 	 * 得到所有的分类

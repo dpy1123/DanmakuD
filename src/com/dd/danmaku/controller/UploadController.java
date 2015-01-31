@@ -1,7 +1,7 @@
 package com.dd.danmaku.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
+import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
 
 
@@ -20,12 +22,36 @@ import com.dd.danmaku.resource.service.ResourceService;
  * @version 1.0 [2015.01.27]
  */
 @Controller
-public class UploadResource {
+public class UploadController {
 
-	Logger logger= Logger.getLogger(UploadResource.class);
+	Logger logger= Logger.getLogger(UploadController.class);
 	
 	@javax.annotation.Resource
 	ResourceService resourceService;
+	@javax.annotation.Resource
+	CategoryService categoryService;
+	
+	/**
+	 * 处理上传前的准备工作
+	 * @return 上传页面
+	 */
+	@RequestMapping("preUpload.do")
+	public ModelAndView upload(){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("upload");//设置跳转页面
+		
+		//得到页面要上传到的服务器的ws地址
+//		FileManagerFacadeRemoteInter fileManagerFacade = (FileManagerFacadeRemoteInter) EjbInvoke.ejbLookupRemote("127.0.0.1:1099", "FileManagerFacadeImpl");
+//		FileManager fileManager = fileManagerFacade.getAvalible();
+//		String wsUrl = fileManager.getWsUrl();
+		//得到页面上“隶属栏目”下拉列表的内容
+		LinkedHashMap<Category, List<Category>> categories = categoryService.getAllCategories();
+		
+		//添加传到前台的参数
+		mv.addObject("categories", categories);//指定页面上“隶属栏目”下拉列表的内容
+		return mv;
+		
+	}
 	
 	/**
 	 * 处理上传表单的提交
@@ -51,10 +77,6 @@ public class UploadResource {
 		
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
 		resource.setCategories(Arrays.asList(category));
-		List<String> videos = new ArrayList<String>();
-		for (String videoId : videoIds) {
-			videos.add(videoId);
-		}
 		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
 		

@@ -1,7 +1,6 @@
 package com.dd.danmaku.resource.dao.impl;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -24,12 +23,12 @@ public class CategoryDaoImpl extends BaseDaoMongoImpl implements CategoryDao {
 		return mongoTemplate.findOne(query, Category.class);
 	}
 	
-	public LinkedList<Category> getSubCategories(String pid) {
+	public List<Category> getSubCategories(String pid) {
 		Criteria criteria = Criteria.where("pid").is(pid);
 		Query query = new Query(criteria);
 		Sort sort = new Sort(Direction.ASC, "order");
 		query.with(sort);
-		return (LinkedList<Category>) mongoTemplate.find(query, Category.class);
+		return mongoTemplate.find(query, Category.class);
 	}
 	
 	public LinkedHashMap<Category, List<Category>> getAllCategories() {
