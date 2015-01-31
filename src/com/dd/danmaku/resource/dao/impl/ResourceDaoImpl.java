@@ -20,4 +20,10 @@ public class ResourceDaoImpl extends BaseDaoMongoImpl implements ResourceDao {
 		mongoTemplate.updateFirst(query, update, Resource.class);
 	}
 
+	public Resource getByVideoId(String videoId) {
+		Criteria criteria = Criteria.where("videos").in(videoId);
+		Query query = new Query(criteria);
+		return mongoTemplate.findOne(query, Resource.class);
+	}
+
 }

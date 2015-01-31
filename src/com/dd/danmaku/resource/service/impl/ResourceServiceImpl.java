@@ -46,8 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	public Resource getByVideoId(String videoId) {
-		// TODO Auto-generated method stub
-		return null;
+		return resourceDao.getByVideoId(videoId);
 	}
 
 }

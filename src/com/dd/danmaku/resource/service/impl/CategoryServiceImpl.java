@@ -80,4 +80,13 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return result;
 	}
+
+	public Category getCategoryById(String id) {
+		return categoryDao.get(Category.class, id);
+	}
+
+	public Category getParentCategory(String id) {
+		Category child = categoryDao.get(Category.class, id);
+		return categoryDao.get(Category.class, child.getPid());
+	}
 }

@@ -23,11 +23,26 @@ public interface CategoryService {
 	public boolean increaseCount(String categoryId);
 	
 	/**
+	 * 根据id得到分类
+	 * @param id
+	 * @return
+	 */
+	public Category getCategoryById(String id);
+	
+	/**
 	 * 根据分类名得到分类
 	 * @param name
 	 * @return
 	 */
 	public Category getCategoryByName(String name);
+	
+	/**
+	 * 得到父分类
+	 * @param id
+	 * @return
+	 */
+	public Category getParentCategory(String id);
+	
 	
 	/**
 	 * 根据分类名得到所有子分类

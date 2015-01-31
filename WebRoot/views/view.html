@@ -21,9 +21,65 @@
 	<!-- 公共样式，因为要覆盖前面的，所以最后导入 -->
 	<link rel="stylesheet" href="css/common.css" type="text/css" />
 	<!-- 弹幕 -->
-	<link rel="stylesheet" href="playr/playr.css" type="text/css">
-	<script type="text/javascript" src="playr/danmu.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="playr/playr.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="ddplayer/ddplayer.min.js"></script>
+	<link rel="stylesheet" href="ddplayer/Playr-master/playr.css" type="text/css">
+	<script type="text/javascript" src="ddplayer/Playr-master/playr.js"></script>
+	<!-- colorpicker -->
+	<link rel="stylesheet" href="colorpicker/css/colorpicker.css" type="text/css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="colorpicker/css/layout.css" />
+	<script type="text/javascript" src="colorpicker/js/colorpicker.js"></script>
+
+	<script type="text/javascript">
+		window.addEventListener('DOMContentLoaded',function(){
+			//因为chrome和firefox对于video加载和load方法调用的时机不同，在此做fix。
+			load();	
+		});
+	
+		var player;
+		function load() {
+			var v = document.querySelector("video");
+			new Playr("dd", v)
+			player = new DD.Player("dd", v);
+			var url = "http://1.ddplayer.duapp.com/getDanmus.do?videoId=vid";
+			player.init("canvas", url);	
+		
+			$('#colorSelector2').ColorPicker({
+				color: '#ffffff',
+				onShow: function (colpkr) {
+					$(colpkr).fadeIn(500);
+					return false;
+				},
+				onHide: function (colpkr) {
+					$(colpkr).fadeOut(500);
+					return false;
+				},
+				onChange: function (hsb, hex, rgb) {
+					$('#colorSelector2 div').css('backgroundColor', '#' + hex);
+					$('#color').val('#' + hex);
+				},
+				onSubmit: function(hsb, hex, rgb, el) {
+					$('#color').val('#' + hex);
+				}
+			});
+			
+			$("#send").click(function(){
+				var color = $("#color").val();
+				var style = $("input[name='style']:checked").val();
+				var text = $("#text").val();
+				if(text.length <= 255)
+					player.sendDanmus("http://1.ddplayer.duapp.com/sendDanmu.do","vid","uid",text,style,color);
+				$("#text").val("");
+			});
+			
+			
+		
+
+		}
+		
+
+
+	</script>
+
 </head>
 
 <body>
@@ -72,6 +128,21 @@
 					<danmu get="getDanmus?vid=video001" send="${danmuWsUrl }?vid=video001&uid=user001"></danmu>
 				</video>
 			</div>
+			<div id="sendPanel" class="row">
+				<div class="col-xs-1 col-md-offset-2 col-lg-1 col-lg-offset-3">
+					<div id="colorSelector2"><div></div></div>
+					<input id="color" type="hidden" value="#ffffff">
+				</div>
+				<div class="col-xs-6 col-sm-4 col-lg-2" style="font-size: 14px;margin-top: 6px;">
+					<label>样式：</label>
+					<input type="radio" name="style" checked value="Scroll"/><label>Scroll</label>
+					<input type="radio" name="style" value="Static"/><label>Static</label>
+				</div>
+				<div class="col-xs-8 col-sm-4 col-lg-3" style="font-size: 14px;margin-top: 4px;">
+					<input id="text" type="text">
+					<button id="send">Send</button>
+				</div>
+			</div>	
 		</div>
 		<div id="info">
 			<div class="info_panel">
