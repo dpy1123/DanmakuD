@@ -40,10 +40,6 @@ public class UploadController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload");//设置跳转页面
 		
-		//得到页面要上传到的服务器的ws地址
-//		FileManagerFacadeRemoteInter fileManagerFacade = (FileManagerFacadeRemoteInter) EjbInvoke.ejbLookupRemote("127.0.0.1:1099", "FileManagerFacadeImpl");
-//		FileManager fileManager = fileManagerFacade.getAvalible();
-//		String wsUrl = fileManager.getWsUrl();
 		//得到页面上“隶属栏目”下拉列表的内容
 		LinkedHashMap<Category, List<Category>> categories = categoryService.getAllCategories();
 		
@@ -74,9 +70,9 @@ public class UploadController {
 		if(videoIds == null){//如果videoIds为空 表示用户没有上传文件
 			
 		}
-		
+		String categoryId = categoryService.getCategoryByName(category).getId();
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
-		resource.setCategories(Arrays.asList(category));
+		resource.setCategories(Arrays.asList(categoryId));
 		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
 		

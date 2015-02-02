@@ -32,10 +32,9 @@ public class Danmu {
 	}
 	
 	/** full constructor */
-	public Danmu(String id, String videoId, String userId, String start,
+	public Danmu(String videoId, String userId, String start,
 			String end, String style, String level, String effect, String text,
 			String sendTime) {
-		this.id = id;
 		this.videoId = videoId;
 		this.userId = userId;
 		this.start = start;

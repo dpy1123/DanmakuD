@@ -305,6 +305,14 @@
 			}		
 		);
 	});
+	
+	
+	$('#fileupload').submit(function() {
+		if($('input[name=videoId]').length>0)//如果有上传文件才提交form
+			return true;
+		else
+			return false;
+	})
 </script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>

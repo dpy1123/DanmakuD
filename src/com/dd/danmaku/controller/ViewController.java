@@ -27,11 +27,11 @@ public class ViewController {
 	 * @return 分类频道页面
 	 */
 	@RequestMapping("view.do")
-	public ModelAndView show(String videoId){
+	public ModelAndView show(String resourceId){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("view");//设置跳转页面
 		
-		Resource resource = resourceService.getByVideoId(videoId);
+		Resource resource = resourceService.getById(resourceId);
 		
 		//获取该Resource所属的二级分类
 		String subCategoryId = resource.getCategories().get(0);
@@ -41,7 +41,7 @@ public class ViewController {
 		Category mainCategory = categoryService.getParentCategory(subCategoryId);
 		
 		
-		Video video = videoService.getById(videoId);
+		Video video = videoService.getById(resource.getVideos().get(0));
 		String videoUrl = "getVideo.do?filename=" + video.getFsFileName();
 		
 		mv.addObject("mainCategory", mainCategory);

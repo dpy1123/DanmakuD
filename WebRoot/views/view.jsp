@@ -105,7 +105,7 @@
 				            &gt; 
 				            <span><a href="list.do?categoryName=${subCategory }">${subCategoryDisplayName }</a></span> 
 				            &gt; 
-				            <time><i>${resource.uploadDTM }</i></time>
+				            <time><i>${resource.createDTM }</i></time>
 				        </div>
 				        <div class="play_info">
 						            播放:<i id="dianji">${resource.clickCount }</i>

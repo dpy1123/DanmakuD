@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.dd.danmaku.resource.bean.Danmu;
-import com.dd.danmaku.resource.bean.criteria.DanmuCriteria;
 import com.dd.danmaku.resource.dao.DanmuDao;
 import com.dd.danmaku.resource.service.DanmuService;
 import com.dd.danmaku.utils.StringUtils;
@@ -20,7 +19,7 @@ public class DanmuServiceImpl implements DanmuService {
 	@Resource
 	private DanmuDao danmuDao;
 	
-	public boolean add(Danmu danmu) throws Exception {
+	public String add(Danmu danmu) {
 		// 如果danmu为空，或者不能为空的属性为空，抛出空值异常;
 		if (null == danmu || StringUtils.isEmpty(danmu.getVideoId())
 				|| StringUtils.isEmpty(danmu.getUserId())
@@ -40,44 +39,41 @@ public class DanmuServiceImpl implements DanmuService {
 		} catch (Exception e) {
 			throw new RuntimeException("未知的数据库异常，添加弹幕失败");
 		}
-		return true;
+		return danmu.getId();
 	}
 
-	public boolean del(DanmuCriteria criteria) throws Exception {
-		// 检查criteria是否为空，videoId为空，则抛出查询条件空值异常
-		if (null == criteria || StringUtils.isEmpty(criteria.getVideoId())) {
-			throw new RuntimeException("查询条件不合法");
+	public void del(String videoId, String userId) {
+		// 检查videoId为空，则抛出查询条件空值异常
+		if (StringUtils.isEmpty(videoId)) {
+			throw new RuntimeException("videoId不能为空");
 		}
 		
-		String videoId = criteria.getVideoId();
 		try {
-			if(!StringUtils.isEmpty(criteria.getUserId())){//如果包含userId就用videoId和userId删除弹幕
-				danmuDao.delete(videoId, criteria.getUserId());
+			if(!StringUtils.isEmpty(userId)){//如果包含userId就用videoId和userId删除弹幕
+				danmuDao.delete(videoId, userId);
 			}else{
 				danmuDao.delete(videoId);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("未知的数据库异常，删除弹幕失败");
 		}
-		return true;
 	}
 
-	public List<Danmu> list(DanmuCriteria criteria) throws Exception {
+	public List<Danmu> list(String videoId, int offset, int maxSize) {
 		// 检查criteria是否为空，为空，则抛出异常E0000 空值异常
-		if (null == criteria || StringUtils.isEmpty(criteria.getVideoId()) ) {
-			throw new RuntimeException("查询条件不合法");
+		if (StringUtils.isEmpty(videoId)) {
+			throw new RuntimeException("videoId不能为空");
 		}
-		String videoId = criteria.getVideoId();
-		int maxSize = criteria.getMaxSize();
 		List<Danmu> result = null;
 		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
 		orderBy.put("sendTime", "DESC");
 		try {
-			result = danmuDao.getResultList(Danmu.class, "{ videoId : '%1$s' }", 0, maxSize, orderBy, videoId);
+			result = danmuDao.getResultList(Danmu.class, "{ videoId : '%1$s' }", offset, maxSize, orderBy, videoId);
 		} catch (Exception e) {
 			throw new RuntimeException("未知的数据库异常，查询弹幕失败");
 		}
 		return result;
 	}
+
 
 }
