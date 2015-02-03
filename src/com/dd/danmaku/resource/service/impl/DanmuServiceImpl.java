@@ -28,7 +28,7 @@ public class DanmuServiceImpl implements DanmuService {
 				|| StringUtils.isEmpty(danmu.getStyle())
 				|| StringUtils.isEmpty(danmu.getLevel())
 				|| StringUtils.isEmpty(danmu.getText())
-				|| StringUtils.isEmpty(danmu.getEffect())
+				|| StringUtils.isEmpty(danmu.getColor())
 				|| StringUtils.isEmpty(danmu.getSendTime())) {
 			throw new RuntimeException("弹幕对象不合法");
 		}

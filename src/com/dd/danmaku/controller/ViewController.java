@@ -48,6 +48,7 @@ public class ViewController {
 		mv.addObject("subCategory", subCategory);
 		mv.addObject("resource", resource);
 		mv.addObject("videoUrl", videoUrl);
+		mv.addObject("videoId", video.getId());
 //		mv.addObject("danmuWsUrl", Constants.DANMU_WS_URL);
 		
 		//更新点击数

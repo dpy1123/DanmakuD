@@ -9,21 +9,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 成员参考bilibili网站弹幕及下载的弹幕文件的内容设置.
  * @author DD
  * @version v1.0,2013-03-12
+ * @version v2.0,2014 修改为bae用的新版本
  */
 @Document(collection = "danmu")
 public class Danmu {
 	
 	// Fields
-	private String id;//标识
-	private String videoId;//所属视频id号
-	private String userId;//所属用户id号
-	private String start;//弹幕开始时间，00:00:00.60
-	private String end;//结束时间，00:00:04.60
-	private String style;//弹幕类型，Scroll或Static
-	private String level;//弹幕特权等级
-	private String effect;//move:270,42,0,42;color:#FFFFFF或pos:270,42;color:rgb(0,255,0)
-	private String text;//弹幕文字内容
-	private String sendTime;//弹幕发送的时间
+	private String id;// 标识
+	private String videoId;// 所属视频id号
+	private String userId;// 所属用户id号
+	private String start;// 弹幕开始时间，00:00:00.60
+	private String end;// 结束时间，00:00:04.60
+	private String style;// 弹幕类型，Scroll或Static
+	private String level;// 弹幕特权等级
+	private String color;
+	private String font;
+	private String text;// 弹幕文字内容
+	private String sendTime;// 弹幕发送的时间
+	private String clazz;
+	private String param;
 	
 	
 	/** default constructor  */
@@ -32,19 +36,20 @@ public class Danmu {
 	}
 	
 	/** full constructor */
-	public Danmu(String videoId, String userId, String start,
-			String end, String style, String level, String effect, String text,
-			String sendTime) {
-		this.videoId = videoId;
-		this.userId = userId;
-		this.start = start;
-		this.end = end;
-		this.style = style;
-		this.level = level;
-		this.effect = effect;
-		this.text = text;
-		this.sendTime = sendTime;
-	}
+	public Danmu(String videoId, String userId, String start, String end, String style, String level, String color, String font, String text, String sendTime, String clazz, String param) {
+	    this.videoId = videoId;
+	    this.userId = userId;
+	    this.start = start;
+	    this.end = end;
+	    this.style = style;
+	    this.level = level;
+	    this.color = color;
+	    this.font = font;
+	    this.text = text;
+	    this.sendTime = sendTime;
+	    this.clazz = clazz;
+	    this.param = param;
+	  }
 
 
 	@Id
@@ -97,13 +102,6 @@ public class Danmu {
 		this.level = level;
 	}
 	
-	public String getEffect() {
-		return effect;
-	}
-	public void setEffect(String effect) {
-		this.effect = effect;
-	}
-	
 	public String getText() {
 		return text;
 	}
@@ -116,5 +114,37 @@ public class Danmu {
 	}
 	public void setSendTime(String sendTime) {
 		this.sendTime = sendTime;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getFont() {
+		return font;
+	}
+
+	public void setFont(String font) {
+		this.font = font;
+	}
+
+	public String getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
+	}
+
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
 	}
 }

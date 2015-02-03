@@ -46,7 +46,7 @@
 			var v = document.querySelector("video");
 			new Playr("dd", v)
 			player = new DD.Player("dd", v);
-			var url = "http://1.ddplayer.duapp.com/getDanmus.do?videoId=vid";
+			var url = "<%=path%>/getDanmaku.do?vid=${videoId }";
 			player.init("canvas", url);	
 		
 			$('#colorSelector2').ColorPicker({
@@ -73,7 +73,7 @@
 				var style = $("input[name='style']:checked").val();
 				var text = $("#text").val();
 				if(text.length <= 255)
-					player.sendDanmus("http://1.ddplayer.duapp.com/sendDanmu.do","vid","uid",text,style,color);
+					player.sendDanmus("<%=path%>/sendDanmaku.do","${videoId }","system",text,style,color);
 				$("#text").val("");
 			});
 			
@@ -133,7 +133,6 @@
 					<div class="video_panel">
 						<video class="playr_video" >
 							<source src="${videoUrl }" type="video/mp4"></source> 
-							<danmu get="getDanmus?vid=video001" send="${danmuWsUrl }?vid=video001&uid=user001"></danmu>
 						</video>
 					</div>
 					<div id="sendPanel" class="row">
