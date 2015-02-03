@@ -49,4 +49,12 @@ public class ResourceServiceImpl implements ResourceService {
 		return resourceDao.getByVideoId(videoId);
 	}
 
+	public ResourceDao getResourceDao() {
+		return resourceDao;
+	}
+
+	public void setResourceDao(ResourceDao resourceDao) {
+		this.resourceDao = resourceDao;
+	}
+
 }

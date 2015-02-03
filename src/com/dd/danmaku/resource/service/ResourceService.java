@@ -3,6 +3,7 @@ package com.dd.danmaku.resource.service;
 import java.util.List;
 
 import com.dd.danmaku.resource.bean.Resource;
+import com.dd.danmaku.resource.dao.ResourceDao;
 
 
 public interface ResourceService {
@@ -60,11 +61,16 @@ public interface ResourceService {
 	public Resource getByVideoId(String videoId);
 	
 	/**
+	 * 直接获取dao对象
+	 * @return
+	 */
+	public ResourceDao getResourceDao();
+	/**
 	 * 根据查询条件类返回符号条件的对象集合
 	 * @param criteria
 	 * @return
 	 */
-//	public List<Resource> listByCriteria(ResourceCriteria criteria);
+//	public List<Resource> listByCatagroy(String[] catagroyIds);
 
 	/**
 	 * 根据查询条件类返回符号条件的对象的数量

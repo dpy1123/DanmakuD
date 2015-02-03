@@ -1,4 +1,11 @@
 /* CSS Document */
+/*修复在bootstrap菜单中使用navbar-form样式时，在菜单的toggle模式下的宽度问题*/
+@media (max-width: 768px){
+	.navbar-form {
+		margin: 0;
+	}
+}
+
 
 
 /*在menu的二级菜单中加入customs-menu样式，覆盖bootstrap的dropdown-menu样式*/

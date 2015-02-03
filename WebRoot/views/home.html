@@ -40,81 +40,90 @@
 </head>
 
 <body>
+	<header >
+		<nav class="navbar navbar-default" role="navigation">
+			  <div class="container-fluid">
+				  <div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header ">
+					  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					  </button>
+					  <a class="navbar-brand" href="#">LOGO</a>
+					</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse " id="menu">
+
+					  <ul class="nav navbar-nav">
+						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">动画<span class="badge">54</span></a></li>
+						<li class="dropdown">
+						  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">音乐<span class="badge">4</span><span class="caret"></span></a>
+						  <ul class="customs-menu dropdown-menu" role="menu">
+							<li><a href="#">1</a></li>
+							<li><a href="#">2 action</a></li>
+							<li><a href="#">3 else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">11 link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">22 more separated link</a></li>
+						  </ul>
+						</li>
+					  </ul>
+
+					  <ul class="nav navbar-nav navbar-left ">
+						<li><a href="#">游戏</a></li>
+						<li class="dropdown">
+						  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">娱乐<span class="caret"></span></a>
+						  <ul class="customs-menu dropdown-menu" role="menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						  </ul>
+						</li>
+					  </ul>
 
 
 
-	
-	
-			<header >
-				<nav class="navbar navbar-default" role="navigation">
-	  <div class="container-fluid">
-		  <div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header ">
-			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
-			  <a class="navbar-brand" href="#">LOGO</a>
-			</div>
+						
+					  <ul class="nav navbar-nav navbar-right " >
+						 <li><a href="#">
+							<span id="upload_icon" class="glyphicon glyphicon-upload" ></span>
+							投稿</a></li>
+							<li>
+							  <form class="navbar-form  region-search" role="search" >
+								 <span id="search_icon" class="glyphicon glyphicon-search" style="line-height: 2;"></span>
+								<div id="search_panel" class="form-group" style="display: none;">
+								  <input type="text" class="form-control " placeholder="Search" style=" display: inline; width: auto; ">
+								  <button type="submit" class="btn btn-default ">Submit</button>
+								</div>
+							  </form>
+								<script type="text/javascript">
+								  jQuery(document).ready(function($){
+									$('#search_icon').click(function(){
+										$(this).toggle();
+									  $('#search_panel').toggle();
+									})
+									
+								  })
+								</script>  
+							 
+						  </li>
+					</ul>
+					
+					
+					</div><!-- /.navbar-collapse -->
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse " id="menu">
-
-			  <ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-				<li><a href="#">动画<span class="badge">54</span></a></li>
-				<li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">音乐<span class="badge">4</span><span class="caret"></span></a>
-				  <ul class="customs-menu dropdown-menu" role="menu">
-					<li><a href="#">1</a></li>
-					<li><a href="#">2 action</a></li>
-					<li><a href="#">3 else here</a></li>
-					<li class="divider"></li>
-					<li><a href="#">11 link</a></li>
-					<li class="divider"></li>
-					<li><a href="#">22 more separated link</a></li>
-				  </ul>
-				</li>
-			  </ul>
-
-			 
-
-
-			  <ul class="nav navbar-nav navbar-left ">
-				<li><a href="#">游戏</a></li>
-				<li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">娱乐<span class="caret"></span></a>
-				  <ul class="customs-menu dropdown-menu" role="menu">
-					<li><a href="#">Action</a></li>
-					<li><a href="#">Another action</a></li>
-					<li><a href="#">Something else here</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Separated link</a></li>
-				  </ul>
-				</li>
-			  </ul>
-
-			  
-
-			</div><!-- /.navbar-collapse -->
-
-			<div class="region-search  pull-right"  style="
-    display: none;
-">
-			  <form class="navbar-form navbar-right" role="search">
-				<div class="form-group">
-				  <input type="text" class="form-control" placeholder="Search">
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			  </form>
-			</div>
-		</div>
-	  </div><!-- /.container-fluid -->
-	</nav>
-			</header>
+			</div><!-- /.container-fluid -->
+		</nav>
+	</header>
 	
 
 
