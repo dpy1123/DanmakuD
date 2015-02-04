@@ -81,7 +81,7 @@ public class FileUploadServ {
 					fileInfo.put("deleteType", "DELETE");
 				} catch (IOException e) {
 					e.printStackTrace();
-					logger.error("文件保存至fs失败："+e.getStackTrace());
+					logger.error("文件保存至fs失败", e);
 					fileInfo.put("error", "文件保存至fs失败");
 				}
 				
@@ -94,7 +94,7 @@ public class FileUploadServ {
 					fileInfo.put("id", vId);
 				} catch (Exception e) {
 					e.printStackTrace();
-					logger.error("文件信息入库失败："+e.getStackTrace());
+					logger.error("文件信息入库失败", e);
 					fileInfo.put("error", "文件信息入库失败");
 				}
 				
@@ -125,7 +125,7 @@ public class FileUploadServ {
         	logger.info("删除文件信息，id：" + video.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("文件信息删除失败："+e.getStackTrace());
+			logger.error("文件信息删除失败", e);
 		}
         return results;
     }
