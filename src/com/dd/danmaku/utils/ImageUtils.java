@@ -15,12 +15,10 @@ import java.awt.image.ColorConvertOp;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 
 
@@ -119,7 +117,7 @@ public class ImageUtils {
     	double ratio = 0.0; // 缩放比例
             
 		BufferedImage bi = ImageIO.read(file);
-		Image itemp = bi.getScaledInstance(width, height, Image.SCALE_REPLICATE);
+		Image itemp = bi.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		// 计算比例
 		if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
 			if (bi.getHeight() > bi.getWidth()) {
@@ -128,7 +126,7 @@ public class ImageUtils {
 				ratio = (new Integer(width)).doubleValue() / bi.getWidth();
 			}
 			AffineTransformOp op = new AffineTransformOp(
-					AffineTransform.getScaleInstance(ratio, ratio), null);
+					AffineTransform.getScaleInstance(ratio, ratio), AffineTransformOp.TYPE_BILINEAR);
 			itemp = op.filter(bi, null);
 		}
 		if (bb) {// 补白
@@ -147,6 +145,15 @@ public class ImageUtils {
 						Color.white, null);
 			g.dispose();
 			itemp = image;
+		}
+		if(itemp instanceof sun.awt.image.ToolkitImage){
+			//如果原图是gif，itemp会是个ToolkitImage对象。
+			//用ToolkitImage的getBufferedImage()函数来使其转成BufferedImage，但是失败了，返回值是null。只能重绘一下。
+			BufferedImage bufImg = new BufferedImage(itemp.getWidth(null), itemp.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			Graphics g = bufImg.createGraphics();
+			g.drawImage(itemp, 0, 0, null);
+			g.dispose();
+			itemp = bufImg;
 		}
 		ImageIO.write((BufferedImage) itemp, "JPEG", result);
 		return result.toByteArray();
@@ -168,8 +175,7 @@ public class ImageUtils {
 		int srcWidth = bi.getWidth(); // 源图宽度
 		int srcHeight = bi.getHeight(); // 源图高度
 		if (srcWidth > 0 && srcHeight > 0) {
-			Image image = bi.getScaledInstance(srcWidth, srcHeight,
-					Image.SCALE_REPLICATE);
+			Image image = bi.getScaledInstance(srcWidth, srcHeight, Image.SCALE_SMOOTH);
 			// 四个参数分别为图像起点坐标和宽高
 			// 即: CropImageFilter(int x,int y,int width,int height)
 			ImageFilter cropFilter = new CropImageFilter(x, y, width, height);

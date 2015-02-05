@@ -91,7 +91,7 @@
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right ">
-						<li><a href="#"> <span id="upload_icon"
+						<li><a href="<%=path%>/preUpload.do"> <span id="upload_icon"
 								class="glyphicon glyphicon-upload"></span> 投稿
 						</a></li>
 						<li>
@@ -167,7 +167,7 @@
 						<c:forEach items="${resource.value}" var="item" >
 							<div id="item" class="he-wrap panel_content_item" >
 								<a href="<%=path%>/view.do?resourceId=${item.id }" target="_blank"> 
-									<img src="${item.previewImg }" />
+									<img src="<%=path%>/getFsFile.do?filename=${item.previewImg }" />
 									<div class="panel_content_item_hud info">
 										<b id="duration">${item.duration }</b> 
 										<i id="score">${item.score }</i>

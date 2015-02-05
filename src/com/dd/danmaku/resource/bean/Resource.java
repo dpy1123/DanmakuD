@@ -38,7 +38,7 @@ public class Resource {
 //	private String source;//资源来源【这个将来移到video中，用来区分是本系统存储还是外部存储的】
 	private Boolean isOriginal;//资源是否原创
 //	private String type;//资源类型：1.视频 2.专辑 3.话题（sp的集合）【专辑和话题应该是独立的实体】
-	private byte[] previewImg;//资源预览图
+	private String previewImg;//资源预览图【通过该字段从存储获取内容】
 	private Long clickCount;//资源点击数
 	private Long danmuCount;//资源弹幕数
 	private Long favorCount;//资源收藏数
@@ -188,12 +188,15 @@ public class Resource {
 	}
 
 
-	public byte[] getPreviewImg() {
+	public String getPreviewImg() {
 		return previewImg;
 	}
 
-
-	public void setPreviewImg(byte[] previewImg) {
+	/**
+	 * 设置预览图名称，通过次此名称在存储系统中获取图片内容
+	 * @param previewImg
+	 */
+	public void setPreviewImg(String previewImg) {
 		this.previewImg = previewImg;
 	}
 

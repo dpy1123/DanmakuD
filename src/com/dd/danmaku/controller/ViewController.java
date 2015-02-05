@@ -1,5 +1,7 @@
 package com.dd.danmaku.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +29,7 @@ public class ViewController {
 	 * @return 分类频道页面
 	 */
 	@RequestMapping("view.do")
-	public ModelAndView show(String resourceId){
+	public ModelAndView show(HttpServletRequest request, String resourceId){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("view");//设置跳转页面
 		
@@ -42,7 +44,7 @@ public class ViewController {
 		
 		
 		Video video = videoService.getById(resource.getVideos().get(0));
-		String videoUrl = "getVideo.do?filename=" + video.getFsFileName();
+		String videoUrl = request.getContextPath()+"/getFsFile.do?filename=" + video.getFsFileName();
 		
 		mv.addObject("mainCategory", mainCategory);
 		mv.addObject("subCategory", subCategory);

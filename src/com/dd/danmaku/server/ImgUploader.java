@@ -1,16 +1,12 @@
-package com.dd.danmaku.controller;
+package com.dd.danmaku.server;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,19 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.dd.danmaku.resource.bean.Category;
-import com.dd.danmaku.resource.bean.Video;
-import com.dd.danmaku.resource.service.CategoryService;
-import com.dd.danmaku.resource.service.ResourceService;
-import com.dd.danmaku.resource.service.VideoService;
-import com.dd.danmaku.server.FileUploadServ;
 import com.dd.danmaku.utils.ImageUtils;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
-
+/**
+ * 配合前台croppic控件，上传图片文件到GridFS
+ * @author dd
+ * @version 1.0 [2015.02.04]
+ */
 @Controller
 public class ImgUploader {
 
@@ -56,10 +48,6 @@ public class ImgUploader {
 		while (itr.hasNext()) {
 			myfile = request.getFile(itr.next());
             if(!myfile.isEmpty()){  
-//                System.out.println("文件长度: " + myfile.getSize());  
-//                System.out.println("文件类型: " + myfile.getContentType());  
-//                System.out.println("文件名称: " + myfile.getName());  
-//                System.out.println("文件原名: " + myfile.getOriginalFilename());  
                 
                 logger.info("文件原名: " + myfile.getOriginalFilename());
                 String filename = UUID.randomUUID().toString();
@@ -81,7 +69,7 @@ public class ImgUploader {
 					HashMap<String, Object> imgInfo = ImageUtils.getInfo(resource.getInputStream());
 					
 					fileInfo.put("status", "success");
-					fileInfo.put("url", request.getContextPath()+"/getVideo.do?filename="+filename);
+					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+filename);
 					fileInfo.put("width", imgInfo.get("width"));
 					fileInfo.put("height", imgInfo.get("height"));
 					
@@ -103,7 +91,7 @@ public class ImgUploader {
 	public @ResponseBody Map<String, Object> cropImg(MultipartHttpServletRequest request) {
 		logger.info("=================uploadFile=======================");  
 //		imgUrl 		// your image path (the one we recieved after successfull upload)
-//		/DanmakuD/getVideo.do?filename=eb0a15c5-7764-4706-b232-c1b861a18772
+//		/DanmakuD/getFsFile.do?filename=eb0a15c5-7764-4706-b232-c1b861a18772
 
 //		imgInitW  	// your image original width (the one we recieved after upload)
 //		imgInitH 	// your image original height (the one we recieved after upload)
@@ -146,8 +134,12 @@ public class ImgUploader {
 			gfile.put("aliases", "CROP_"+file.get("aliases"));//在别名中存储文件原名
 			gfile.save();
 			
+			//删除原图
+			gridFsTemplate.delete(query(whereFilename().is(filename)));
+			
 			fileInfo.put("status", "success");
-			fileInfo.put("url", request.getContextPath()+"/getVideo.do?filename="+newfile);
+			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+newfile);
+			fileInfo.put("img_name", newfile);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -155,9 +147,7 @@ public class ImgUploader {
 			fileInfo.put("message", "文件保存至fs失败");
 		}
 				
-		
 		return fileInfo;  
 	}
-	
 
 }

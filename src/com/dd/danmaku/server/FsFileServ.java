@@ -31,7 +31,7 @@ import com.mongodb.gridfs.GridFSDBFile;
  * @version 1.0 [2014.12.4]
  */
 @Controller
-public class VideoStreamServ {
+public class FsFileServ {
 	
     /**
      * The MIME mappings for this web application, keyed by extension.
@@ -49,7 +49,7 @@ public class VideoStreamServ {
 	GridFsTemplate gridFsTemplate;
 	
 	
-	@RequestMapping("getVideo.do")
+	@RequestMapping("getFsFile.do")
 	public ResponseEntity<byte[]> downloadStream(String filename, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
 		HttpHeaders headers = new HttpHeaders();

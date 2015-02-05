@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.dd.danmaku.resource.bean.Danmu;
 import com.dd.danmaku.resource.service.DanmuService;
+import com.dd.danmaku.resource.service.ResourceService;
 
 
 
@@ -25,6 +26,8 @@ public class DanmuController {
 	
 	@Resource
 	DanmuService danmuService;
+	@Resource
+	ResourceService resourceService;
 	
 	@RequestMapping("getDanmaku.do")
 	public @ResponseBody List<Danmu> getDanmaku(String vid){
@@ -53,6 +56,13 @@ public class DanmuController {
 		}
 		danmuService.add(danmu);
 		
+		
+		//更新点击数
+		try {
+			resourceService.updateCount(resourceService.getByVideoId(danmu.getVideoId()).getId(), "danmuCount", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "ok";
 	}
 }

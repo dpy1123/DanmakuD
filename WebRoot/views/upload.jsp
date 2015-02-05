@@ -31,6 +31,27 @@
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="<%=path%>/views/css/jQuery-File-Upload/jquery.fileupload.css">
 <link rel="stylesheet" href="<%=path%>/views/css/jQuery-File-Upload/jquery.fileupload-ui.css">
+<!-- 上传缩略图用的 -->
+<link rel="stylesheet" href="<%=path%>/views/croppic/croppic.css" />
+<script type="text/javascript" src="<%=path%>/views/croppic/croppic.js"></script>
+	
+<style>
+#img_upload {
+	height: 225px;
+	max-width: 400px;
+	position: relative;
+	/* margin: 0 auto 0 auto; */
+	border: 3px solid #8B8B8B;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	border-radius: 2px;
+	background-color: rgb(89, 134, 173);
+	background-image: url(<%=path%>/views/croppic/placeholder.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	box-shadow: 8px 8px 0px rgba(172, 172, 172, 0.1);
+}
+</style>
 </head>
 
 <body>
@@ -53,8 +74,36 @@
 				</div>
 			</div>
 
+			<!-- 把上传图片的内容拿到form外，因为croppic控件也会生成一个form。拿出来避免form嵌套。 -->
+			<div class="row item">
+				<div class="col-xs-12 col-sm-5 left">
+					<b>封面图</b><span>*</span>
+				</div>
+				<div class="col-xs-12 col-sm-7 right">
+					<div id="img_upload"></div>
+				</div>
+			</div>
+			<script>
+				var croppicHeaderOptions = {
+						uploadUrl:'<%=path%>/uploadImg.do',
+						cropUrl:'<%=path%>/cropImg.do',
+						modal:false,
+						loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
+// 						onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
+// 						onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
+// 						onImgDrag: function(){ console.log('onImgDrag') },
+// 						onImgZoom: function(){ console.log('onImgZoom') },
+// 						onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
+						onAfterImgCrop:function(reult){ 
+							$('#uploadedFiles').append('<input type="hidden" name="img_name" value="'+ reult.img_name +'">');
+						},
+// 						onError:function(errormessage){ console.log('onError:'+errormessage) }
+				}	
+				var croppic = new Croppic('img_upload', croppicHeaderOptions);
+			</script>
 
-			<!-- 	<form action="onUpload.do" method="post"> -->
+
+			
 
 			<!-- The file upload form used as target for the file upload widget -->
 			<form id="fileupload" action="<%=path%>/uploadResource.do" method="POST"
@@ -121,14 +170,6 @@
 					</div>
 					<div class="col-xs-12 col-sm-7 right">
 						<input type="text" name="source" class="input">
-					</div>
-				</div>
-				<div class="row item">
-					<div class="col-xs-12 col-sm-5 left">
-						<b>封面图</b><span>*</span>
-					</div>
-					<div class="col-xs-12 col-sm-7 right">
-						<input type="button" value="上传文件" ></input>
 					</div>
 				</div>
 

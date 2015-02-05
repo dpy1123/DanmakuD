@@ -29,14 +29,14 @@ import com.mongodb.gridfs.GridFSFile;
 
 
 /**
- * 用于上传文件到GridFS
+ * 配合jquery-file-upload，上传视频文件到GridFS
  * @author dd
  * @version 1.0 [2014.12.6]
  */
 @Controller
-public class FileUploadServ {
+public class VideoUploader {
 	
-	Logger logger= Logger.getLogger(FileUploadServ.class);
+	Logger logger= Logger.getLogger(VideoUploader.class);
 	
 	@Resource
 	GridFsTemplate gridFsTemplate;
@@ -76,8 +76,8 @@ public class FileUploadServ {
 					gfile.save();
 					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
 					
-					fileInfo.put("url", "get?");
-					fileInfo.put("deleteUrl", "../deleteVideo.do?filename=" + filename);
+					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + filename);
+					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + filename);
 					fileInfo.put("deleteType", "DELETE");
 				} catch (IOException e) {
 					e.printStackTrace();

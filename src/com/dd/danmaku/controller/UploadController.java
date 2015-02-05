@@ -56,7 +56,7 @@ public class UploadController {
 	@RequestMapping(value = "uploadResource.do", method = { RequestMethod.POST })
 	public ModelAndView onUpload(MultipartHttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");//设置跳转页面
+		mv.setViewName("redirect:home.do");//设置跳转页面
 		String title = request.getParameter("title");
 		String tag = request.getParameter("tag");
 		String category = request.getParameter("category");
@@ -64,15 +64,17 @@ public class UploadController {
 		String description = request.getParameter("description");
 		String source = request.getParameter("source");
 		
+		String img_name = request.getParameter("img_name");
 		
 		
 		String[] videoIds = request.getParameterValues("videoId");
-		if(videoIds == null){//如果videoIds为空 表示用户没有上传文件
+		if(videoIds == null){//如果videoIds为空 表示用户没有上传视频
 			
 		}
 		String categoryId = categoryService.getCategoryByName(category).getId();
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
 		resource.setCategories(Arrays.asList(categoryId));
+		resource.setPreviewImg(img_name);
 		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
 		
