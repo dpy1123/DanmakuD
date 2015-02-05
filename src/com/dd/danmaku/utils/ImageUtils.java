@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
@@ -32,59 +33,8 @@ import javax.imageio.ImageIO;
  */
 public class ImageUtils {
 
-
-    /**
-     * 几种常见的图片格式
-     */
-    public static String IMAGE_TYPE_GIF = "gif";// 图形交换格式
-    public static String IMAGE_TYPE_JPG = "jpg";// 联合照片专家组
-    public static String IMAGE_TYPE_JPEG = "jpeg";// 联合照片专家组
-    public static String IMAGE_TYPE_BMP = "bmp";// 英文Bitmap（位图）的简写，它是Windows操作系统中的标准图像文件格式
-    public static String IMAGE_TYPE_PNG = "png";// 可移植网络图形
-    public static String IMAGE_TYPE_PSD = "psd";// Photoshop的专用格式Photoshop
-
-
-    /**
-     * 程序入口：用于测试
-     * @param args
-     */
-    public static void main(String[] args) {
-        // 1-缩放图像：
-        // 方法一：按比例缩放
-        ImageUtils.scale("e:/abc.jpg", "e:/abc_scale.jpg", 2, true);//测试OK
-        // 方法二：按高度和宽度缩放
-        ImageUtils.scale2("e:/abc.jpg", "e:/abc_scale2.jpg", 500, 300, true);//测试OK
-
-
-        // 2-切割图像：
-        // 方法一：按指定起点坐标和宽高切割
-        ImageUtils.cut("e:/abc.jpg", "e:/abc_cut.jpg", 0, 0, 400, 400 );//测试OK
-        // 方法二：指定切片的行数和列数
-        ImageUtils.cut2("e:/abc.jpg", "e:/", 2, 2 );//测试OK
-        // 方法三：指定切片的宽度和高度
-        ImageUtils.cut3("e:/abc.jpg", "e:/", 300, 300 );//测试OK
-
-
-        // 3-图像类型转换：
-        ImageUtils.convert("e:/abc.jpg", "GIF", "e:/abc_convert.gif");//测试OK
-
-
-        // 4-彩色转黑白：
-        ImageUtils.gray("e:/abc.jpg", "e:/abc_gray.jpg");//测试OK
-
-
-        // 5-给图片添加文字水印：
-        // 方法一：
-        ImageUtils.pressText("我是水印文字","e:/abc.jpg","e:/abc_pressText.jpg","宋体",Font.BOLD,Color.white,80, 0, 0, 0.5f);//测试OK
-        // 方法二：
-        ImageUtils.pressText2("我也是水印文字", "e:/abc.jpg","e:/abc_pressText2.jpg", "黑体", 36, Color.white, 80, 0, 0, 0.5f);//测试OK
-        
-        // 6-给图片添加图片水印：
-        ImageUtils.pressImage("e:/abc2.jpg", "e:/abc.jpg","e:/abc_pressImage.jpg", 0, 0, 0.5f);//测试OK
-    }
-
-    
-    /**
+	//===========================本系统中使用，并验证的==============================
+	/**
      * 获取图片的长宽信息
      * @param file 
      * @return
@@ -194,6 +144,134 @@ public class ImageUtils {
     
     
     
+ 	//===========================未使用的part1==============================
+    
+    /**
+     * 旋转图片为指定角度
+     * 
+     * @param bufferedimage
+     *            目标图像
+     * @param degree
+     *            旋转角度
+     * @return
+     */
+    public static BufferedImage rotateImage(final BufferedImage bufferedimage,
+            final int degree) {
+        int w = bufferedimage.getWidth();
+        int h = bufferedimage.getHeight();
+        int type = bufferedimage.getColorModel().getTransparency();
+        BufferedImage img;
+        Graphics2D graphics2d;
+        (graphics2d = (img = new BufferedImage(w, h, type))
+                .createGraphics()).setRenderingHint(
+                RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        graphics2d.rotate(Math.toRadians(degree), w / 2, h / 2);
+        graphics2d.drawImage(bufferedimage, 0, 0, null);
+        graphics2d.dispose();
+        return img;
+    }
+
+    /**
+     * 变更图像为指定大小
+     * 
+     * @param bufferedimage
+     *            目标图像
+     * @param w
+     *            宽
+     * @param h
+     *            高
+     * @return
+     */
+    public static BufferedImage resizeImage(final BufferedImage bufferedimage,
+            final int w, final int h) {
+        int type = bufferedimage.getColorModel().getTransparency();
+        BufferedImage img;
+        Graphics2D graphics2d;
+        (graphics2d = (img = new BufferedImage(w, h, type))
+                .createGraphics()).setRenderingHint(
+                RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        graphics2d.drawImage(bufferedimage, 0, 0, w, h, 0, 0, bufferedimage
+                .getWidth(), bufferedimage.getHeight(), null);
+        graphics2d.dispose();
+        return img;
+    }
+
+    /**
+     * 水平翻转图像
+     * 
+     * @param bufferedimage 目标图像
+     * @return
+     */
+    public static BufferedImage flipImage(final BufferedImage bufferedimage) {
+        int w = bufferedimage.getWidth();
+        int h = bufferedimage.getHeight();
+        BufferedImage img;
+        Graphics2D graphics2d;
+        (graphics2d = (img = new BufferedImage(w, h, bufferedimage
+                .getColorModel().getTransparency())).createGraphics())
+                .drawImage(bufferedimage, 0, 0, w, h, w, 0, 0, h, null);
+        graphics2d.dispose();
+        return img;
+    }
+    
+    
+    //===========================未使用的part2==============================
+    /**
+     * 几种常见的图片格式
+     */
+    public static String IMAGE_TYPE_GIF = "gif";// 图形交换格式
+    public static String IMAGE_TYPE_JPG = "jpg";// 联合照片专家组
+    public static String IMAGE_TYPE_JPEG = "jpeg";// 联合照片专家组
+    public static String IMAGE_TYPE_BMP = "bmp";// 英文Bitmap（位图）的简写，它是Windows操作系统中的标准图像文件格式
+    public static String IMAGE_TYPE_PNG = "png";// 可移植网络图形
+    public static String IMAGE_TYPE_PSD = "psd";// Photoshop的专用格式Photoshop
+
+
+    /**
+     * 程序入口：用于测试
+     * @param args
+     */
+    public static void main(String[] args) {
+        // 1-缩放图像：
+        // 方法一：按比例缩放
+        ImageUtils.scale("e:/abc.jpg", "e:/abc_scale.jpg", 2, true);//测试OK
+        // 方法二：按高度和宽度缩放
+        ImageUtils.scale2("e:/abc.jpg", "e:/abc_scale2.jpg", 500, 300, true);//测试OK
+
+
+        // 2-切割图像：
+        // 方法一：按指定起点坐标和宽高切割
+        ImageUtils.cut("e:/abc.jpg", "e:/abc_cut.jpg", 0, 0, 400, 400 );//测试OK
+        // 方法二：指定切片的行数和列数
+        ImageUtils.cut2("e:/abc.jpg", "e:/", 2, 2 );//测试OK
+        // 方法三：指定切片的宽度和高度
+        ImageUtils.cut3("e:/abc.jpg", "e:/", 300, 300 );//测试OK
+
+
+        // 3-图像类型转换：
+        ImageUtils.convert("e:/abc.jpg", "GIF", "e:/abc_convert.gif");//测试OK
+
+
+        // 4-彩色转黑白：
+        ImageUtils.gray("e:/abc.jpg", "e:/abc_gray.jpg");//测试OK
+
+
+        // 5-给图片添加文字水印：
+        // 方法一：
+        ImageUtils.pressText("我是水印文字","e:/abc.jpg","e:/abc_pressText.jpg","宋体",Font.BOLD,Color.white,80, 0, 0, 0.5f);//测试OK
+        // 方法二：
+        ImageUtils.pressText2("我也是水印文字", "e:/abc.jpg","e:/abc_pressText2.jpg", "黑体", 36, Color.white, 80, 0, 0, 0.5f);//测试OK
+        
+        // 6-给图片添加图片水印：
+        ImageUtils.pressImage("e:/abc2.jpg", "e:/abc.jpg","e:/abc_pressImage.jpg", 0, 0, 0.5f);//测试OK
+    }
+
+    
+    
+    
+    
     /**
      * 缩放图像（按比例缩放）
      * @param srcImageFile 源图像文件地址
@@ -292,8 +370,8 @@ public class ImageUtils {
         try {
             // 读取源图像
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
-            int srcWidth = bi.getHeight(); // 源图宽度
-            int srcHeight = bi.getWidth(); // 源图高度
+            int srcWidth = bi.getWidth(); // 源图宽度
+            int srcHeight = bi.getHeight(); // 源图高度
             if (srcWidth > 0 && srcHeight > 0) {
                 Image image = bi.getScaledInstance(srcWidth, srcHeight,
                         Image.SCALE_DEFAULT);
