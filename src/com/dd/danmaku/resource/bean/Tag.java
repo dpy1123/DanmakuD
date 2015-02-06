@@ -23,6 +23,8 @@ public class Tag {
 	private Date createDTM;//标签的创建日期
 	private Date updateDTM;//标签的更新日期
 	
+	public Tag() {
+	}
 
 	public Tag(String name, Long count, Boolean isSpecialEdition) {
 		this.name = name;

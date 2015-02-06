@@ -45,6 +45,9 @@ public class Resource {
 	private Integer score;//资源评分
 	private Date createDTM;//资源上传日期
 	
+	public Resource() {
+	}
+	
 	/**
 	 * 
 	 * @param uploaderId
@@ -53,7 +56,6 @@ public class Resource {
 	 * @param status WAITING IN_USING DELETEED
 	 * @param isOriginal
 	 */
-	
 	public Resource(String uploaderId, String title, String description, String status,
 			Boolean isOriginal) {
 		this.uploaderId = uploaderId;

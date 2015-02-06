@@ -35,6 +35,9 @@ public class Video {
 	private String status;//视频转换状态，待转换/转换中/转换成功/转换失败
 	private byte[] previewImg;//视频预览图
 	
+	public Video() {
+	}
+	
 	public Video(String originalName, String fsFileName, long size) {
 		this.originalName = originalName;
 		this.fsFileName = fsFileName;

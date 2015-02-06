@@ -96,15 +96,18 @@ public class ImageUtils {
 			g.dispose();
 			itemp = image;
 		}
-		if(itemp instanceof sun.awt.image.ToolkitImage){
+//		if(itemp instanceof sun.awt.image.ToolkitImage){
 			//如果原图是gif，itemp会是个ToolkitImage对象。
 			//用ToolkitImage的getBufferedImage()函数来使其转成BufferedImage，但是失败了，返回值是null。只能重绘一下。
-			BufferedImage bufImg = new BufferedImage(itemp.getWidth(null), itemp.getHeight(null), BufferedImage.TYPE_INT_RGB);
+//			BufferedImage bufImg = new BufferedImage(itemp.getWidth(null), itemp.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			
+		//in OpenJDK 7, using an imageType of TYPE_3BYTE_BGR instead of TYPE_4BYTE_ABGR
+			BufferedImage bufImg = new BufferedImage(itemp.getWidth(null), itemp.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
 			Graphics g = bufImg.createGraphics();
 			g.drawImage(itemp, 0, 0, null);
 			g.dispose();
 			itemp = bufImg;
-		}
+//		}
 		ImageIO.write((BufferedImage) itemp, "JPEG", result);
 		return result.toByteArray();
     }

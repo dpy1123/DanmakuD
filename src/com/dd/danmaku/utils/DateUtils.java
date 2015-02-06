@@ -227,12 +227,14 @@ public class DateUtils {
 	 *            时间字符串
 	 * @param pattern
 	 *            时间字符串格式定义
+	 * @param locale
+	 *            在解析GMT时间时，一定要指定Locale.US
 	 * @return 时间
 	 * @throws RuntimeException
 	 */
-	public static Date getDateFromString(String dateString, String pattern)
+	public static Date getDateFromString(String dateString, String pattern, Locale locale)
 			throws RuntimeException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
 		Date date = null;
 
 		try {
@@ -243,6 +245,32 @@ public class DateUtils {
 					+ e.getMessage());
 		}
 
+		return date;
+	}
+	
+	/**
+	 * 根据字符串生成时间
+	 * 
+	 * @param dateString
+	 *            时间字符串
+	 * @param pattern
+	 *            时间字符串格式定义
+	 * @return 时间
+	 * @throws RuntimeException
+	 */
+	public static Date getDateFromString(String dateString, String pattern)
+			throws RuntimeException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		Date date = null;
+		
+		try {
+			date = dateFormat.parse(dateString);
+		} catch (java.text.ParseException e) {
+			throw new RuntimeException("parse date string '" + dateString
+					+ "' with pattern '" + pattern + "' failed: "
+					+ e.getMessage());
+		}
+		
 		return date;
 	}
 

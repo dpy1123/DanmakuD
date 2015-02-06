@@ -336,9 +336,10 @@
 <script >
 	$('#fileupload')
 	.fileupload({
-		url : '<%=path%>/uploadVideo.do',
+		url : '<%=path%>/uploadVideoChunked.do',
 		//sequentialUploads: true
-		acceptFileTypes: /(\.|\/)(mp4|jpe?g|png)$/i
+		acceptFileTypes: /(\.|\/)(mp4|jpe?g|png)$/i,
+		maxChunkSize: 10000000 
 	}).bind('fileuploaddone', function(e, data) {
 		//data.result中保存的是上传成功后服务端返回的json
 		$(data.result.files).each(
