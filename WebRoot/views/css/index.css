@@ -122,6 +122,11 @@
 	width: 31%;
 	}
 }
+@media (min-width: 340px) and (max-width:480px){
+	.panel_content_item {
+	width: 42%;
+	}
+}
 
 
 .panel_content_item a {
@@ -195,7 +200,6 @@
 	font-family: Arial;
 	font-size: 9px;
 	color: #444;
-	line-height: 18px;
 }
 
 .panel_content_item_hud b {
