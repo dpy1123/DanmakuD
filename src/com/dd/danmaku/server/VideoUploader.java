@@ -141,6 +141,7 @@ public class VideoUploader {
 				e.printStackTrace();
 			}
 			
+			list.add(fileInfo);
 		}
 		
 		Map<String, Object> result = new HashMap<String, Object>();
