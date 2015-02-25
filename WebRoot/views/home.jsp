@@ -160,7 +160,7 @@
 							<a>${resource.key.name }</a>
 						</div>
 						<div class="panel_head_more">
-							<a href="/channel.do?categoryName=${resource.key.name }" target="_blank">查看更多</a>
+							<a href="<%=path%>/channel.do?categoryName=${resource.key.name }" target="_blank">查看更多</a>
 						</div>
 					</div>
 					<div id="items" class="panel_content">

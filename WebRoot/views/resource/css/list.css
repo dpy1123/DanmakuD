@@ -46,7 +46,7 @@
 }
 
 .panel_content {
-	width: 98.86%;
+	width: 100%;
 	border-radius: 0 0 0.7em 0.7em;
 	float: left;
 	padding: 0.57%; /*面板与内部元素边距*/
@@ -66,41 +66,58 @@
 	padding: 1%;
 	border: 1px solid #DDD;
 	float: left;
-	width: 46%;
-	margin: 0.5% 0 0.5% 1%;
-	
+	width: 49%;
+	margin: 0.5%;
+	border-radius: 4px;
+background: #fff;
 }
 .list_style2 {/*横排风格*/
-	padding: 1%;
+	
 	position: relative;
 	display: block;
 	overflow: hidden;
-	border: 1px solid #DDD;
-	margin: 0.5% 0 0.5% 1%;
+	
+	margin: 0.5%;
+
+
+	padding: 15px 15px 15px 5px;
+border: 1px solid #ddd;
+border-radius: 4px;
+background: #fff;
 }
 
 .video_list .preview {
 	float: left;
+width: 160px;
+height: 100px;
+overflow: hidden;
+display: block;
+text-align: center;
+margin: 0 10px 0 10px;
+background: #333;
 }
 
 .video_list li img {
-	width: 120px;
-	height: 90px;
+
 	padding: 2px;
-	border: 1px solid #AAA;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	float: left;
-	margin: 0 5px 0 0;
-	-moz-box-shadow: 0 0 5px #ccc;
-	box-shadow: 0 0 5px #ccc;
+border: 1px solid #AAA;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+/* float: left; */
+margin: 0 5px 0 0;
+-moz-box-shadow: 0 0 5px #ccc;
+box-shadow: 0 0 5px #ccc;
+display: block;
+width: 160px;
+height: 100px;
+margin: 0 auto;
 }
 
 .list_style1 .title {
-	float: left;
+	/*float: left;
 	min-width: 160px;
-	max-width: 180px;
+	max-width: 180px;*/
 	height: 36px;
 	padding: 0 0 0 3px;
 	line-height: 18px;
@@ -127,9 +144,9 @@
 }
 
 .list_style1 .info {
-	float: left;
+	/*float: left;*/
 	font-size: 11px;
-	height: 16px;
+	height: 100px;
 	line-height: 16px;
 	color: #AAA;
 	font-family: Arial, Helvetica, sans-serif;
@@ -137,7 +154,7 @@
 	overflow: hidden;
 }
 .list_style2 .info { 
-	float:left;
+	/*float:left;
 	min-width: 160px;
 	max-width: 240px;/* 用于移动设备布局: 480px 及更低。 */
 	font-size: 11px;
@@ -168,13 +185,13 @@
 }
 .list_style2 .description {
 	float:left;
-	min-width: 160px;
+	/*min-width: 160px;
 	max-width: 240px;/* 用于移动设备布局: 480px 及更低。 */
 	word-break: break-all; /*截断*/
 	word-wrap: break-word;
-	overflow: hidden; /*隐藏溢出部分内容*/
+	/*overflow: hidden; /*隐藏溢出部分内容*/
 	line-height: 20px;
-	height: 20px;
+	/*height: 20px;*/
 	font-size: 14px;
 	margin: 4px;
 }
@@ -241,8 +258,8 @@
 
 .ranking_view {
 	float: left;
-	margin: 5px 0 15px 5%;
-	width: 95%;
+	margin: 5px 0 15px 0;
+width: 100%;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	-webkit-box-shadow: 0 0 5px #ddd;

@@ -1,5 +1,6 @@
 package com.dd.danmaku.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -87,4 +88,77 @@ public class ChannelController {
 		return mv;
 	}
 	
+	
+	/**
+	 * 得到各分类频道的展示数据
+	 * @return 主页
+	 */
+	@RequestMapping("channel.do")
+	public ModelAndView channel(String categoryName){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("channel");//设置跳转页面
+
+		try {
+			//Springmvc的filter是不管get请求的，Tomcat的Url默认编码是iso-8859-1.
+			//不想动Tomcat的配置，因此这里要转码一下.
+			categoryName = new String(categoryName.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		List<Category> categories = categoryService.getSubCategoriesByName(categoryName);
+		mv.addObject("categoryName", categoryName);
+
+		//准备Categories中的每个子分类的内容
+		LinkedHashMap<Category, List<Resource>> resources = new LinkedHashMap<Category, List<Resource>>();
+		for (Category subCategory : categories) {
+			String cates = subCategory.getId() ;
+			String query = "{ status: '%1$s', categories : '%2$s' }";
+			LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
+			orderBy.put("score", "DESC");
+			List<Resource> subResources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
+			resources.put(subCategory, subResources);
+		}
+
+		mv.addObject("resources", resources);
+		return mv;
+	}
+	
+	/**
+	 * 得到分类的展示数据
+	 * @return 分类列表页面
+	 */
+	@RequestMapping("list.do")
+	public ModelAndView list(String categoryName){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("list");//设置跳转页面
+
+		
+		try {
+			//Springmvc的filter是不管get请求的，Tomcat的Url默认编码是iso-8859-1.
+			//不想动Tomcat的配置，因此这里要转码一下.
+			categoryName = new String(categoryName.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		Category category = categoryService.getCategoryByName(categoryName);
+		mv.addObject("categoryName", categoryName);
+
+		//准备Resource的内容
+		String cates = category.getId() ;
+		String query = "{ status: '%1$s', categories : '%2$s' }";
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
+		orderBy.put("score", "DESC");
+		List<Resource> resources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
+
+		mv.addObject("resources", resources);
+		
+		int total = resourceService.getResourceDao().getResultCount(Resource.class, query, Resource.IN_USING, cates);
+		mv.addObject("total", total);
+
+
+				
+		return mv;
+	}
 }

@@ -22,7 +22,8 @@ $(document).ready(function(){
 		var homeAd04 = "音乐";
 		var myAd04 = "音乐视频、VOCALOID创作、翻唱<br/>释放你的才能！";
 		
-		//广告位5  对应图片images/homeAd05.jpg
+		//广告位5
+		var imgAd05 = "views/images/bannerAD05.jpg";
 		var homeAd05 = "文学鉴赏";
 		var myAd05 = "千里寻他千百度<br/>暮然回首，那人却在灯火阑珊处。";
 		
@@ -73,6 +74,19 @@ $(document).ready(function(){
 				+'			<span>'+ myAd04 +'</span>'
 				+'		</div>'
 				+'	</div>'
+				+'</div>'
+				+'<div class="item item5">'
+				+'  <a href="http://baidu.com">'	
+				+'		<div class="inner" style="background-image: url('+ imgAd05 +');">'
+				+'			<div class="selectorShadow"></div>'
+				+'			<div class="text1">'
+				+'				<span>'+ homeAd05 +'</span>'
+				+'			</div>'
+				+'			<div class="text2">'
+				+'				<span>'+ myAd05 +'</span>'
+				+'			</div>'
+				+'		</div>'
+				+'	</a>'
 				+'</div>'
 				
 

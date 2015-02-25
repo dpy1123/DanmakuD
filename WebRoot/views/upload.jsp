@@ -21,8 +21,7 @@
 <script type="text/javascript" src="<%=path%>/views/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="<%=path%>/views/js/bootstrap.min.js"></script>
 <!-- 独特 -->
-<link rel="stylesheet" type="text/css"
-	href="<%=path%>/views/resource/css/upload1.css" />
+<link rel="stylesheet" type="text/css" href="<%=path%>/views/resource/css/upload1.css" />
 <!-- 公共样式，因为要覆盖前面的，所以最后导入 -->
 <link rel="stylesheet" href="<%=path%>/views/css/common.css" type="text/css" />
 <!-- 上传 -->
