@@ -152,11 +152,11 @@ text-align: right;
 
 /*新样式*/
 .upload_container {
-
 border: 1px solid #DDD;
 border-radius: 4px;
 background-color: #fff;
 overflow: hidden;
+margin-bottom: 15px;
 }
 
 .upload_container #title {

@@ -54,13 +54,12 @@
 </head>
 
 <body>
+
+	<jsp:include page="${contextPath}/views/header.jsp" flush="true"></jsp:include>
+
+
 	<div class="gridContainer clearfix">
-		<div id="header">
-			<%-- 			<jsp:include page="${contextPath}/common/header.jsp" flush="true"></jsp:include> --%>
-		</div>
-
 		<div class="upload_container container">
-
 			<div class="row">
 				<div id="title">
 					<span>//上传新视频</span>
@@ -132,7 +131,7 @@
 					<div class="col-xs-12 col-sm-7 right">
 						<select name="category">
 							<option value="0" selected disabled="disabled">请选择栏目...</option>
-							<c:forEach items="${requestScope.categories}" var="category"
+							<c:forEach items="${categories}" var="category"
 								varStatus="i">
 								<optgroup label=${category.key.name }>
 									<c:forEach items="${category.value}" var="subcategory"
@@ -220,12 +219,11 @@
 			</form>
 
 		</div>
-
-
-		<div id="footer">
-			<%-- 		<jsp:include page="${contextPath}/common/footer.jsp" flush="true"></jsp:include> --%>
-		</div>
 	</div>
+
+	
+	<jsp:include page="${contextPath}/views/footer.jsp" flush="true"></jsp:include>
+	
 	
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
@@ -302,7 +300,7 @@
     </tr>
 {% } %}
 </script>
-<script src="<%=path%>/views/js/jquery-1.11.1.min.js"></script>
+ 
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="<%=path%>/views/js/jQuery-File-Upload/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -312,7 +310,7 @@
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
 <script src="<%=path%>/views/js/jQuery-File-Upload/canvas-to-blob.min.js"></script>
 <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="<%=path%>/views/js/bootstrap.min.js"></script>
+<%-- <script src="<%=path%>/views/js/bootstrap.min.js"></script> --%>
 <!-- blueimp Gallery script -->
 <script src="<%=path%>/views/js/jQuery-File-Upload/jquery.blueimp-gallery.min.js"></script>
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->

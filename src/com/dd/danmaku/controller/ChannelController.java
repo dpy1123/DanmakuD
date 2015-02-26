@@ -4,9 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dd.danmaku.resource.bean.Category;
@@ -15,8 +15,8 @@ import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
 
 
-
 @Controller
+@SessionAttributes("categories")
 public class ChannelController {
 	
 	@javax.annotation.Resource
@@ -33,10 +33,10 @@ public class ChannelController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");//设置跳转页面
 
-
+		//准备需要在header显示的分类菜单，并通过@SessionAttributes("categories") 加入到session中
 		LinkedHashMap<Category, List<Category>> categories = categoryService.getAllCategories();
 		mv.addObject("categories", categories);
-
+		
 		//准备Categories中的每个子分类的内容
 		LinkedHashMap<Category, List<Resource>> resources = new LinkedHashMap<Category, List<Resource>>();
 		for (Category mainCategory : categories.keySet()) {
@@ -119,7 +119,7 @@ public class ChannelController {
 			List<Resource> subResources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
 			resources.put(subCategory, subResources);
 		}
-
+		
 		mv.addObject("resources", resources);
 		return mv;
 	}
@@ -133,7 +133,6 @@ public class ChannelController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("list");//设置跳转页面
 
-		
 		try {
 			//Springmvc的filter是不管get请求的，Tomcat的Url默认编码是iso-8859-1.
 			//不想动Tomcat的配置，因此这里要转码一下.
@@ -157,8 +156,6 @@ public class ChannelController {
 		int total = resourceService.getResourceDao().getResultCount(Resource.class, query, Resource.IN_USING, cates);
 		mv.addObject("total", total);
 
-
-				
 		return mv;
 	}
 }

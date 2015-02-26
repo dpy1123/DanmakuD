@@ -36,91 +36,7 @@
 
 <body>
 
-
-
-
-
-<header> 
-	<nav class="navbar navbar-default" role="navigation">
-		<div class="container-fluid">
-			<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header ">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#menu">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">DD.TV</a>
-				</div>
-	
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse " id="menu">
-	
-<!-- 					<ul class="nav navbar-nav"> -->
-<!-- 						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
-<!-- 						<li><a href="#">动画<span class="badge">54</span></a></li> -->
-<!-- 						<li class="dropdown"><a href="#" class="dropdown-toggle" -->
-<!-- 							data-toggle="dropdown" role="button" aria-expanded="false">音乐<span -->
-<!-- 								class="badge">4</span><span class="caret"></span></a> -->
-<!-- 							<ul class="customs-menu dropdown-menu" role="menu"> -->
-<!-- 								<li><a href="#">1</a></li> -->
-<!-- 								<li><a href="#">2 action</a></li> -->
-<!-- 								<li><a href="#">3 else here</a></li> -->
-<!-- 								<li class="divider"></li> -->
-<!-- 								<li><a href="#">11 link</a></li> -->
-<!-- 								<li class="divider"></li> -->
-<!-- 								<li><a href="#">22 more separated link</a></li> -->
-<!-- 							</ul></li> -->
-<!-- 					</ul> -->
-	
-	
-					<ul class="nav navbar-nav navbar-left ">
-						<c:forEach items="${categories}" var="category">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-									${category.key.name }<span class="caret"></span></a>
-								<ul class="customs-menu dropdown-menu" role="menu">
-									<c:forEach items="${category.value}" var="subcategory" >
-										<li><a href="#">${subcategory.name}</a></li>
-									</c:forEach>
-								</ul>
-							</li>
-						</c:forEach>
-					</ul>
-
-					<ul class="nav navbar-nav navbar-right ">
-						<li><a href="<%=path%>/preUpload.do"> <span id="upload_icon"
-								class="glyphicon glyphicon-upload"></span> 投稿
-						</a></li>
-						<li>
-							<form class="navbar-form  region-search" role="search">
-								<span id="search_icon" class="glyphicon glyphicon-search"
-									style="line-height: 2;"></span>
-								<div id="search_panel" class="form-group" style="display: none;">
-									<input type="text" class="form-control " placeholder="Search"
-										style="display: inline; width: auto;">
-									<button type="submit" class="btn btn-default ">Submit</button>
-								</div>
-							</form> 
-							<script type="text/javascript">
-								jQuery(document).ready(function($) {
-									$('#search_icon').click(function() {
-										$(this).toggle();
-										$('#search_panel').toggle();
-									})
-	
-								})
-							</script>
-						</li>
-					</ul>
-			</div><!-- /.navbar-collapse -->
-			</div>
-		</div><!-- /.container-fluid --> 
-	</nav>
-</header>
-
+	<jsp:include page="${contextPath}/views/header.jsp" flush="true"></jsp:include>
 
 
 	<div class="gridContainer clearfix">
@@ -240,124 +156,34 @@
 		<div id="footer_push"><!-- not put anything here --></div>
 	</div>
 	
-	<footer class="footer">
-		<div class="container">
-			<p class="text-muted">© 2013-2014 <span>DD</span> present.</p>
-		</div>
-
-		<div id="quickpannel" class="block quickpannel">
-			  <div class="inner"></div>
-			  <div class="overlay"></div>
-			  <h2 class="title  no-subtitle">消息动态</h2>
-				
-			  <div class="content">
-				<span class="quickpannel_toggle">
-					<img class="icon_face" src="images/myface_s.jpg"/>
-				</span>
-				<div class="dexp_settings">
-					
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs" role="tablist">
-					  <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">动态</a></li>
-					  <li role="presentation"><a href="#profile" role="tab" data-toggle="tab">历史</a></li>
-					  <li role="presentation"><a href="#messages" role="tab" data-toggle="tab">收藏</a></li>
-					  <li role="presentation"><a href="#settings" role="tab" data-toggle="tab">设置</a></li>
-					</ul>
-
-					<!-- Tab panes -->
-					<div class="tab-content">
-					  <div role="tabpanel" class="tab-pane active" id="home">
-						<ul class="dyn_list" >
-							<li class="d-data" >
-								<div class="preview">
-									<img src="images/myface_s.jpg">
-								</div>
-								<div class="r">
-									<div class="title">
-										<a href="" card="Zz白日梦zZ" target="_blank">Zz白日梦zZ</a><span>发表了评论</span>
-									</div>
-									<div class="info">
-										<a href="" target="_blank" title="LoveLive 同人弦樂四重奏">求求求求求谱</a>
-									</div>
-								</div>
-							</li>
-							<li class="loading f">(´・ω・｀)没有更多信息</li>
-						</ul>
-						<div class="wnd_bottom">
-							<div class="r-l"><a class="read-more" href="">查看全部</a><div class="num" id="dynamic_num"></div><div class="check-all no-select"></div></div>
-						</div>
-					  </div>
-
-					  <div role="tabpanel" class="tab-pane" id="profile">
-						<ul class="history">
-							<li class="timeline top">
-								<span class="dot"></span>
-								<span class="d-line"></span>
-								<span class="date">2014-11-23 23:34:03</span>
-							</li>
-							<li><a href="" target="_blank" title="【泪目向Flower Dance】鸠子：中二是什么？我不明白啊！">【泪目向Flower Dance】鸠子：中二是什么？我不明白啊！</a></li>
-							<li><a href="" target="_blank" title="听说柯震东是你们的男神？">听说柯震东是你们的男神？</a></li>
-						</ul>
-					  </div>
-					  <div role="tabpanel" class="tab-pane" id="messages">..3.</div>
-					  <div role="tabpanel" class="tab-pane" id="settings">...4.</div>
-					</div>
-
-					<div class="clearfix"></div>
-			  </div>
-				<script type="text/javascript">
-				  jQuery(document).ready(function($){
-					$('.quickpannel_toggle').click(function(){
-					  $('#quickpannel').toggleClass('open');
-					})
-					$('.quickpannel .overlay').click(function(){
-					  $('#quickpannel').toggleClass('open');
-					})
-				  })
-				</script>  
-		</div>
-
-	</footer>
+	
+	<jsp:include page="${contextPath}/views/footer.jsp" flush="true"></jsp:include>
 
 
 	<div id="go-to-top" title="Go to Top">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 	</div>
 	<script type="text/javascript">
-		
-		  $(window).scroll(function(){
-			  if(document.body.scrollTop > 0)
+		$(window).scroll(function(){
+			//如果滚轮向下移动了，则显示“回到顶部”按钮
+			if(document.body.scrollTop > 0)
 				$("#go-to-top").css("bottom","20px");
-			  else	
+			else	
 				$("#go-to-top").css("bottom","-100px");
-
+			//当滚动到每个panel_content的时候，显示动画
 			$(".panel_content").each(function(){
 				if(document.body.scrollTop + window.innerHeight - $(this).offset().top > 0) {
 					$(this).find(".panel_content_item").each(function(i){
 						$(this).addClass(" animated "+(i%2==1?"fadeInLeft":"fadeInRight"))
 					});
 				}
-			
 			});
-
-
-			 /* if(document.body.scrollTop + window.innerHeight - $(".panel_content").offset().top > 0) {
-				  $(".panel_content_item").each(function(i){
-					//$(this).addClass("a"+i+" animated fadeInLeft")
-					$(this).addClass("a"+i+" animated "+(i%2==1?"fadeInLeft":"fadeInRight"))
-				});
-			}*/
-				/*if(document.body.scrollTop + window.innerHeight - $("#items").offset().top > 300){
-					
-					$(".panel_content_item").each(function(i){
-						$(this).removeClass("fadeInLeft fadeInRight");
-						});
-				}*/
-		  });
-		  $("#go-to-top").click(function(){
-			  $('body').animate({scrollTop: '0px'}, 500,'easeOutQuad');
-			 //document.body.scrollTop = 0;
-		  });
+		});
+		//点击“回到顶部”按钮的处理
+		$("#go-to-top").click(function(){
+			$('body').animate({scrollTop: '0px'}, 500,'easeOutQuad');
+			//document.body.scrollTop = 0;
+		});
 		
 	</script>
 </body>

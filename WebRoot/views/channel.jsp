@@ -26,6 +26,9 @@
 </head>
 
 <body>
+
+<jsp:include page="${contextPath}/views/header.jsp" flush="true"></jsp:include>
+
 <div class="gridContainer clearfix">
 		
 	<div id="title" class="container">
@@ -130,5 +133,8 @@
 		</div><!-- end row -->
 	</div><!-- end container -->
 </div>
+
+<jsp:include page="${contextPath}/views/footer.jsp" flush="true"></jsp:include>
+
 </body>
 </html>

@@ -77,22 +77,18 @@
 				$("#text").val("");
 			});
 			
-			
-		
 
 		}
-		
-
 
 	</script>
 </head>
 
 <body>
+
+	<jsp:include page="${contextPath}/views/header.jsp" flush="true"></jsp:include>
+
+
 	<div class="gridContainer clearfix">
-		<div id="header">
-<%-- 			<jsp:include page="${contextPath}/common/header.jsp" flush="true"></jsp:include> --%>
-		</div>
-	
 		<div class="container">
 			<div class="row">
 				<div id="title" class="col-xs-12 col-sm-6 col-md-8">
@@ -127,59 +123,59 @@
 						</div>
 					</div>
 				</div>
-		
 			</div><!-- end row -->
-				<div id="video">
-					<div class="video_panel">
-						<video class="playr_video" >
-							<source src="${videoUrl }" type="video/mp4"></source> 
-						</video>
-					</div>
-					<div id="sendPanel" class="row">
-						<div class="col-xs-1 col-md-offset-2 col-lg-1 col-lg-offset-3">
-							<div id="colorSelector2"><div></div></div>
-							<input id="color" type="hidden" value="#ffffff">
-						</div>
-						<div class="col-xs-6 col-sm-4 col-lg-2" style="font-size: 14px;margin-top: 6px;">
-							<label>样式：</label>
-							<input type="radio" name="style" checked value="Scroll"/><label>Scroll</label>
-							<input type="radio" name="style" value="Static"/><label>Static</label>
-						</div>
-						<div class="col-xs-8 col-sm-4 col-lg-3" style="font-size: 14px;margin-top: 4px;">
-							<input id="text" type="text">
-							<button id="send">Send</button>
-						</div>
-					</div>	
+			
+			<div id="video">
+				<div class="video_panel">
+					<video class="playr_video" >
+						<source src="${videoUrl }" type="video/mp4"></source> 
+					</video>
 				</div>
-				<div id="info">
-					<div class="info_panel">
-						<div class="tag">
-							<b>TAG:</b>
-							<ul>
-								<c:forEach items="${resource.tags }" var="tag">
-									<li>
-										<a href="search.do?keyWords=${tag.name }&type=tag&categoryName=&order=">
-											<c:if test="${tag.isSpecialEdition }"><span class="sp">专</span></c:if>${tag.name }
-										</a>
-									</li>
-								</c:forEach>
-							</ul>
-							<span class="new_tag">
-								<a href="javascript:;" onclick="">增加新TAG</a>
-							</span>
-						</div>
-		
-						<div class="description">
-							${resource.description }
-						</div>
+				<div id="sendPanel" class="row">
+					<div class="col-xs-1 col-md-offset-2 col-lg-1 col-lg-offset-3">
+						<div id="colorSelector2"><div></div></div>
+						<input id="color" type="hidden" value="#ffffff">
 					</div>
-				</div>
-				
-			</div><!-- end container -->
+					<div class="col-xs-6 col-sm-4 col-lg-2" style="font-size: 14px;margin-top: 6px;">
+						<label>样式：</label>
+						<input type="radio" name="style" checked value="Scroll"/><label>Scroll</label>
+						<input type="radio" name="style" value="Static"/><label>Static</label>
+					</div>
+					<div class="col-xs-8 col-sm-4 col-lg-3" style="font-size: 14px;margin-top: 4px;">
+						<input id="text" type="text">
+						<button id="send">Send</button>
+					</div>
+				</div>	
+			</div>
+			
+			<div id="info">
+				<div class="info_panel">
+					<div class="tag">
+						<b>TAG:</b>
+						<ul>
+							<c:forEach items="${resource.tags }" var="tag">
+								<li>
+									<a href="search.do?keyWords=${tag.name }&type=tag&categoryName=&order=">
+										<c:if test="${tag.isSpecialEdition }"><span class="sp">专</span></c:if>${tag.name }
+									</a>
+								</li>
+							</c:forEach>
+						</ul>
+						<span class="new_tag">
+							<a href="javascript:;" onclick="">增加新TAG</a>
+						</span>
+					</div>
 	
-		<div id="footer">
-<%-- 			<jsp:include page="${contextPath}/common/footer.jsp" flush="true"></jsp:include> --%>
-		</div>
+					<div class="description">
+						${resource.description }
+					</div>
+				</div>
+			</div>
+				
+		</div><!-- end container -->
 	</div>	
+	
+	<jsp:include page="${contextPath}/views/footer.jsp" flush="true"></jsp:include>
+	
 </body>
 </html>
