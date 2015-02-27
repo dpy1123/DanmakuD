@@ -14,15 +14,16 @@
 	<!-- 注解支持 -->
  	<context:annotation-config />
 
-	<!-- 启动组件扫描，排除@Controller组件，该组件由SpringMVC配置文件扫描 -->
- 	<context:component-scan base-package="com.dd.danmaku" />
+	<!-- 启动组件扫描，排除@Controller组件。这是因为org.springframework.stereotype.Controller是SpringMVC的控制器的注解，使用这个注解注册的Bean在SpringMVC容器启动的时候已经实例化了，所以在Spring容器里面就不需要进行实例化了。 -->
+	<context:component-scan base-package="com.dd.danmaku">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
 	<!-- 属性文件位置 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:config/properties/mongodb.properties</value>
-<!-- 				<value>classpath:config/properties/common.properties</value> -->
 				<value>classpath:config/properties/log4j.properties</value>
 			</list>
 		</property>
