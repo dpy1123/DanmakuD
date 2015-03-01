@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -20,7 +21,7 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
  */
 public abstract class BaseDaoMongoImpl implements BaseDaoInter {
 
-	@Autowired
+	@Resource
 	protected MongoTemplate mongoTemplate;
 	
 	/**
