@@ -42,7 +42,7 @@ public class ViewController {
 		//获取该Resource所属的一级分类
 		Category mainCategory = categoryService.getParentCategory(subCategoryId);
 		
-		
+		//TODO 处理多p的情况
 		Video video = videoService.getById(resource.getVideos().get(0));
 		String videoUrl = request.getContextPath()+"/getFsFile.do?filename=" + video.getFsFileName();
 		
