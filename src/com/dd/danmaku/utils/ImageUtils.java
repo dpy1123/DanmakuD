@@ -35,7 +35,8 @@ public class ImageUtils {
 
 	//===========================本系统中使用，并验证的==============================
 	/**
-     * 获取图片的长宽信息
+     * 获取图片的长宽信息<br>
+     * This method does not close the provided InputStream after the read operation has completed; it is the responsibility of the caller to close the stream, if desired.
      * @param file 
      * @return
      * @throws IOException
@@ -54,7 +55,8 @@ public class ImageUtils {
 
     
     /**
-     * 缩放图像（按高度和宽度缩放）
+     * 缩放图像（按高度和宽度缩放）<br>
+     * This method does not close the provided InputStream after the read operation has completed; it is the responsibility of the caller to close the stream, if desired.
      * @param file 
      * @param height 缩放后的高度
      * @param width 缩放后的宽度
@@ -113,7 +115,8 @@ public class ImageUtils {
     }
     
     /**
-     * 图像切割(按指定起点坐标和宽高切割)
+     * 图像切割(按指定起点坐标和宽高切割)<br>
+     * This method does not close the provided InputStream after the read operation has completed; it is the responsibility of the caller to close the stream, if desired.
      * @param file 
      * @param x 目标切片起点坐标X
      * @param y 目标切片起点坐标Y

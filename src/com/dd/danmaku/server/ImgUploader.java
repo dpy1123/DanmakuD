@@ -1,10 +1,12 @@
 package com.dd.danmaku.server;
 
-import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
-
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,7 +15,6 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.dd.danmaku.utils.ImageUtils;
-import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 /**
@@ -38,6 +38,17 @@ public class ImgUploader {
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	
+	String webRootPath;//保存上传图片的临时路径
+	
+	public ImgUploader() {
+		try {
+			String classFileRealPath = URLDecoder.decode(this.getClass().getResource("").getPath(), "UTF-8");
+			webRootPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/img/";//根路径
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping(value = "uploadImg.do", method = { RequestMethod.POST })
 	public @ResponseBody Map<String, Object> uploadImg(MultipartHttpServletRequest request) {
 		logger.info("=================uploadFile=======================");  
@@ -50,8 +61,8 @@ public class ImgUploader {
             if(!myfile.isEmpty()){  
                 
                 logger.info("文件原名: " + myfile.getOriginalFilename());
-                String filename = UUID.randomUUID().toString();
-                logger.info("存入fs文件名: " + filename);
+                //TODO 防止多个用户上传同名文件相互影响，filename = userId + originalName;
+                String filename = myfile.getOriginalFilename();
                 
                 //返回前台的信息
 				fileInfo.put("name", myfile.getOriginalFilename());
@@ -59,24 +70,38 @@ public class ImgUploader {
 				
 				//保存文件
 				try {
-					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), filename, myfile.getContentType());
+					//第一部上传的未裁剪的图片，先保存在临时目录下
+					
+//					GridFSFile gfile = gridFsTemplate.store(myfile.getInputStream(), filename, myfile.getContentType());
 					// note: to set aliases, call put( "aliases" , List<String> )
-					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
-					gfile.save();
-					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
-
-					GridFsResource resource = gridFsTemplate.getResource(filename);
-					HashMap<String, Object> imgInfo = ImageUtils.getInfo(resource.getInputStream());
+//					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
+//					gfile.save();
+//					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
+//					GridFsResource resource = gridFsTemplate.getResource(filename);
+					
+					//数据保存在本地临时文件	
+					File file = null;
+					if(!new File(webRootPath).exists()){
+						new File(webRootPath).mkdirs();
+					}
+					file = new File(webRootPath , filename);
+					FileOutputStream out = new FileOutputStream(file);
+					out.write(myfile.getBytes());
+					out.close();
+					FileInputStream ins = new FileInputStream(file);
+					HashMap<String, Object> imgInfo = ImageUtils.getInfo(ins);
+					ins.close();
+					logger.info("文件已保存至"+webRootPath+"，文件大小："+file.length());
 					
 					fileInfo.put("status", "success");
-					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+filename);
+					fileInfo.put("url", request.getContextPath()+"/temp_files/img/"+filename);
 					fileInfo.put("width", imgInfo.get("width"));
 					fileInfo.put("height", imgInfo.get("height"));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 					fileInfo.put("status", "error");
-					fileInfo.put("message", "文件保存至fs失败");
+					fileInfo.put("message", "文件保存失败");
 				}
 				
             }  
@@ -116,12 +141,16 @@ public class ImgUploader {
 		String cropW = request.getParameter("cropW");
 		String cropH = request.getParameter("cropH");
 		
-		GridFSDBFile file = gridFsTemplate.findOne(query(whereFilename().is(filename)));
-		GridFsResource resource = new GridFsResource(file);
+//		GridFSDBFile file = gridFsTemplate.findOne(query(whereFilename().is(filename)));
+//		GridFsResource resource = new GridFsResource(file);
+		
 		
 		Map<String, Object> fileInfo = new HashMap<String, Object>();
 		try {
-			byte[] temp = ImageUtils.scale(resource.getInputStream(), (int)Float.parseFloat(imgH), (int)Float.parseFloat(imgW), false);
+			File file = new File(webRootPath , filename);
+			FileInputStream ins = new FileInputStream(file);
+			
+			byte[] temp = ImageUtils.scale(ins, (int)Float.parseFloat(imgH), (int)Float.parseFloat(imgW), false);
 			ByteArrayInputStream in = new ByteArrayInputStream(temp); 
 			
 			temp = ImageUtils.cut(in, Integer.parseInt(imgX1), Integer.parseInt(imgY1), Integer.parseInt(cropW), Integer.parseInt(cropH));
@@ -129,13 +158,17 @@ public class ImgUploader {
 					
 			//保存文件
 			String newfile = UUID.randomUUID().toString();
-			GridFSFile gfile = gridFsTemplate.store(in, newfile, resource.getContentType());
+			GridFSFile gfile = gridFsTemplate.store(in, newfile, "image/jpeg");
 			// note: to set aliases, call put( "aliases" , List<String> )
-			gfile.put("aliases", "CROP_"+file.get("aliases"));//在别名中存储文件原名
+			gfile.put("aliases", "CROP_"+filename);//在别名中存储文件原名
 			gfile.save();
 			
 			//删除原图
-			gridFsTemplate.delete(query(whereFilename().is(filename)));
+//			gridFsTemplate.delete(query(whereFilename().is(filename)));
+			
+			ins.close();
+			//删除临时文件
+			new File(webRootPath + filename).delete();
 			
 			fileInfo.put("status", "success");
 			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+newfile);
@@ -146,7 +179,7 @@ public class ImgUploader {
 			fileInfo.put("status", "error");
 			fileInfo.put("message", "文件保存至fs失败");
 		}
-				
+        
 		return fileInfo;  
 	}
 

@@ -7,8 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dd.danmaku.jms.JMSMessage;
+import com.dd.danmaku.jms.JMSSender;
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.VideoService;
 import com.dd.danmaku.utils.StringUtils;
@@ -46,9 +49,21 @@ public class VideoUploader {
 	
 	@Resource
 	GridFsTemplate gridFsTemplate;
-	
+	@Resource
+	JMSSender jmsSender;
 	@Resource
 	VideoService videoService;
+	
+	String webRootPath;//保存上传视频的临时路径
+	
+	public VideoUploader() {
+		try {
+			String classFileRealPath = URLDecoder.decode(this.getClass().getResource("").getPath(), "UTF-8");
+			webRootPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/video/";//根路径
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@RequestMapping(value = "uploadVideoChunked.do", method = { RequestMethod.POST })
 	public @ResponseBody Map<String, Object> uploadVideoChunked(MultipartHttpServletRequest request) {
@@ -80,8 +95,6 @@ public class VideoUploader {
 			String endRange = contentRange.split("/")[0].split("-")[1];
 			//数据保存在本地临时文件	
 			RandomAccessFile file = null;
-			String classFileRealPath = this.getClass().getResource("").getPath();
-			String webRootPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/";//根路径
 			if(!new File(webRootPath).exists()){
 				new File(webRootPath).mkdirs();
 			}
@@ -129,6 +142,7 @@ public class VideoUploader {
 	    				}
 	            	}
 	            	file.close();
+	            	//删除临时文件
 		            new File(webRootPath + filename).delete();
 	            }else{
 	            	
@@ -239,20 +253,25 @@ public class VideoUploader {
 	
 	@RequestMapping(value = "test.do")
 	public @ResponseBody String test(){
-		String s = null;
-		try {
-			ProcessBuilder builder = new ProcessBuilder();
-			builder.command("java", "-version");
-			builder.redirectErrorStream(true);
-			Process process = builder.start();
-			InputStream in = process.getInputStream();
-			byte[] bs = new byte[1024];
-			while ((in.read(bs)) != -1) {//正在转换,输出cmd状态
-				s += new String(bs);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("格式转换中发生异常: "+e.getMessage());
-		}
-		return s;
+//		String s = null;
+//		try {
+//			ProcessBuilder builder = new ProcessBuilder();
+//			builder.command("java", "-version");
+//			builder.redirectErrorStream(true);
+//			Process process = builder.start();
+//			InputStream in = process.getInputStream();
+//			byte[] bs = new byte[1024];
+//			while ((in.read(bs)) != -1) {//正在转换,输出cmd状态
+//				s += new String(bs);
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("格式转换中发生异常: "+e.getMessage());
+//		}
+//		return s;
+		
+		
+		JMSMessage msg = new JMSMessage(JMSMessage.ACTION_VIDEO_CONVERT, "jms test!");
+		jmsSender.sendMessage(msg);
+		return "send finish";
 	}
 }
