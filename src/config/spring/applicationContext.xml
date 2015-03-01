@@ -30,4 +30,46 @@
 	</bean>
 	
 	<import resource="classpath:/config/mongodb/mongodb.xml"/>
+	
+	
+	<!-- JMS配置 -->  
+    <!-- a pooling based JMS provider -->
+	<bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="tcp://localhost:61616" />
+				<!-- <property name="brokerURL" value="vm://normandy.notify" /> -->
+				<property name="useAsyncSend" value="true" />
+			</bean>
+		</property>
+	</bean>
+    <!-- 定义消息队列 -->  
+    <bean id="dest" class="org.apache.activemq.command.ActiveMQQueue">  
+        <constructor-arg value="queue/main_queue" />  
+    </bean>  
+    <!-- Spring JMS Template -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">  
+        <property name="connectionFactory" ref="jmsFactory"/>  
+        <property name="defaultDestination" ref="dest" /> 
+        <!-- 定义自己的消息转换器 -->  
+<!--         <property name="messageConverter" ref="messageConvertForSys" />   -->
+		<!-- 当消费者要接收topic的消息时，pubSubDomain必须设置为true。当消费者要接收queue的消息时，pubSubDomain必须设置为false。 -->
+        <property name="pubSubDomain" value="false" /> 
+        <!-- deliveryMode, priority, timeToLive 的开关，要生效，必须配置为true，默认false-->  
+        <property name="explicitQosEnabled" value="true" /> 
+        <!-- 发送模式  DeliveryMode.NON_PERSISTENT=1:非持久 ; DeliveryMode.PERSISTENT=2:持久-->  
+        <property name="deliveryMode" value="2" /> 
+    </bean>  
+      
+    <!-- 消息转换器 -->  
+<!--     <bean id="messageConvertForSys" class="com.normandy.tech.test.MessageConvertForSys"></bean>   -->
+    
+    <!-- 消息接收方 -->  
+    <bean id="messageReceiver" class="com.dd.danmaku.jms.JMSReceiver"></bean>
+    <!-- 消息监听容器 -->  
+    <bean id="listenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">    
+        <property name="connectionFactory" ref="jmsFactory" />    
+        <property name="destination" ref="dest" />    
+        <property name="messageListener" ref="messageReceiver" />    
+    </bean>  
 </beans>
