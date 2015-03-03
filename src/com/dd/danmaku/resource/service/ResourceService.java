@@ -15,6 +15,12 @@ public interface ResourceService {
 	public String add(Resource resource);
 	
 	/**
+	 * 更新资源信息
+	 * @param resource
+	 */
+	public void update(Resource resource);
+	
+	/**
 	 * 为资源添加标签
 	 * @param resourceId
 	 * @param tags 标签id的list
@@ -35,7 +41,7 @@ public interface ResourceService {
 	 * @param duration
 	 * @return
 	 */
-	public void updateDuration(String resourceId, String duration);
+	public void updateDuration(String resourceId, Long duration);
 
 	/**
 	 * 更新资源的评分或点击数或弹幕数或收藏数

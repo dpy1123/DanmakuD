@@ -1,5 +1,6 @@
 package com.dd.danmaku.resource.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -13,9 +14,12 @@ import com.dd.danmaku.utils.DateUtils;
  * @version v2.0,2015-01-02
  */
 @Document(collection = "tag")
-public class Tag {
+public class Tag implements Serializable {
 
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;//标签id
 	private String name;
 	private Long count;//标签的引用数，热度

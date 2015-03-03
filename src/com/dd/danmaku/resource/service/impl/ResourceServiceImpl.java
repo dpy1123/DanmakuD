@@ -18,6 +18,10 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.save(resource);
 		return resource.getId();
 	}
+	
+	public void update(Resource resource) {
+		resourceDao.update(resource);
+	}
 
 	public void addTags(String resourceId, List<String> tags) {
 		Resource r = getById(resourceId);
@@ -31,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.update(r);
 	}
 
-	public void updateDuration(String resourceId, String duration) {
+	public void updateDuration(String resourceId, Long duration) {
 		Resource r = getById(resourceId);
 		r.setDuration(duration);
 		resourceDao.update(r);
@@ -56,5 +60,7 @@ public class ResourceServiceImpl implements ResourceService {
 	public void setResourceDao(ResourceDao resourceDao) {
 		this.resourceDao = resourceDao;
 	}
+
+
 
 }

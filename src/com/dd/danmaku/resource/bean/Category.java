@@ -1,5 +1,7 @@
 package com.dd.danmaku.resource.bean;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +13,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @version v2.0,2015-01-02
  */
 @Document(collection = "category")
-public class Category {
+public class Category implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 第一层分类的父id标识

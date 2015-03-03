@@ -1,5 +1,7 @@
 package com.dd.danmaku.resource.bean;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,8 +14,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @version v2.0,2014 修改为bae用的新版本
  */
 @Document(collection = "danmu")
-public class Danmu {
+public class Danmu implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Fields
 	private String id;// 标识
 	private String videoId;// 所属视频id号

@@ -1,5 +1,6 @@
 package com.dd.danmaku.resource.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -14,7 +15,11 @@ import com.dd.danmaku.utils.DateUtils;
  * @version v2.0,2014-12-27
  */
 @Document(collection = "video")
-public class Video {
+public class Video implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Transient
 	public static final String UPLOADED = "待转换";
 	@Transient

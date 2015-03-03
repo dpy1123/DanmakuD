@@ -1,5 +1,6 @@
 package com.dd.danmaku.resource.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,13 +17,22 @@ import com.dd.danmaku.utils.DateUtils;
  * @version v2.0,2014-12-27
  */
 @Document(collection = "resource")
-public class Resource {
+public class Resource implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Transient
 	public static final String WAITING = "待审核";
 	@Transient
 	public static final String IN_USING = "上线";
 	@Transient
 	public static final String DELETEED = "下线";
+	/**
+	 * 默认无图时显示的资源图片
+	 */
+	@Transient
+	public static final String NO_PIC = "NO_PREVIEW_PIC";
 	
 	
 	@Id
@@ -34,7 +44,7 @@ public class Resource {
 	private String title;//资源标题
 	private String description;//资源简介
 	private String status;//资源状态：待审核、上线、下线
-	private String duration;//资源所包含视频的总时长，如43:21
+	private Long duration;//资源所包含视频的总时长，单位是s
 //	private String source;//资源来源【这个将来移到video中，用来区分是本系统存储还是外部存储的】
 	private Boolean isOriginal;//资源是否原创
 //	private String type;//资源类型：1.视频 2.专辑 3.话题（sp的集合）【专辑和话题应该是独立的实体】
@@ -62,7 +72,9 @@ public class Resource {
 		this.title = title;
 		this.description = description;
 		this.status = status;
+		this.duration = 0L;
 		this.isOriginal = isOriginal;
+		this.previewImg = NO_PIC;
 		this.clickCount = 0L;
 		this.danmuCount = 0L;
 		this.favorCount = 0L;
@@ -170,12 +182,12 @@ public class Resource {
 	}
 
 
-	public String getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
 
-	public void setDuration(String duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 
