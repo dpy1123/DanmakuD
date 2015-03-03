@@ -28,12 +28,13 @@ public class Video {
 	private String id;
 	private String originalName;//原始文件名
 	private String fsFileName;//在文件系统中的文件名【通过该字段从存储地获取视频内容，目前是本系统，将来可能是腾讯视频等的id等】
+	private String convertedFsFileName;//转换后的文件名
 	private long size;//视频大小
 	private Date createDTM;
 	
 	private long duration;//视频时长
 	private String status;//视频转换状态，待转换/转换中/转换成功/转换失败
-	private byte[] previewImg;//视频预览图
+	private String previewImg;//资源预览图【通过该字段从存储获取内容】
 	
 	public Video() {
 	}
@@ -70,6 +71,14 @@ public class Video {
 		this.fsFileName = fsFileName;
 	}
 	
+	public String getConvertedFsFileName() {
+		return convertedFsFileName;
+	}
+
+	public void setConvertedFsFileName(String convertedFsFileName) {
+		this.convertedFsFileName = convertedFsFileName;
+	}
+
 	public long getSize() {
 		return size;
 	}
@@ -102,11 +111,11 @@ public class Video {
 		this.status = status;
 	}
 
-	public byte[] getPreviewImg() {
+	public String getPreviewImg() {
 		return previewImg;
 	}
 
-	public void setPreviewImg(byte[] previewImg) {
+	public void setPreviewImg(String previewImg) {
 		this.previewImg = previewImg;
 	}
 	

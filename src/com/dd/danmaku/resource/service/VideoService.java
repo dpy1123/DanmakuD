@@ -11,6 +11,12 @@ public interface VideoService {
 	public String add(Video video);
 	
 	/**
+	 * 更新视频信息
+	 * @param video
+	 */
+	public void update(Video video);
+	
+	/**
 	 * 删除一条视频信息
 	 * @param id
 	 */
@@ -46,5 +52,5 @@ public interface VideoService {
 	 * 更新视频新生成的预览图
 	 * @param previewImg 预览图
 	 */
-	public void updatePreviewImg(String id, byte[] previewImg);
+	public void updatePreviewImg(String id, String previewImg);
 }

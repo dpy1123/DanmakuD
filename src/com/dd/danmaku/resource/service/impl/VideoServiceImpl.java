@@ -19,6 +19,10 @@ public class VideoServiceImpl implements VideoService {
 		return video.getId();
 	}
 
+	public void update(Video video) {
+		videoDao.update(video);
+	}
+	
 	public void del(String id) {
 		videoDao.delete(Video.class, id);
 	}
@@ -48,7 +52,7 @@ public class VideoServiceImpl implements VideoService {
 		videoDao.update(v);
 	}
 
-	public void updatePreviewImg(String id, byte[] previewImg)
+	public void updatePreviewImg(String id, String previewImg)
 			{
 		Video v = getById(id);
 		v.setPreviewImg(previewImg);
