@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.dd.danmaku.jms.JMSMessage;
-import com.dd.danmaku.jms.JMSSender;
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.VideoService;
 import com.dd.danmaku.utils.StringUtils;
@@ -50,16 +48,14 @@ public class VideoUploader {
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	@Resource
-	JMSSender jmsSender;
-	@Resource
 	VideoService videoService;
 	
-	String webRootPath;//保存上传视频的临时路径
+	String videoTempPath;//保存上传视频的临时路径
 	
 	public VideoUploader() {
 		try {
 			String classFileRealPath = URLDecoder.decode(this.getClass().getResource("").getPath(), "UTF-8");
-			webRootPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/video/";//根路径
+			videoTempPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/video/";//根路径
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -95,11 +91,11 @@ public class VideoUploader {
 			String endRange = contentRange.split("/")[0].split("-")[1];
 			//数据保存在本地临时文件	
 			RandomAccessFile file = null;
-			if(!new File(webRootPath).exists()){
-				new File(webRootPath).mkdirs();
+			if(!new File(videoTempPath).exists()){
+				new File(videoTempPath).mkdirs();
 			}
 			try {
-				file = new RandomAccessFile(webRootPath + filename, "rws");
+				file = new RandomAccessFile(videoTempPath + filename, "rws");
 				long fileLength = file.length();
 				// 将写文件指针移到文件尾。
 				file.seek(fileLength);
@@ -113,7 +109,7 @@ public class VideoUploader {
 	            		String fsfilename = UUID.randomUUID().toString();
 	            		//保存文件
 	    				try {
-	    					GridFSFile gfile = gridFsTemplate.store(new FileInputStream(webRootPath + filename), fsfilename, myfile.getContentType());
+	    					GridFSFile gfile = gridFsTemplate.store(new FileInputStream(videoTempPath + filename), fsfilename, myfile.getContentType());
 	    					// note: to set aliases, call put( "aliases" , List<String> )
 	    					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
 	    					gfile.save();
@@ -143,7 +139,7 @@ public class VideoUploader {
 	            	}
 	            	file.close();
 	            	//删除临时文件
-		            new File(webRootPath + filename).delete();
+		            new File(videoTempPath + filename).delete();
 	            }else{
 	            	
 	            	file.close();
@@ -251,8 +247,8 @@ public class VideoUploader {
         return results;
     }
 	
-	@RequestMapping(value = "test.do")
-	public @ResponseBody String test(){
+//	@RequestMapping(value = "test.do")
+//	public @ResponseBody String test(){
 //		String s = null;
 //		try {
 //			ProcessBuilder builder = new ProcessBuilder();
@@ -268,10 +264,6 @@ public class VideoUploader {
 //			throw new RuntimeException("格式转换中发生异常: "+e.getMessage());
 //		}
 //		return s;
-		
-		
-		JMSMessage msg = new JMSMessage(JMSMessage.ACTION_VIDEO_CONVERT, "jms test!");
-		jmsSender.sendMessage(msg);
-		return "send finish";
-	}
+//	}
+	
 }

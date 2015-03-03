@@ -1,8 +1,10 @@
 package com.dd.danmaku.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dd.danmaku.jms.JMSMessage;
+import com.dd.danmaku.jms.JMSSender;
 import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.service.CategoryService;
@@ -24,12 +28,14 @@ import com.dd.danmaku.resource.service.ResourceService;
 @Controller
 public class UploadController {
 
-	Logger logger= Logger.getLogger(UploadController.class);
+	Logger logger = Logger.getLogger(UploadController.class);
 	
 	@javax.annotation.Resource
 	ResourceService resourceService;
 	@javax.annotation.Resource
 	CategoryService categoryService;
+	@javax.annotation.Resource
+	JMSSender jmsSender;
 	
 	/**
 	 * 处理上传前的准备工作
@@ -63,9 +69,7 @@ public class UploadController {
 		String type = request.getParameter("type");
 		String description = request.getParameter("description");
 		String source = request.getParameter("source");
-		
 		String img_name = request.getParameter("img_name");
-		
 		
 		String[] videoIds = request.getParameterValues("videoId");
 		if(videoIds == null){//如果videoIds为空 表示用户没有上传视频
@@ -77,6 +81,16 @@ public class UploadController {
 		resource.setPreviewImg(img_name);
 		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
+		
+		//添加到消息队列进行视频格式转换
+		for (String videoId : videoIds) {
+			HashMap<String, Object> content = new HashMap<String, Object>();
+			content.put("convertTimes", 1);
+			content.put("videoId", videoId);
+			content.put("resourceId", resource.getId());
+			JMSMessage msg = new JMSMessage(JMSMessage.ACTION_VIDEO_CONVERT, content);
+			jmsSender.sendMessage(msg);
+		}
 		
 		return mv;
 	}

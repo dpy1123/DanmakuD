@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  * 字符串处理工具类
- * @author chenlei
+ * @author chenlei, dd
  *
  */
 public class StringUtils {
@@ -19,6 +19,35 @@ public class StringUtils {
 	private static long code;
 	
 	public static final String PASSWORD_DIC = "0123456789abcdefghijklmnopqrstuvwxyz";
+	
+	/**
+	 * Convert seconds to MM:SS
+	 * @param second
+	 * @return
+	 */
+	public static String parseTimecode(double second){
+		String time = null;
+		second = Math.floor(second);
+		int nb_min = 0;
+//		while(second - 60  > 0){
+//			second = second - 60;
+//			nb_min++;
+//		}
+		nb_min = (int) (second / 60);
+		second = second % 60;
+		
+		int nb_sec = (int) second;
+		String sec = String.valueOf(nb_sec);
+		if(nb_sec < 10){
+			sec = "0" + sec;
+		}
+		String min = String.valueOf(nb_min);
+		if(nb_min < 10){
+			min = "0" + min;
+		}	
+		time = min+":"+sec;
+		return time;
+	}
 	
 	/**
 	 * 生成类标识

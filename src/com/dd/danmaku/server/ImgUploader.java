@@ -33,17 +33,17 @@ import com.mongodb.gridfs.GridFSFile;
 @Controller
 public class ImgUploader {
 
-	Logger logger= Logger.getLogger(ImgUploader.class);
+	Logger logger = Logger.getLogger(ImgUploader.class);
 	
 	@Resource
 	GridFsTemplate gridFsTemplate;
 	
-	String webRootPath;//保存上传图片的临时路径
+	String imgTempPath;//保存上传图片的临时路径
 	
 	public ImgUploader() {
 		try {
 			String classFileRealPath = URLDecoder.decode(this.getClass().getResource("").getPath(), "UTF-8");
-			webRootPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/img/";//根路径
+			imgTempPath = classFileRealPath.substring(0, classFileRealPath.indexOf("WEB-INF")) + "temp_files/img/";//根路径
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -81,17 +81,17 @@ public class ImgUploader {
 					
 					//数据保存在本地临时文件	
 					File file = null;
-					if(!new File(webRootPath).exists()){
-						new File(webRootPath).mkdirs();
+					if(!new File(imgTempPath).exists()){
+						new File(imgTempPath).mkdirs();
 					}
-					file = new File(webRootPath , filename);
+					file = new File(imgTempPath , filename);
 					FileOutputStream out = new FileOutputStream(file);
 					out.write(myfile.getBytes());
 					out.close();
 					FileInputStream ins = new FileInputStream(file);
 					HashMap<String, Object> imgInfo = ImageUtils.getInfo(ins);
 					ins.close();
-					logger.info("文件已保存至"+webRootPath+"，文件大小："+file.length());
+					logger.info("文件已保存至"+imgTempPath+"，文件大小："+file.length());
 					
 					fileInfo.put("status", "success");
 					fileInfo.put("url", request.getContextPath()+"/temp_files/img/"+filename);
@@ -99,7 +99,7 @@ public class ImgUploader {
 					fileInfo.put("height", imgInfo.get("height"));
 					
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("图片保存失败", e);
 					fileInfo.put("status", "error");
 					fileInfo.put("message", "文件保存失败");
 				}
@@ -147,7 +147,7 @@ public class ImgUploader {
 		
 		Map<String, Object> fileInfo = new HashMap<String, Object>();
 		try {
-			File file = new File(webRootPath , filename);
+			File file = new File(imgTempPath , filename);
 			FileInputStream ins = new FileInputStream(file);
 			
 			byte[] temp = ImageUtils.scale(ins, (int)Float.parseFloat(imgH), (int)Float.parseFloat(imgW), false);
@@ -168,14 +168,14 @@ public class ImgUploader {
 			
 			ins.close();
 			//删除临时文件
-			new File(webRootPath + filename).delete();
+			file.delete();
 			
 			fileInfo.put("status", "success");
 			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+newfile);
 			fileInfo.put("img_name", newfile);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("图片crop失败", e);
 			fileInfo.put("status", "error");
 			fileInfo.put("message", "文件保存至fs失败");
 		}

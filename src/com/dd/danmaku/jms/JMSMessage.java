@@ -41,10 +41,16 @@ public class JMSMessage implements Serializable{
 	public void setAction(String action) {
 		this.action = action;
 	}
+
 	public Object getContent() {
 		return content;
 	}
 	public void setContent(Object content) {
 		this.content = content;
+	}
+	
+	@Override
+	public String toString() {
+		return "JMSMessage [action=" + action + ", content=" + content + "]";
 	}
 }
