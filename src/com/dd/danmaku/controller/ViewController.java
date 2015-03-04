@@ -44,7 +44,7 @@ public class ViewController {
 		
 		//TODO 处理多p的情况
 		Video video = videoService.getById(resource.getVideos().get(0));
-		String videoUrl = request.getContextPath()+"/getFsFile.do?filename=" + video.getFsFileName();
+		String videoUrl = request.getContextPath()+"/getFsFile.do?filename=" + video.getConvertedFsFileName();
 		
 		mv.addObject("mainCategory", mainCategory);
 		mv.addObject("subCategory", subCategory);

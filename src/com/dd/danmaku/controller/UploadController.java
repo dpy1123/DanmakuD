@@ -18,6 +18,7 @@ import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
+import com.dd.danmaku.utils.StringUtils;
 
 
 /**
@@ -78,7 +79,8 @@ public class UploadController {
 		String categoryId = categoryService.getCategoryByName(category).getId();
 		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
 		resource.setCategories(Arrays.asList(categoryId));
-		resource.setPreviewImg(img_name);
+		if(!StringUtils.isEmpty(img_name))
+			resource.setPreviewImg(img_name);
 		resource.setVideos(Arrays.asList(videoIds));
 		resourceService.add(resource);
 		
