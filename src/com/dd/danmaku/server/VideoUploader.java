@@ -115,7 +115,7 @@ public class VideoUploader {
 	    					gfile.save();
 	    					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
 	    					
-	    					fileInfo.put("size", gfile.getLength());
+	    					fileInfo.put("size", gfile.getLength());//传完之后返回文件总大小，而不是该分块大小
 	    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfilename);
 	    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfilename);
 	    					fileInfo.put("deleteType", "DELETE");
