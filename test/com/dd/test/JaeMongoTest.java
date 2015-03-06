@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -39,8 +40,11 @@ public class JaeMongoTest {
 	 @Test 
 	public void main() throws Exception {
 		System.out.println("mongo test");
-//		Video v = new Video("1st");
-//		mongoTemplate.insert(v);
+		com.dd.danmaku.resource.bean.Resource v = new com.dd.danmaku.resource.bean.Resource();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("k", "v");
+		v.setSubTitles(map);
+		mongoTemplate.insert(v);
 //		
 //		mongoTemplate.updateFirst(new Query(Criteria.where("name").is("1st")),
 //				new Update().set("status", "change"), Video.class);

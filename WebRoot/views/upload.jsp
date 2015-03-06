@@ -73,7 +73,7 @@
 			</div>
 
 			<!-- 把上传图片的内容拿到form外，因为croppic控件也会生成一个form。拿出来避免form嵌套。 -->
-			<div class="row item">
+			<div class="row" style="border-bottom: 1px solid #ddd;">
 				<div class="col-xs-12 col-sm-5 left">
 					<b>封面图</b><span>*</span>
 				</div>
@@ -109,7 +109,8 @@
 
 				<div class="row item">
 					<div class="col-xs-12 col-sm-5 left">
-						<b>标题</b><span>*</span>
+						<b>标题</b><span>*</span><br />
+						<span class="tips">视频标题，多个请用逗号分开</span>
 					</div>
 					<div class="col-xs-12 col-sm-7 right">
 						<input type="text" name="title" class="input">

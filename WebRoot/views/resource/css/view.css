@@ -26,7 +26,7 @@
 }
 
 .title_panel .play_info {
-	float: right;
+	float: left;
 	padding: 1%;
 	line-height: 16px;
 	font-size: 12px;
@@ -35,6 +35,41 @@
 
 .title_panel .play_info i {
 	color: #999;
+}
+
+
+/*多p列表样式*/
+.title_panel .video_list {
+	float: left;
+	padding: 1%;
+	line-height: 12px;
+	border-top: 2px solid #ddd;
+	width: 100%;
+}
+.title_panel .video_list .video_item{
+	display: block;
+	color: #666;
+	border-radius: 4px;
+	border: 1px solid #d8d8d8;
+	overflow: hidden;
+	float: left;
+	padding: 3px 5px 3px 5px;
+	margin: 0.3%;
+	background: #fff;
+	font-size: 12px;
+	line-height: 18px;
+	
+}
+.title_panel .video_list .video_item:hover {
+	text-shadow: none;
+	background: #00a1d6;
+	color: #fff;
+	border-color: #00a1d6;
+}
+.title_panel .video_list .curPage {
+	background: #00a1d6;
+	color: #fff;
+	border-color: #00a1d6;
 }
 
 .upper_panel {
@@ -50,7 +85,7 @@
 	width: 80px;
 	height: 80px;
 	overflow: hidden;
-	background: url(/images/common/z.png) no-repeat -703px -344px;
+/* 	background: url(/images/common/z.png) no-repeat -703px -344px; */
 }
 
 .upper_panel .face img {

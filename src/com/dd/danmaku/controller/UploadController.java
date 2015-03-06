@@ -71,14 +71,32 @@ public class UploadController {
 		String description = request.getParameter("description");
 		String source = request.getParameter("source");
 		String img_name = request.getParameter("img_name");
-		
 		String[] videoIds = request.getParameterValues("videoId");
-		if(videoIds == null){//如果videoIds为空 表示用户没有上传视频
-			
+		
+		//中文逗号换成英文逗号
+		title = title.replaceAll("，", ",");
+		tag = tag.replaceAll("，", ",");
+		
+		//处理资源标题和分p标题
+		String mainTitle = null;
+		HashMap<String, String> subTitles = null;
+		if(title.contains(",")){
+			String[] titles = title.split(",");
+			mainTitle = titles[0];
+			subTitles = new HashMap<String, String>();
+			for (int i = 0; i < videoIds.length; i++) {
+				if(i+1 < titles.length)
+					subTitles.put(videoIds[i], titles[i+1]);
+			}
+		}else{
+			mainTitle = title;
 		}
+		
+		
 		String categoryId = categoryService.getCategoryByName(category).getId();
-		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
+		Resource resource = new Resource("system", mainTitle, description, Resource.IN_USING, "copy".equals(type)?false:true);
 		resource.setCategories(Arrays.asList(categoryId));
+		resource.setSubTitles(subTitles);
 		if(!StringUtils.isEmpty(img_name))
 			resource.setPreviewImg(img_name);
 		resource.setVideos(Arrays.asList(videoIds));

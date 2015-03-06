@@ -104,6 +104,24 @@
 				            收藏:<i id="stow_count">${resource.favorCount }</i>
 				            评分:<i><span id="v_ctimes" title="硬币数量">${resource.score }</span></i>
 		        </div>
+				<div id="video_list" class="video_list">
+					<div class="clearfix">
+						<a href="/video/av2057438/index_2.html" class="video_item">2、fripSide - sister\'s noise</a>
+						<span class="curPage video_item">3、fripSide - black bullet</span>
+						<a href="/video/av2057438/index_4.html" class="video_item">4、藍井エイル AFA Singapore Live</a>
+						<a href="/video/av2057438/index_4.html" style="display: none" class="video_item">4、藍井エイル AFA Singapore Live</a>
+						<a href="/video/av2057438/index_4.html" style="display: none" class="video_item">4、藍井エイル AFA Singapore Live</a>
+						<a href="/video/av2057438/index_4.html" style="display: none" class="video_item">4、藍井エイル AFA Singapore Live</a>
+						<a href="/video/av2057438/index_4.html" style="display: none" class="video_item">4、藍井エイル AFA Singapore Live</a>
+						<a href="#" id="viewallalist" class="video_item" >...</a>
+						<script>
+							$("#viewallalist").click(function(){
+								$("#video_list").find('a[style]').removeAttr('style');
+								$(this).remove();
+							});
+						</script>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id="upper" class="col-xs-12 col-sm-6 col-md-4">

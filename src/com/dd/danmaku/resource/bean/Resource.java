@@ -3,6 +3,7 @@ package com.dd.danmaku.resource.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -38,7 +39,8 @@ public class Resource implements Serializable {
 	@Id
 	private String id;//标识
 	private String uploaderId;//资源上传的up主id
-	private List<String> videos;//对应的视频文件ids
+	private List<String> videos;//资源包含的视频文件id
+	private HashMap<String, String> subTitles;//视频文件id对应的视频名称
 	private List<String> categories;//对应的分类s
 	private List<String> tags;//对应的标签s
 	private String title;//资源标题
@@ -112,6 +114,14 @@ public class Resource implements Serializable {
 		this.videos = videos;
 	}
 
+
+	public HashMap<String, String> getSubTitles() {
+		return subTitles;
+	}
+
+	public void setSubTitles(HashMap<String, String> subTitles) {
+		this.subTitles = subTitles;
+	}
 
 	public List<String> getCategories() {
 		return categories;
@@ -263,5 +273,5 @@ public class Resource implements Serializable {
 	public void setCreateDTM(Date createDTM) {
 		this.createDTM = createDTM;
 	}
-	
+
 }

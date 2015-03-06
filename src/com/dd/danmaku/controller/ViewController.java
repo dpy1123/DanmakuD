@@ -1,5 +1,8 @@
 package com.dd.danmaku.controller;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
 import com.dd.danmaku.resource.service.VideoService;
+import com.dd.danmaku.utils.StringUtils;
 
 
 @Controller
@@ -42,10 +46,44 @@ public class ViewController {
 		//获取该Resource所属的一级分类
 		Category mainCategory = categoryService.getParentCategory(subCategoryId);
 		
-		//TODO 处理多p的情况
-		Video video = videoService.getById(resource.getVideos().get(0));
+		//处理p参数
+		String p = request.getParameter("p");
+		int curP = 0;//默认取第一个video
+		if(!StringUtils.isEmpty(p) && resource.getVideos().size() > 1){
+			//有p参数，且视频数确实>1
+			curP = Integer.parseInt(p) - 1;
+		}
+		//获取当前页视频
+		Video video = videoService.getById(resource.getVideos().get(curP));
 		String videoUrl = request.getContextPath()+"/getFsFile.do?filename=" + video.getConvertedFsFileName();
 		
+		//准备分p列表(如果是多p的情况)
+		if(resource.getVideos().size() > 1){
+			LinkedList<HashMap<String, String>> videoList = new LinkedList<HashMap<String, String>>();
+			for (int i = 0; i < resource.getVideos().size(); i++) {
+				HashMap<String, String> item = new HashMap<String, String>();
+				//设置分p地址 vUrl
+				String vId = resource.getVideos().get(i);
+				item.put("vUrl", request.getContextPath()+"/view.do?resourceId=" + resourceId + "&p=" + (i+1));
+				//设置分p名 vName
+				String subTitle = resource.getSubTitles().get(vId);
+				if(!StringUtils.isEmpty(subTitle))
+					item.put("vName", (i+1)+"、" + subTitle);
+				else
+					item.put("vName", (i+1)+"、" + (i+1)+"P");
+				//设置显示类型
+				if(i == curP)
+					item.put("display", "current");
+				else if(i == curP-1 || i == curP+1)
+					item.put("display", "show");
+				else
+					item.put("display", "hidden");
+				videoList.add(item);
+				
+			}
+			mv.addObject("videoList", videoList);
+		}
+				
 		mv.addObject("mainCategory", mainCategory);
 		mv.addObject("subCategory", subCategory);
 		mv.addObject("resource", resource);

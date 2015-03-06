@@ -108,6 +108,32 @@
 						            收藏:<i id="stow_count">${resource.favorCount }</i>
 						            评分:<i><span id="v_ctimes" title="硬币数量">${resource.score }</span></i>
 				        </div>
+				        <div id="video_list" class="video_list">
+							<div class="clearfix">
+								<c:forEach items="${videoList}" var="item" varStatus="i">
+									<c:choose>
+										<c:when test="${item['display'] == 'current'}">
+											<span class="curPage video_item">${item['vName']}</span>
+										</c:when>
+										<c:when test="${item['display'] == 'show'}">
+											<a href="${item['vUrl']}" class="video_item">${item['vName']}</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${item['vUrl']}" style="display: none" class="video_item">${item['vName']}</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${i.count > 3}">
+									<a href="#" id="viewallalist" class="video_item" >...</a>
+								</c:if>
+								<script>
+									$("#viewallalist").click(function(){
+										$("#video_list").find('a[style]').removeAttr('style');
+										$(this).remove();
+									});
+								</script>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div id="upper" class="col-xs-12 col-sm-6 col-md-4">
