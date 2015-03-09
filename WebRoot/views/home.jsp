@@ -23,14 +23,16 @@
 	<!-- 独特 -->
 	<link href="<%=path%>/views/css/index.css" rel="stylesheet" type="text/css">
 	<link href="<%=path%>/views/css/bannerAD.css" rel="stylesheet" type="text/css">
-	
 	<script type="text/javascript" src="<%=path%>/views/js/jquery.easing-1.3.js"></script>
 	<script type="text/javascript" src="<%=path%>/views/js/jquery.iosslider.min.js"></script>
 	<script type="text/javascript" src="<%=path%>/views/js/bannerAD.js"></script>
 	<script type="text/javascript" src="<%=path%>/views/js/index.js"></script>
+	
+	<script type="text/javascript" src="<%=path%>/views/js/common.js"></script>
 	<!-- 公共样式，因为要覆盖前面的，所以最后导入 -->
 	<link rel="stylesheet" href="<%=path%>/views/css/common.css" type="text/css" /> 
 	<link rel="stylesheet" href="<%=path%>/views/css/animate.css" type="text/css" />
+
 
 </head>
 
@@ -99,6 +101,13 @@
 					</div>
 				</div>
 			</c:forEach>
+			<script>
+				//更新每个视频的duration的显示方式
+				$('b[id=duration]').each(function(index, domElement) {
+					var sec = $(domElement).text();
+					$(this).text(parseTimeCode(sec));
+				});
+			</script>
 		</div>
 
 		<div id="ranking" class="col-xs-6 col-sm-3">

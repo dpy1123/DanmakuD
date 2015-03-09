@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -101,7 +102,8 @@
 				            &gt; 
 				            <span><a href="list.do?categoryName=${subCategory }">${subCategoryDisplayName }</a></span> 
 				            &gt; 
-				            <time><i>${resource.createDTM }</i></time>
+<%-- 				            <time><i>${resource.createDTM }</i></time> --%>
+				            <time><i><fmt:formatDate value="${resource.createDTM}" pattern="yyyy-MM-dd HH:mm:ss"/></i></time>
 				        </div>
 				        <div class="play_info">
 						            播放:<i id="dianji">${resource.clickCount }</i>

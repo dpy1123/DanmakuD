@@ -17,3 +17,26 @@ function json2TimeStamp(milliseconds) {
 	return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":"
 			+ second;
 }
+
+/**
+ * Convert seconds to MM:SS
+ * @param {Integer} nb_sec A number of seconds
+ * @return A time code string
+ */
+function parseTimeCode(nb_sec){
+	nb_sec = Math.floor(nb_sec);
+	var nb_min = 0;
+	while(nb_sec - 60  > 0){
+		nb_sec = nb_sec - 60;
+		nb_min++;
+	}
+	var sec = nb_sec.toString();
+	if(sec.length==1){
+		sec = '0'+sec;
+	}
+	var min = nb_min.toString();
+	if(min.length==1){
+		min = '0'+min;
+	}	
+	return min+':'+sec;
+};

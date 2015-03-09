@@ -37,7 +37,7 @@ a {
 	cursor: pointer;
 }
 
-a:hover {
+a:hover ,a:focus {
 	text-shadow: 1px 1px 1px #eee;
 	text-decoration: none; /* default hover style for links */
 }
