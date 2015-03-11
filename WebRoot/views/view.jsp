@@ -45,7 +45,7 @@
 		var player;
 		function load() {
 			var v = document.querySelector("video");
-			new Playr("dd", v)
+			new Playr("dd", v);
 			player = new DD.Player("dd", v);
 			var url = "<%=path%>/getDanmaku.do?vid=${videoId }";
 			player.init("canvas", url);	

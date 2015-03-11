@@ -18,7 +18,7 @@
 			
 		<div class="content">
 			<span class="quickpannel_toggle">
-				<img class="icon_face" src="images/myface_s.jpg"/>
+				<img class="icon_face" src="<%=path%>/views/images/myface_s.jpg"/>
 			</span>
 			<div class="dexp_settings">
 				<!-- Nav tabs -->

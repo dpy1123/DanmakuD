@@ -57,7 +57,7 @@ public class DanmuController {
 		danmuService.add(danmu);
 		
 		
-		//更新点击数
+		//更新弹幕数
 		try {
 			resourceService.updateCount(resourceService.getByVideoId(danmu.getVideoId()).getId(), "danmuCount", 1);
 		} catch (Exception e) {
