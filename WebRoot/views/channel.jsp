@@ -23,6 +23,20 @@
 	<link href="<%=path%>/views/css/index.css" rel="stylesheet" type="text/css">
 	<!-- 公共样式，因为要覆盖前面的，所以最后导入 -->
 	<link rel="stylesheet" href="<%=path%>/views/css/common.css" type="text/css" />
+	<!-- Post Tabs -->
+	<script type="text/javascript" src="<%=path%>/views/posttab/posttab.js"></script>
+	<link rel="stylesheet" href="<%=path%>/views/posttab/posttab.css" type="text/css" />
+	<!-- Scroll Bars -->
+	<script src="<%=path%>/views/posttab/jquery.mousewheel.js"></script>
+	<script src="<%=path%>/views/posttab/jquery.jscrollpane.min.js"></script>
+	<script>
+	    jQuery(function() {
+	        jQuery('.scrollbar').jScrollPane({
+	            autoReinitialise: true,
+	            verticalGutter: 0
+	        });
+	    });
+	</script>
 </head>
 
 <body>
@@ -34,6 +48,63 @@
 	<div id="title" class="container">
 		<span>//${categoryName }</span>
 	</div>
+		
+	<div class="container">
+		<!-- Post Tabs -->
+		<div class="post-tabs clearfix">
+			<div class="post-tabs-bookmarks">
+				<ul class="scrollbar style2">
+					<c:forEach items="${recommend}" var="recommend" varStatus="i">
+						<c:choose>
+							<c:when test="${i.first}">
+								<li class="active">${recommend.title }</li>
+							</c:when>
+							<c:otherwise>
+								<li>${recommend.title }</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</ul>
+			</div>
+
+			<div class="post-tabs-content boxed">
+				<c:forEach items="${recommend}" var="recommend" varStatus="i">
+				<!-- post item -->
+		<c:choose>
+			<c:when test="${i.first}">
+				<div class="post-item style6 clearfix bg-image-arrow active">
+			</c:when>
+			<c:otherwise>
+				<div class="post-item style6 clearfix bg-image-arrow">
+			</c:otherwise>
+		</c:choose>
+<!-- 			<div class="post-item style6 clearfix bg-image-arrow active"> -->
+					<div class="post-image">
+						<a href="#" data-rel="prettyPhoto" title="${recommend.title }">
+							<img src="<%=path%>/getFsFile.do?filename=${recommend.previewImg }" alt="${recommend.description }" />
+						</a>
+					</div>
+					<div class="post-content">
+						<h2 class="post-title"><a href="#">${recommend.title }</a></h2>
+						<h6 class="post-subtitle">${recommend.uploaderId }</h6>
+						<div class="post-desc">
+							<p>${recommend.description }</p>
+						</div>
+						<ul class="post-links-alt">
+							<li class="post-more"><a href="<%=path%>/view.do?resourceId=${recommend.id }">前去围观<i class="icon-small-next"></i></a></li>
+							<li class="post-refresh"><a href="#" title="播放: ${recommend.clickCount }"><i class="icon-small-refresh"></i></a></li>
+							<li class="post-like"><a href="#" title="评分: ${recommend.score }"><i class="icon-small-like"></i></a></li>
+							<li class="post-comments"><a href="#" title="弹幕: ${recommend.danmuCount }"><i class="icon-small-comment"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<!--/ post item -->
+				</c:forEach>
+			</div>
+		</div>
+		<!--/ Post Tabs -->
+	</div>
+		
 		
  	<div class="container">
 		<div class="row">

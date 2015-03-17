@@ -121,6 +121,21 @@ public class ChannelController {
 		}
 		
 		mv.addObject("resources", resources);
+		
+		//TODO 这个将来应该根据不同用户，推荐个性化的内容
+		//准备recommend的内容
+		String cates = "" ;
+		for (int i = 0; i < categories.size(); i++) {
+			cates += "'"+categories.get(i).getId()+"'";
+			if(i!=categories.size()-1)
+				cates += ",";
+		}
+		String query = "{ status: '%1$s', categories : {$in:[ %2$s ]} }";
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
+		orderBy.put("score", "DESC");
+		List<Resource> recommend = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 5, orderBy, Resource.IN_USING, cates);
+		mv.addObject("recommend", recommend);
+		
 		return mv;
 	}
 	
@@ -149,7 +164,7 @@ public class ChannelController {
 		String query = "{ status: '%1$s', categories : '%2$s' }";
 		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
 		orderBy.put("score", "DESC");
-		List<Resource> resources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
+		List<Resource> resources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 20, orderBy, Resource.IN_USING, cates);
 
 		mv.addObject("resources", resources);
 		

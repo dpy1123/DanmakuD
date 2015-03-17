@@ -69,14 +69,18 @@
 								</div>
 							</form> 
 							<script type="text/javascript">
-								jQuery(document).ready(function($) {
+								jQuery(document).ready(function() {
 									$('#search_icon').click(function() {
-										$(this).toggle();
-										$('#search_panel').toggle();
+										$(this).hide();
+										$('#search_panel').show();
+										return false;
 									})
-	
+									$($('header')[0]).click(function() {
+										$('#search_icon').show();
+										$('#search_panel').hide();
+									})
 								})
-							</script>
+							</script> 
 						</li>
 					</ul>
 			</div><!-- /.navbar-collapse -->
