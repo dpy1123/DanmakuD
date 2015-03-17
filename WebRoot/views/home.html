@@ -93,9 +93,15 @@
 
 						
 					  <ul class="nav navbar-nav navbar-right " >
-						 <li><a href="#">
-							<span id="upload_icon" class="glyphicon glyphicon-upload" ></span>
-							投稿</a></li>
+							<li>
+								<a href="#"><span id="upload_icon" class="glyphicon glyphicon-upload" ></span>投稿</a>
+							</li>
+							<li>
+								<a href="#"><span id="upload_icon" class="glyphicon glyphicon-registration-mark" ></span>注册</a>
+							</li>
+							<li>
+								<a href="#"><span id="upload_icon" class="glyphicon glyphicon-log-in" ></span>登录</a>
+							</li>
 							<li>
 							  <form class="navbar-form  region-search" role="search" >
 								 <span id="search_icon" class="glyphicon glyphicon-search" style="line-height: 2;"></span>
@@ -107,10 +113,15 @@
 								<script type="text/javascript">
 								  jQuery(document).ready(function($){
 									$('#search_icon').click(function(){
-										$(this).toggle();
-									  $('#search_panel').toggle();
+										$(this).hide();
+										$('#search_panel').show();
+										return false;
 									})
-									
+									$($('header')[0]).click(function(){
+										$('#search_icon').show();
+										$('#search_panel').hide();
+										return false;
+									})
 								  })
 								</script>  
 							 

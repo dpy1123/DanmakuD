@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-CN">
+<head>
+	<!-- 响应式 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+
+
+	<title>DD.tv</title>
+
+	<style>
+
+	body {
+		padding-top: 20px;
+		font-size: 16px;
+		font-family: serif;
+	}
+	.login_panel {
+		background-color: rgba(255, 255, 255, 0.9);
+		border-radius: 10px;
+	}
+	.margin-base-vertical {
+		margin: 40px 0;
+	}
+	
+	.cover div{
+		position: fixed;
+		height: 100%;
+		width: 100%;;	
+		left: 0px;
+		top: 0px;
+	}
+	.bg{
+		opacity: 0.6;
+		background: url(images/bannerAD01.jpg) no-repeat center center fixed;
+		background-size: cover;
+		-moz-background-size: cover;
+		-webkit-background-size: cover;
+		-o-background-size: cover;
+	}
+	.bg_cover{
+		background-color: rgba(223, 231, 200, 0.5);	
+	}
+	.blur {
+		-moz-filter: blur(10px);
+		-webkit-filter: blur(10px);
+		-o-filter: blur(10px);
+		-ms-filter: blur(10px);
+		filter: blur(10px);
+	}
+	</style>
+</head>
+
+<body>
+	<div class="cover">
+		<div class="bg_cover"></div>
+		<div class="blur bg "></div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 login_panel">
+				<h1 class="margin-base-vertical">弹幕视频：“让观看过程充满乐趣。”</h1>
+				
+
+				<div class="row">
+					<div class="col-md-7">
+						<p>说起视频网站，你也许知道优酷、土豆、爱奇艺，可是你知道A站、B站、D站是什么吗？</p>
+						<p>在弹幕网站上看视频时，网友们机智的评论让看视频的过程充满了乐趣，“可能任何视频放在弹幕网站上都变得让人难以置信地好笑。”</p>
+						<p>除了弹幕本身是视频内容的良好补充外，很多时候一些视频里吐槽的质量远远高于作品本身。</p>
+								
+						
+					</div>
+					<div class="col-md-5">
+						<form action="/mailing-list" method="post">
+							<p class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+								<input type="text" class="form-control input-lg" tabindex="1" name="user" placeholder="用户名/邮箱" />
+							</p>
+							<p class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+								<input type="password" class="form-control input-lg" tabindex="2" name="pwd" placeholder="密码" />
+							</p>
+							
+							<p>
+								<button type="submit" class="btn btn-success btn-lg">登录</button>
+							</p>
+							</span>
+						</form>
+
+						<p class="help-block">还没有帐号？<a href="signup.html">立即加入</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
