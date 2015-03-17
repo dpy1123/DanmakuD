@@ -113,6 +113,16 @@ width: 160px;
 height: 100px;
 margin: 0 auto;
 }
+@media only screen and (max-width: 481px) {
+	.video_list .preview {
+		width: 150px;
+		margin:0;
+	}
+	
+	.video_list li img {
+		width: 150px;
+	}
+}
 
 .list_style1 .title {
 	/*float: left;
