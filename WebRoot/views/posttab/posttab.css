@@ -1,0 +1,275 @@
+.content, .sidebar {padding: 50px 0;}
+@media (max-width: 767px) {
+    .content, .sidebar {padding: 20px 0;}
+}
+.boxed {
+    background-color: #fff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+	position: relative;
+}
+.boxed-transparent {
+    background-color: #a9728e;
+    background-color: rgba(255,255,255,0.1);
+}
+.widget-container {margin-bottom: 30px;}
+.caroufredsel_wrapper {margin: 0 auto !important;}
+
+
+
+/*-----------------------------------*/
+/* Background Images */
+/*-----------------------------------*/
+
+[class^="bg-image-"], [class*=" bg-image-"] {
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+.bg-image-home {background-image: url(icons/bg-home.png);}
+.bg-image-arrow {background-image: url(icons/bg-arrow.png);}
+.bg-image-note4 {background-image: url(icons/bg-note4.png);}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
+    .bg-image-home {background-image: url(icons/bg-home-x2.png); background-size: 143px auto;}
+    .bg-image-arrow {background-image: url(icons/bg-arrow-x2.png); background-size: 337px auto;}
+    .bg-image-note4 {background-image: url(icons/bg-note4-x2.png); background-size: 143px auto;}
+}
+
+
+/* Post Tabs */
+/*-----------------------------------*/
+
+.post-tabs {margin-bottom: 30px;}
+.post-tabs-bookmarks .jspVerticalBar {right: 8px;}
+.post-tabs-bookmarks .jspTrack {width: 0;}
+
+.post-tabs-bookmarks {
+    float: right;
+    width: 25%;
+    background-color: #d98f88;
+    background-color: rgba(255, 241, 244, 0.24);
+    box-shadow: inset 5px 0 5px -2px rgba(104, 16, 52, 0.2),
+                0 2px 2px rgba(0, 0, 0, 0.2);
+}
+.post-tabs-bookmarks ul {height: 0;}
+
+.post-tabs-bookmarks li {
+    font-family: inherit;
+    font-size: 14px;
+	line-height: 14px;
+    font-weight: 400;
+    color: #6B6B6B !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    white-space: normal;
+    cursor: pointer;
+    padding: 19px 10px 19px 30px;
+    margin-right: 0;
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-right: none;
+    border-bottom: 1px solid #ae6077;
+    border-bottom: 1px solid rgba(87, 43, 56, 0.12);
+    position: relative;
+}
+.post-tabs-bookmarks li:before {
+    content: '';
+    position: absolute;
+    top: 23px;
+    left: 15px;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 6px solid #eec6c6;
+}
+.post-tabs-bookmarks li.active {
+    background-color: #ad736c;
+    background-color: rgba(121, 41, 58, 0.1);
+    border-color: rgba(123,24,37,0.12);
+}
+.post-tabs-bookmarks li.active:before {
+    top: 19px;
+    left: 14px;
+    border-top-width: 7px;
+    border-bottom-width: 7px;
+    border-left: 11px solid #d4e729;
+}
+
+.post-tabs-content {
+    float: left;
+    width: 75%;
+    margin-bottom: 0;
+}
+.post-tabs-content .post-item {display: none; min-height: 100px;}
+.post-tabs-content .post-item.active {display: block;}
+
+@media (max-width: 767px) {
+    .post-tabs-bookmarks li {padding: 15px 10px; font-size: 12px;}
+    .post-tabs-bookmarks li:before {display: none;}
+}
+
+
+
+/*-----------------------------------*/
+/* Post Items */
+/*-----------------------------------*/
+
+.widget-title {font-size: 46px; color: #644370; letter-spacing: -2.3px; line-height: 42px; margin-bottom: 4px;}
+.widget-title a {display:block; margin-left: -2px; color: #644370;}
+.widget-subtitle {line-height: 28px; text-transform: uppercase; margin-bottom: 8px;}
+.widget-subtitle a {color: #985965;}
+
+@media (max-width:479px), (min-width:768px) and (max-width:991px) {
+    .widget-title {font-size: 36px; letter-spacing: -1px; margin-bottom: 0;}
+    .widget-subtitle {font-size: 14px; line-height: 22px; margin-bottom: 12px;}
+}
+@media (max-width:479px) {
+    .widget-title {font-size: 26px;}
+}
+
+.post-title {font-size: 46px; letter-spacing: -2.3px;  margin-bottom: 2px; color: #644370;}
+.post-title a {color: #644370;}
+.post-subtitle {line-height: 28px; text-transform: uppercase; margin-bottom: 16px;}
+.post-subtitle a {color: #985965;}
+.post-image img {display: block; width: 100%;}
+
+/*Links without background*/
+.post-links-alt {margin-bottom: 23px;}
+.post-links-alt li {display: inline-block; line-height: 22px;}
+.post-links-alt li a {color: #bf5d90;}
+.post-links-alt .post-more {margin-right: 64px;}
+.post-links-alt .post-more a {display:block; font-weight: 700; color: #b8c901;}
+.post-links-alt .post-more i {font-size: 20px; margin: 0 0 0 8px; vertical-align: -24%;}
+.post-links-alt .post-author a {font-weight: 700; color: #7380b0;}
+.post-links-alt .post-date {margin-right: 5px;}
+.post-links-alt .post-date a {font-weight: 700; color: #bf5d90;}
+.post-links-alt .post-facebook,
+.post-links-alt .post-twitter {font-size: 16px;}
+
+@media (max-width:479px), (min-width:768px) and (max-width:991px) {
+    .post-title {font-size: 36px; letter-spacing: -1px; margin-bottom: 0;}
+    .post-subtitle {font-size: 14px; line-height: 22px; margin-bottom: 12px;}
+}
+@media (max-width:991px) {
+    .post-links .text {opacity: .1;}
+}
+@media (max-width:479px) {
+    .post-title {font-size: 26px;}
+    .post-links a {font-size: 12px;}
+    .post-links-alt .post-more {margin-right: 24px;}
+}
+
+/* Post Item style 6 */
+/*-----------------------------------*/
+
+.post-item.style6 .post-content {padding: 0px 10px;}
+.post-item.style6[class*="bg-image-"] {background-position: left -75px top -65px;}
+.post-item.style6 .post-title {margin-bottom: 4px; line-height: 40px;}
+.post-item.style6 .post-subtitle {margin-bottom: 22px;}
+.post-item.style6 .post-desc p {line-height: 24px;}
+
+.post-item.style6 .post-image {
+    width: 52%;
+    float: right;
+    margin: 0 0 0 20px;
+    position: relative;
+}
+.post-item.style6 .post-image:after {
+    content: '';
+    position: absolute;
+    top: 58px;
+    left: 0;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 14px solid #fff;
+}
+.post-item.style6 .post-links-alt {margin-top: 16px; text-align: right;}
+.post-item.style6 .post-links-alt .post-more {margin-right: 10px; float: left;}
+
+
+@media (max-width: 991px) {
+    .post-item.style6 .post-content {padding: 10px 20px 8px;}
+}
+@media (max-width: 767px) {
+    .post-item.style6 .post-title {font-size: 22px; line-height: 26px;}
+    .post-item.style6 .post-subtitle {font-size: 12px; line-height: normal; margin-bottom: 8px;}
+}
+@media (max-width: 479px) {
+    .post-item.style6 .post-image {
+        width: auto;
+        float: none;
+        margin: 0 0 10px;
+    }
+    .post-item.style6 .post-image:after {display: none;}
+    .post-item.style6 .post-links-alt .post-more {float: none; display: block;}
+}
+
+
+
+/*-----------------------------------*/
+/* Scroll Bars */
+/*-----------------------------------*/
+
+.scrollbars{margin-bottom: 30px;}
+.scrollbars p {visibility:hidden; opacity: 0;}
+.scrollbars p::selection{background: transparent; color: rgba(0, 0, 0, 0);}
+.scrollbars .scrollbar {width: 23px; height: 210px; float: left;}
+
+.scrollbar {overflow: auto;}
+.scrollbar:focus {outline: none;}
+.jspContainer {overflow: hidden; position: relative;}
+.jspPane {position: absolute;}
+.jspHorizontalBar {display: none;}
+.jspVerticalBar {position: absolute; top: 0; right: 0; bottom: 0;}
+
+/* Bar */
+.jspTrack {
+    float: right;
+    width: 4px;
+    position: relative;
+}
+.jspTrack:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #f2e2e6;
+    border-radius: 2px;
+    background: #fefbfc;
+    background: rgba(253,245,247,0.38);
+}
+.scrollbar.style2 .jspTrack:before {display: none;}
+
+/* Arrows */
+.jspArrow {
+    display: none;
+    margin: 0 auto;
+    cursor: pointer;
+    width: 1px;
+    height: 0;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-bottom: 4px solid #a9a8a5;
+    position: relative;
+    top: 9px;
+    z-index: 1;
+}
+.jspArrowDown {
+    border-top: 4px solid #a9a8a5;
+    border-bottom: none;
+    top: auto;
+    bottom: 9px;
+}
+
+/* Handle */
+.jspDrag {
+    width: 4px;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    cursor: pointer;
+    border-radius: 2px;
+    background: #A9A9A9;
+}
