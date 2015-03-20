@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilena
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -115,7 +116,7 @@ public class FsFileServ {
 		try {
 			in.skip(offset);
 		} catch (IOException e) {
-			System.out.println("InputStream seek失败！"+e.getStackTrace());
+			System.out.println("InputStream seek失败！"+Arrays.toString(e.getStackTrace()));
 		}
 		byte[] buffer = new byte[BUFFER_SIZE];
 		byte[] result = new byte[(int) size];

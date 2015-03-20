@@ -543,13 +543,12 @@ public class DateUtils {
 		Date tmpDate = null;
 		try {
 			tmpDate = df.parse(basicDate);
+			long nDay = (tmpDate.getTime() / (24 * 60 * 60 * 1000) + 1 + n)
+					* (24 * 60 * 60 * 1000);
+			tmpDate.setTime(nDay);
 		} catch (Exception e) {
 			System.out.println("dateformat:" + e.getMessage());
 		}
-		long nDay = (tmpDate.getTime() / (24 * 60 * 60 * 1000) + 1 + n)
-				* (24 * 60 * 60 * 1000);
-		tmpDate.setTime(nDay);
-
 		return df.format(tmpDate);
 	}
 
@@ -624,16 +623,17 @@ public class DateUtils {
 	 */
 	public static int nDaysBetweenTwoDate(String firstString,
 			String secondString) {
+		int nDay = -1;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date firstDate = null;
 		Date secondDate = null;
 		try {
 			firstDate = df.parse(firstString);
 			secondDate = df.parse(secondString);
+			nDay = (int) ((secondDate.getTime() - firstDate.getTime()) / (24 * 60 * 60 * 1000));
 		} catch (Exception e) {
 			System.out.println("dateformat:" + e.getMessage());
 		}
-		int nDay = (int) ((secondDate.getTime() - firstDate.getTime()) / (24 * 60 * 60 * 1000));
 		return nDay;
 	}
 
