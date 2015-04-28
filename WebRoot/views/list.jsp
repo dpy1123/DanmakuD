@@ -69,10 +69,10 @@
 						<ul class="video_list">
 							<c:forEach items="${resources }" var="resource">  
 								<li name="items" class="list_style1">
-									<a href="<%=path%>/view.do?resourceId=${resource.id }" target="_blank" class="preview">
+									<a href="<%=path%>/view.do?resourceId=${resource.id }" class="preview">
 										<img src="<%=path%>/getFsFile.do?filename=${resource.previewImg }">
 									</a>
-									<a target="_blank" class="title">${resource.title }</a>
+									<a href="<%=path%>/view.do?resourceId=${resource.id }" class="title">${resource.title }</a>
 									<div class="info">
 										<a class="gk">播放:<b>${resource.clickCount }</b></a>
 										<a class="sc">收藏:<b>${resource.favorCount }</b></a>

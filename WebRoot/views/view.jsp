@@ -159,19 +159,25 @@
 						<source src="${videoUrl }" type="video/mp4"></source> 
 					</video>
 				</div>
-				<div id="sendPanel" class="row">
-					<div class="col-xs-1 col-md-offset-2 col-lg-1 col-lg-offset-3">
+				<div id="sendPanel" class="form-inline" style="text-align: center;">
+					<div class="input-group">
 						<div id="colorSelector2"><div></div></div>
 						<input id="color" type="hidden" value="#ffffff">
 					</div>
-					<div class="col-xs-6 col-sm-4 col-lg-2" style="font-size: 14px;margin-top: 6px;">
+					<div class="input-group" style="font-size: 14px;">
 						<label>样式：</label>
-						<input type="radio" name="style" checked value="Scroll"/><label>Scroll</label>
-						<input type="radio" name="style" value="Static"/><label>Static</label>
+						<label class="radio-inline">
+							<input type="radio" name="style" checked value="Scroll"/>Scroll
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="style" value="Static"/>Static
+						</label>
 					</div>
-					<div class="col-xs-8 col-sm-4 col-lg-3" style="font-size: 14px;margin-top: 4px;">
-						<input id="text" type="text">
-						<button id="send">Send</button>
+					<div class="input-group">
+						<input id="text" type="text" class="form-control" placeholder="弹幕内容">
+						<div class="input-group-btn">
+							<button id="send" class="btn btn-default">Send</button>
+						</div>
 					</div>
 				</div>	
 			</div>

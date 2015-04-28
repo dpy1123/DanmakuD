@@ -139,8 +139,8 @@ margin: 0 auto;
 }
 .list_style2 .title {
 	float: left;
-	min-width: 160px;
-	max-width: 240px; /* 用于移动设备布局: 480px 及更低。 */
+	min-width: 140px;
+	max-width: 240px;
 	word-break: break-all;
 	word-wrap: break-word;
 	overflow: hidden;

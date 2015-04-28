@@ -35,7 +35,7 @@
 						<ul class="dyn_list">
 							<li class="d-data">
 								<div class="preview">
-									<img src="images/myface_s.jpg">
+									<img src="<%=path%>/views/images/myface_s.jpg">
 								</div>
 								<div class="r">
 									<div class="title">
