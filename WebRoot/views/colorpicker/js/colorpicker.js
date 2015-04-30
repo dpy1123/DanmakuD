@@ -7,6 +7,16 @@
  * 
  */
 (function ($) {
+
+	//增加在移动端的兼容性，主要问题是mouse事件要换成touch事件。
+	//另外在调用中发现至少chrome下，手指点击，移动touchmove，但是ontouchend并不会触发。
+	//hammer.js的pan事件中有isFirst，isFinal的手指移动判断。
+	var isMobile = 'ontouchmove' in document;//通过document中是否有这个事件，判断是pc还是mobile
+	var mousemove =  isMobile ? 'touchmove' : 'mousemove' ;//
+	var mouseup = isMobile ? 'ontouchend' : 'mouseup' ;//
+	var mousedown = false ? 'ontouchstart' : 'mousedown' ;//mobile端，mousedown还是使用原来的mousedown
+
+
 	var ColorPicker = function () {
 		var
 			ids = {},
@@ -105,6 +115,17 @@
 				$(this).parent().addClass('colorpicker_focus');
 			},
 			downIncrement = function (ev) {
+
+				if(dragging){//
+					var event = document.createEvent('HTMLEvents');//
+					event.initEvent('ontouchend', false, true);//
+					document.dispatchEvent(event);//
+
+					dragging = false;//
+				}//
+
+
+
 				var field = $(this).parent().find('input').focus();
 				var current = {
 					el: $(this).parent().addClass('colorpicker_slider'),
@@ -114,10 +135,19 @@
 					val: parseInt(field.val(), 10),
 					preview: $(this).parent().parent().data('colorpicker').livePreview					
 				};
-				$(document).bind('mouseup', current, upIncrement);
-				$(document).bind('mousemove', current, moveIncrement);
+				//$(document).bind('mouseup', current, upIncrement);
+				//$(document).bind('mousemove', current, moveIncrement);
+				$(document).bind(mouseup, current, upIncrement);
+				$(document).bind(mousemove, current, moveIncrement);
 			},
 			moveIncrement = function (ev) {
+				if(isMobile){
+					ev.pageY = ev.originalEvent.touches[0].pageY;
+					ev.pageX = ev.originalEvent.touches[0].pageX;
+					dragging = true;
+				}
+
+
 				ev.data.field.val(Math.max(0, Math.min(ev.data.max, parseInt(ev.data.val + ev.pageY - ev.data.y, 10))));
 				if (ev.data.preview) {
 					change.apply(ev.data.field.get(0), [true]);
@@ -127,20 +157,46 @@
 			upIncrement = function (ev) {
 				change.apply(ev.data.field.get(0), [true]);
 				ev.data.el.removeClass('colorpicker_slider').find('input').focus();
-				$(document).unbind('mouseup', upIncrement);
-				$(document).unbind('mousemove', moveIncrement);
+				//$(document).unbind('mouseup', upIncrement);
+				//$(document).unbind('mousemove', moveIncrement);
+				$(document).unbind(mouseup, upIncrement);
+				$(document).unbind(mousemove, moveIncrement);
 				return false;
 			},
 			downHue = function (ev) {
+				if(dragging){//
+					var event = document.createEvent('HTMLEvents');//
+					event.initEvent('ontouchend', false, true);//
+					document.dispatchEvent(event);//
+
+					dragging = false;//
+				}//
+
+
 				var current = {
 					cal: $(this).parent(),
 					y: $(this).offset().top
 				};
+				
 				current.preview = current.cal.data('colorpicker').livePreview;
-				$(document).bind('mouseup', current, upHue);
-				$(document).bind('mousemove', current, moveHue);
+				//$(document).bind('mouseup', current, upHue);
+				//$(document).bind('mousemove', current, moveHue);
+				$(document).bind(mouseup, current, upHue);
+				$(document).bind(mousemove, current, moveHue);
 			},
 			moveHue = function (ev) {
+				if(isMobile){//
+					ev.pageY = ev.originalEvent.touches[0].pageY;//
+					ev.pageX = ev.originalEvent.touches[0].pageX;//
+					dragging = true;//
+				}//
+				/*
+				console.log(ev);
+				if (ev.target.parentElement !== document.elementFromPoint(ev.pageX, ev.pageY)) {
+						upHue(ev);
+					
+				}*/
+
 				change.apply(
 					ev.data.cal.data('colorpicker')
 						.fields
@@ -154,20 +210,50 @@
 			upHue = function (ev) {
 				fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
 				fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-				$(document).unbind('mouseup', upHue);
-				$(document).unbind('mousemove', moveHue);
+				//$(document).unbind('mouseup', upHue);
+				//$(document).unbind('mousemove', moveHue);
+				$(document).unbind(mouseup, upHue);
+				$(document).unbind(mousemove, moveHue);
 				return false;
 			},
+
+			dragging = false,//【for mobile】记录当前是否在拖拽，由于移动端拖拽会触发ontouchmove但结束的时候不触发ontouchend。
+							//downSelector(在色块区点下鼠标)和moveSelector(在色块区移动)的代码逻辑需要修改，downHue和moveHue也是同理。
 			downSelector = function (ev) {
+				if(dragging){//如果在新的点击时，发现之前的move结束没有调用end，则人工触发end。
+					//
+					var event = document.createEvent('HTMLEvents');//
+					event.initEvent('ontouchend', false, true);//
+					document.dispatchEvent(event);//
+
+					dragging = false;//
+				}//
+				
+
 				var current = {
 					cal: $(this).parent(),
 					pos: $(this).offset()
 				};
 				current.preview = current.cal.data('colorpicker').livePreview;
-				$(document).bind('mouseup', current, upSelector);
-				$(document).bind('mousemove', current, moveSelector);
+				//$(document).bind('mouseup', current, upSelector);
+				//$(document).bind('mousemove', current, moveSelector);
+				$(document).bind(mouseup, current, upSelector);//bind()中的第二个参数是传到方法upSelector中的额外参数，在方法中通过ev.data获得
+				$(document).bind(mousemove, current, moveSelector);
+				//console.log('bind mousemove');
+				
 			},
+			
 			moveSelector = function (ev) {
+
+				//console.log(mousemove);
+				//console.log(ev);
+				if(isMobile){ 
+					ev.pageY = ev.originalEvent.touches[0].pageY;
+					ev.pageX = ev.originalEvent.touches[0].pageX;
+					dragging = true;
+				}
+				
+
 				change.apply(
 					ev.data.cal.data('colorpicker')
 						.fields
@@ -179,13 +265,18 @@
 						.get(0),
 					[ev.data.preview]
 				);
+
 				return false;
 			},
 			upSelector = function (ev) {
+				
 				fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
 				fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-				$(document).unbind('mouseup', upSelector);
-				$(document).unbind('mousemove', moveSelector);
+				//$(document).unbind('mouseup', upSelector);
+				//$(document).unbind('mousemove', moveSelector);
+				$(document).unbind(mouseup, upSelector);
+				$(document).unbind(mousemove, moveSelector);
+				//console.log('unbind mousemove');
 				return false;
 			},
 			enterSubmit = function (ev) {
@@ -218,7 +309,8 @@
 				if (cal.data('colorpicker').onShow.apply(this, [cal.get(0)]) != false) {
 					cal.show();
 				}
-				$(document).bind('mousedown', {cal: cal}, hide);
+				//$(document).bind('mousedown', {cal: cal}, hide);
+				$(document).bind(mousedown, {cal: cal}, hide);
 				return false;
 			},
 			hide = function (ev) {
@@ -226,7 +318,7 @@
 					if (ev.data.cal.data('colorpicker').onHide.apply(this, [ev.data.cal.get(0)]) != false) {
 						ev.data.cal.hide();
 					}
-					$(document).unbind('mousedown', hide);
+					$(document).unbind(mousedown, hide);
 				}
 			},
 			isChildOf = function(parentEl, el, container) {
@@ -402,13 +494,13 @@
 												.bind('blur', blur)
 												.bind('focus', focus);
 						cal
-							.find('span').bind('mousedown', downIncrement).end()
+							.find('span').bind(mousedown, downIncrement).end()
 							.find('>div.colorpicker_current_color').bind('click', restoreOriginal);
-						options.selector = cal.find('div.colorpicker_color').bind('mousedown', downSelector);
+						options.selector = cal.find('div.colorpicker_color').bind(mousedown, downSelector);
 						options.selectorIndic = options.selector.find('div div');
 						options.el = this;
 						options.hue = cal.find('div.colorpicker_hue div');
-						cal.find('div.colorpicker_hue').bind('mousedown', downHue);
+						cal.find('div.colorpicker_hue').bind(mousedown, downHue);
 						options.newColor = cal.find('div.colorpicker_new_color');
 						options.currentColor = cal.find('div.colorpicker_current_color');
 						cal.data('colorpicker', options);
