@@ -193,7 +193,7 @@
 				/*
 				console.log(ev);
 				if (ev.target.parentElement !== document.elementFromPoint(ev.pageX, ev.pageY)) {
-						upHue(ev);
+					//document.elementFromPoint返回指定坐标上的元素
 					
 				}*/
 
