@@ -314,11 +314,17 @@
 				return false;
 			},
 			hide = function (ev) {
+				//console.log('hide');
 				if (!isChildOf(ev.data.cal.get(0), ev.target, ev.data.cal.get(0))) {
 					if (ev.data.cal.data('colorpicker').onHide.apply(this, [ev.data.cal.get(0)]) != false) {
 						ev.data.cal.hide();
 					}
 					$(document).unbind(mousedown, hide);
+
+					//隐藏的时候去除这些绑定事件
+					$(document).unbind(mousedown,downIncrement).unbind(mousedown,downHue).unbind(mousedown,downSelector);//
+					$(document).unbind(mousemove,moveIncrement).unbind(mousemove,moveHue).unbind(mousemove,moveSelector);//
+					$(document).unbind(mouseup,upIncrement).unbind(mouseup,upHue).unbind(mouseup,upSelector);//
 				}
 			},
 			isChildOf = function(parentEl, el, container) {
@@ -535,8 +541,10 @@
 			},
 			hidePicker: function() {
 				return this.each( function () {
+					
 					if ($(this).data('colorpickerId')) {
 						$('#' + $(this).data('colorpickerId')).hide();
+
 					}
 				});
 			},
