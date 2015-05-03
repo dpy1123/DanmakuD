@@ -201,7 +201,11 @@
 .post-title a {color: #644370;}
 .post-subtitle {line-height: 28px; text-transform: uppercase; margin-bottom: 16px;}
 .post-subtitle a {color: #985965;}
-.post-image img {display: block; width: 100%;}
+.post-image img {
+	height: 250px;
+	display: block; 
+	/*width: 100%;*/
+}
 
 /*Links without background*/
 .post-links-alt {margin-bottom: 23px;}
@@ -243,6 +247,7 @@
     float: right;
     margin: 0 0 0 20px;
     position: relative;
+    overflow: hidden;
 }
 .post-item.style6 .post-image:after {
     content: '';
