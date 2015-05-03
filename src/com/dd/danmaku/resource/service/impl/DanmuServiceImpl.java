@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.resource.bean.Danmu;
 import com.dd.danmaku.resource.dao.DanmuDao;
 import com.dd.danmaku.resource.service.DanmuService;
-import com.dd.danmaku.utils.StringUtils;
 
 
 @Service("danmuService")

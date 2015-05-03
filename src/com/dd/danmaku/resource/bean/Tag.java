@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.dd.danmaku.utils.DateUtils;
+import com.dd.danmaku.common.utils.DateUtils;
 
 /**
  * 标签实体类.

@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.dao.CategoryDao;
 import com.dd.danmaku.resource.service.CategoryService;
-import com.dd.danmaku.utils.StringUtils;
 
 
 

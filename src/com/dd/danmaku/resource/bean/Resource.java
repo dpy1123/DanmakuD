@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.dd.danmaku.utils.DateUtils;
+import com.dd.danmaku.common.utils.DateUtils;
 
 /**
  * 资源实体类.
