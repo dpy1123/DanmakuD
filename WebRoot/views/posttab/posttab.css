@@ -192,6 +192,9 @@
 }
 @media (max-width:479px) {
     .widget-title {font-size: 26px;}
+    .post-item.style6 .post-content{
+    	display: none;
+    }
 }
 
 .post-title {font-size: 46px; letter-spacing: -2.3px;  margin-bottom: 2px; color: #644370;}
