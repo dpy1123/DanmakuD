@@ -1,4 +1,4 @@
-package com.dd.danmaku.server;
+package com.dd.danmaku.web.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import com.dd.danmaku.utils.ImageUtils;
+
+import com.dd.danmaku.common.utils.ImageUtils;
 import com.mongodb.gridfs.GridFSFile;
 
 /**

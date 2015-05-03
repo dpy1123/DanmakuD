@@ -1,4 +1,4 @@
-package com.dd.danmaku.controller;
+package com.dd.danmaku.web.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.jms.JMSMessage;
 import com.dd.danmaku.jms.JMSSender;
 import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
-import com.dd.danmaku.utils.StringUtils;
 
 
 /**

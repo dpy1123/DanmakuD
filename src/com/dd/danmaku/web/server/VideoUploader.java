@@ -1,4 +1,4 @@
-package com.dd.danmaku.server;
+package com.dd.danmaku.web.server;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.VideoService;
-import com.dd.danmaku.utils.StringUtils;
 import com.mongodb.gridfs.GridFSFile;
 
 
@@ -78,8 +78,8 @@ public class VideoUploader {
             logger.info("文件原名: " + myfile.getOriginalFilename());
             logger.info("文件size: " + myfile.getSize());
             
-            //TODO 防止多个用户上传同名文件相互影响，filename = userId + originalName;
-            String filename = myfile.getOriginalFilename();
+            //防止多个正在上传的同名文件相互影响，filename = UUID + [originalName];
+            String filename = UUID.randomUUID().toString() + "["+myfile.getOriginalFilename()+"]";
             
             Map<String, Object> fileInfo = new HashMap<String, Object>();
 			fileInfo.put("name", myfile.getOriginalFilename());
@@ -103,7 +103,8 @@ public class VideoUploader {
 				
 				//最后一个分段
 	            if(Long.parseLong(endRange)+1 == Long.parseLong(fileSize)){
-	            	boolean isComplete = (file.length() == Long.parseLong(fileSize));
+	            	//TODO 通过md5等方式校验文件是否正确传输
+	            	boolean isComplete = true;
 	            	if(isComplete){
 	            		//传输完成，保存至文件系统
 	            		String fsfilename = UUID.randomUUID().toString();
@@ -137,6 +138,9 @@ public class VideoUploader {
 	    					logger.error("文件信息入库失败", e);
 	    					fileInfo.put("error", "文件信息入库失败");
 	    				}
+	            	}else{
+	            		logger.error("文件不完整");
+	            		fileInfo.put("error", "文件不完整");
 	            	}
 	            	file.close();
 	            	//删除临时文件

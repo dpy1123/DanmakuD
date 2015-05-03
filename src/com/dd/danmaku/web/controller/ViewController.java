@@ -1,4 +1,4 @@
-package com.dd.danmaku.controller;
+package com.dd.danmaku.web.controller;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
 import com.dd.danmaku.resource.service.VideoService;
-import com.dd.danmaku.utils.StringUtils;
 
 
 @Controller

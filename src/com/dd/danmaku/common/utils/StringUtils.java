@@ -1,4 +1,4 @@
-package com.dd.danmaku.utils;
+package com.dd.danmaku.common.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;

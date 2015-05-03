@@ -1,4 +1,4 @@
-package com.dd.danmaku.controller;
+package com.dd.danmaku.web.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

@@ -1,9 +1,11 @@
-package com.dd.danmaku.controller;
+package com.dd.danmaku.web.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -13,6 +15,7 @@ import com.dd.danmaku.resource.bean.Category;
 import com.dd.danmaku.resource.bean.Resource;
 import com.dd.danmaku.resource.service.CategoryService;
 import com.dd.danmaku.resource.service.ResourceService;
+import com.dd.danmaku.web.vo.CategoryVo;
 
 
 @Controller
@@ -38,8 +41,10 @@ public class ChannelController {
 		mv.addObject("categories", categories);
 		
 		//准备Categories中的每个子分类的内容
-		LinkedHashMap<Category, List<Resource>> resources = new LinkedHashMap<Category, List<Resource>>();
+		LinkedHashMap<CategoryVo, List<Resource>> resources = new LinkedHashMap<CategoryVo, List<Resource>>();
 		for (Category mainCategory : categories.keySet()) {
+			CategoryVo mainCategoryVo = getCategoryVo(mainCategory);
+			
 			List<Category> subCategories = categories.get(mainCategory);
 			
 			String cates = "" ;
@@ -52,7 +57,7 @@ public class ChannelController {
 			LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
 			orderBy.put("score", "DESC");
 			List<Resource> subResources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
-			resources.put(mainCategory, subResources);
+			resources.put(mainCategoryVo, subResources);
 		}
 
 		mv.addObject("resources", resources);
@@ -87,6 +92,22 @@ public class ChannelController {
 		
 		return mv;
 	}
+
+	/**
+	 * 根据Category，以及Category的name属性，返回CategoryVo对象
+	 * @param mainCategory
+	 * @return
+	 */
+	private CategoryVo getCategoryVo(Category source) {
+		CategoryVo target = new CategoryVo();
+		BeanUtils.copyProperties(source, target);
+		try {
+			target.setShowName(URLEncoder.encode(source.getName(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return target;
+	}
 	
 	
 	/**
@@ -110,14 +131,16 @@ public class ChannelController {
 		mv.addObject("categoryName", categoryName);
 
 		//准备Categories中的每个子分类的内容
-		LinkedHashMap<Category, List<Resource>> resources = new LinkedHashMap<Category, List<Resource>>();
+		LinkedHashMap<CategoryVo, List<Resource>> resources = new LinkedHashMap<CategoryVo, List<Resource>>();
 		for (Category subCategory : categories) {
+			CategoryVo subCategoryVo = getCategoryVo(subCategory);
+			
 			String cates = subCategory.getId() ;
 			String query = "{ status: '%1$s', categories : '%2$s' }";
 			LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>(); 
 			orderBy.put("score", "DESC");
 			List<Resource> subResources = resourceService.getResourceDao().getResultList(Resource.class, query, 0, 10, orderBy, Resource.IN_USING, cates);
-			resources.put(subCategory, subResources);
+			resources.put(subCategoryVo, subResources);
 		}
 		
 		mv.addObject("resources", resources);

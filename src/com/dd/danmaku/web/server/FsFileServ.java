@@ -1,4 +1,4 @@
-package com.dd.danmaku.server;
+package com.dd.danmaku.web.server;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.gridfs.GridFsCriteria.whereFilename;
@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dd.danmaku.utils.DateUtils;
+import com.dd.danmaku.common.utils.DateUtils;
 import com.mongodb.gridfs.GridFSDBFile;
 
 /**
