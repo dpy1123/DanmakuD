@@ -332,8 +332,9 @@
 <script src="<%=path%>/views/js/jQuery-File-Upload/jquery.fileupload-ui.js"></script>
 <!-- The main application script -->
 <script >
-	$('#fileupload')
-	.fileupload({
+	var allFileUploaded = false;
+
+	$('#fileupload').fileupload({
 		url : '<%=path%>/uploadVideoChunked.do',
 		//sequentialUploads: true
 		acceptFileTypes: /(\.|\/)(mp4|flv|avi)$/i,
@@ -343,17 +344,20 @@
 		$(data.result.files).each(
 			function(index, item){
 				$('#uploadedFiles').append('<input type="hidden" name="videoId" value="'+ item.id +'">');
+				console.log("video with id ["+item.id+"] uploaded!");
 			}		
 		);
+		allFileUploaded = true;
 	});
 	
 	
 	$('#fileupload').submit(function() {
-		if($('input[name=videoId]').length>0)//如果有上传文件才提交form
+		console.log('submit');
+		if(allFileUploaded && $('input[name=videoId]').length>0)//如果有上传文件才提交form
 			return true;
 		else
 			return false;
-	})
+	});
 </script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
