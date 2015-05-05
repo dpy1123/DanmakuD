@@ -1,5 +1,7 @@
 package com.dd.danmaku.web.server;
 
+import static org.springframework.data.mongodb.core.query.Query.query;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +17,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dd.danmaku.common.utils.ImageUtils;
+import com.dd.danmaku.common.utils.MD5BigFileUtil;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 /**
@@ -153,27 +158,35 @@ public class ImgUploader {
 			
 			byte[] temp = ImageUtils.scale(ins, (int)Float.parseFloat(imgH), (int)Float.parseFloat(imgW), false);
 			ByteArrayInputStream in = new ByteArrayInputStream(temp); 
-			
 			temp = ImageUtils.cut(in, Integer.parseInt(imgX1), Integer.parseInt(imgY1), Integer.parseInt(cropW), Integer.parseInt(cropH));
 			in = new ByteArrayInputStream(temp); 
 					
+			ins.close();
+
 			//保存文件
-			String newfile = UUID.randomUUID().toString();
-			GridFSFile gfile = gridFsTemplate.store(in, newfile, "image/jpeg");
-			// note: to set aliases, call put( "aliases" , List<String> )
-			gfile.put("aliases", "CROP_"+filename);//在别名中存储文件原名
-			gfile.save();
+			//计算用户上传文件的md5，如果在fs中已有此文件，则不再上传
+    		String md5 = MD5BigFileUtil.md5(file);
+    		GridFSDBFile fsfile = gridFsTemplate.findOne(query(GridFsCriteria.where("md5").is(md5)));
+    		if(fsfile == null ){// 如果资源在fs中不存在
+    			String newfile = UUID.randomUUID().toString();
+    			GridFSFile gfile = gridFsTemplate.store(in, newfile, "image/jpeg");
+    			// note: to set aliases, call put( "aliases" , List<String> )
+    			gfile.put("aliases", "CROP_"+filename);//在别名中存储文件原名
+    			gfile.save();
+    			
+    			fileInfo.put("status", "success");
+    			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+newfile);
+    			fileInfo.put("img_name", newfile);
+    		}else {// 如果资源已存在
+    			fileInfo.put("status", "success");
+    			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+fsfile.getFilename());
+    			fileInfo.put("img_name", fsfile.getFilename());
+    		}
 			
 			//删除原图
 //			gridFsTemplate.delete(query(whereFilename().is(filename)));
-			
-			ins.close();
 			//删除临时文件
 			file.delete();
-			
-			fileInfo.put("status", "success");
-			fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename="+newfile);
-			fileInfo.put("img_name", newfile);
 			
 		} catch (IOException e) {
 			logger.error("图片crop失败", e);

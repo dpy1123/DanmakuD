@@ -19,7 +19,9 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dd.danmaku.common.utils.MD5BigFileUtil;
 import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.resource.bean.Video;
 import com.dd.danmaku.resource.service.VideoService;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 
@@ -78,8 +82,8 @@ public class VideoUploader {
             logger.info("文件原名: " + myfile.getOriginalFilename());
             logger.info("文件size: " + myfile.getSize());
             
-            //防止多个正在上传的同名文件相互影响，filename = UUID + [originalName];
-            String filename = UUID.randomUUID().toString() + "["+myfile.getOriginalFilename()+"]";
+            //TODO 防止多个正在上传的同名文件相互影响，filename = userId + originalName;
+            String filename = myfile.getOriginalFilename();
             
             Map<String, Object> fileInfo = new HashMap<String, Object>();
 			fileInfo.put("name", myfile.getOriginalFilename());
@@ -108,30 +112,45 @@ public class VideoUploader {
 	            	if(isComplete){
 	            		//传输完成，保存至文件系统
 	            		String fsfilename = UUID.randomUUID().toString();
+	            		
 	            		//保存文件
-	    				try {
-	    					GridFSFile gfile = gridFsTemplate.store(new FileInputStream(videoTempPath + filename), fsfilename, myfile.getContentType());
-	    					// note: to set aliases, call put( "aliases" , List<String> )
-	    					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
-	    					gfile.save();
-	    					logger.info("文件已保存至fs，文件大小："+gfile.getLength());
+	            		//计算用户上传文件的md5，如果在fs中已有此文件，则不再上传
+	            		String md5 = MD5BigFileUtil.md5(new File(videoTempPath + filename));
+	            		GridFSDBFile fsfile = gridFsTemplate.findOne(query(GridFsCriteria.where("md5").is(md5)));
+	            		
+	            		if(fsfile == null ){// 如果资源在fs中不存在
+	            			try {
+		    					GridFSFile gfile = gridFsTemplate.store(new FileInputStream(videoTempPath + filename), fsfilename, myfile.getContentType());
+		    					// note: to set aliases, call put( "aliases" , List<String> )
+		    					gfile.put("aliases", myfile.getOriginalFilename());//在别名中存储文件原名
+		    					gfile.save();
+		    					logger.info("文件已保存至fs，fileId："+gfile.getId());
+		    					
+		    					fileInfo.put("size", gfile.getLength());//传完之后返回文件总大小，而不是该分块大小
+		    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfilename);
+		    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfilename);
+		    					fileInfo.put("deleteType", "DELETE");
+		    				} catch (IOException e) {
+		    					e.printStackTrace();
+		    					logger.error("文件保存至fs失败", e);
+		    					fileInfo.put("error", "文件保存至fs失败");
+		    				}
+	            		}else {// 如果资源已存在
+	            			logger.info("文件已存在，fileId："+fsfile.getId());
 	    					
-	    					fileInfo.put("size", gfile.getLength());//传完之后返回文件总大小，而不是该分块大小
-	    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfilename);
-	    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfilename);
+	    					fileInfo.put("size", fsfile.getLength());//传完之后返回文件总大小，而不是该分块大小
+	    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfile.getFilename());
+	    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfile.getFilename());
 	    					fileInfo.put("deleteType", "DELETE");
-	    				} catch (IOException e) {
-	    					e.printStackTrace();
-	    					logger.error("文件保存至fs失败", e);
-	    					fileInfo.put("error", "文件保存至fs失败");
-	    				}
+						}
+	    				
 	    				
 	    				
 	    				//文件信息入库
 	    				Video video = new Video(myfile.getOriginalFilename(), fsfilename, myfile.getSize());
 	    				try {
 	    					String vId = videoService.add(video);
-	    					logger.info("文件信息入库，id：" + vId);
+	    					logger.info("文件信息入库，videoId：" + vId);
 	    					fileInfo.put("id", vId);
 	    				} catch (Exception e) {
 	    					e.printStackTrace();
@@ -145,15 +164,15 @@ public class VideoUploader {
 	            	file.close();
 	            	//删除临时文件
 		            new File(videoTempPath + filename).delete();
-	            }else{
-	            	
-	            	file.close();
+		            
 	            }
 	            
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(file);
 			}
 			
 			list.add(fileInfo);
@@ -252,23 +271,5 @@ public class VideoUploader {
         return results;
     }
 	
-//	@RequestMapping(value = "test.do")
-//	public @ResponseBody String test(){
-//		String s = null;
-//		try {
-//			ProcessBuilder builder = new ProcessBuilder();
-//			builder.command("java", "-version");
-//			builder.redirectErrorStream(true);
-//			Process process = builder.start();
-//			InputStream in = process.getInputStream();
-//			byte[] bs = new byte[1024];
-//			while ((in.read(bs)) != -1) {//正在转换,输出cmd状态
-//				s += new String(bs);
-//			}
-//		} catch (Exception e) {
-//			throw new RuntimeException("格式转换中发生异常: "+e.getMessage());
-//		}
-//		return s;
-//	}
 	
 }
