@@ -149,6 +149,8 @@ public class VideoUploader {
 	    				//文件信息入库
 	    				Video video = new Video(myfile.getOriginalFilename(), fsfilename, myfile.getSize());
 	    				try {
+	    					//如果视频文件上传过，video的状态设置为CONVERTED
+	    					if(fsfile != null ) video.setStatus(Video.CONVERTED);
 	    					String vId = videoService.add(video);
 	    					logger.info("文件信息入库，videoId：" + vId);
 	    					fileInfo.put("id", vId);
