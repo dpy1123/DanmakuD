@@ -110,7 +110,7 @@
 				<div class="row item">
 					<div class="col-xs-12 col-sm-5 left">
 						<b>标题</b><span>*</span><br />
-						<span class="tips">视频标题，多个请用逗号分开</span>
+						<span class="tips">视频标题</span>
 					</div>
 					<div class="col-xs-12 col-sm-7 right">
 						<input type="text" name="title" class="input">
@@ -264,8 +264,9 @@
     <tr class="template-download fade">
         <td>
             <span class="preview">
-                {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% if (file.id) { %}
+					<input type="hidden" id="vid" value="{%=file.id%}">
+					<input type="text" id="vtitle" class="form-control" placeholder="分P名(不填则默认)">
                 {% } %}
             </span>
         </td>
@@ -343,7 +344,7 @@
 		//data.result中保存的是上传成功后服务端返回的json
 		$(data.result.files).each(
 			function(index, item){
-				$('#uploadedFiles').append('<input type="hidden" name="videoId" value="'+ item.id +'">');
+// 				$('#uploadedFiles').append('<input type="hidden" name="videoId" value="'+ item.id +'">');
 				console.log("video with id ["+item.id+"] uploaded!");
 			}		
 		);
@@ -352,8 +353,19 @@
 	
 	
 	$('#fileupload').submit(function() {
-		console.log('submit');
-		if(allFileUploaded && $('input[name=videoId]').length>0)//如果有上传文件才提交form
+		//组织videoList：[{vid,title},{vid,title}]
+		var videoList = [];
+		$('input[id=vid]').each(
+			function(index, item){
+				videoList.push({
+					vid: $(item).val(),
+					title: $(item).next().val()
+				});
+			}	
+		);
+// 		console.log(videoList);
+		$('#uploadedFiles').append("<input type='hidden' name='videoList' value='"+ JSON.stringify(videoList) +"'>");
+		if(allFileUploaded)//如果有文件都上传成功才提交form
 			return true;
 		else
 			return false;

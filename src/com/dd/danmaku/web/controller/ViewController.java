@@ -74,7 +74,7 @@ public class ViewController {
 				//设置显示类型
 				if(i == curP)
 					item.put("display", "current");
-				else if(i == curP-1 || i == curP+1)
+				else if(Math.abs(curP-i) <= 2)
 					item.put("display", "show");
 				else
 					item.put("display", "hidden");

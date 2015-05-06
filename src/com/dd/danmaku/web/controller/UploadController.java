@@ -1,9 +1,11 @@
 package com.dd.danmaku.web.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dd.danmaku.common.utils.JSONUtils;
 import com.dd.danmaku.common.utils.StringUtils;
 import com.dd.danmaku.jms.JMSMessage;
 import com.dd.danmaku.jms.JMSSender;
@@ -75,44 +78,49 @@ public class UploadController {
 		String description = request.getParameter("description");
 		String source = request.getParameter("source");
 		String img_name = request.getParameter("img_name");
-		String[] videoIds = request.getParameterValues("videoId");
+		
+		List<Map<String, Object>> videoList = JSONUtils.toList(request.getParameter("videoList"));
 		
 		//中文逗号换成英文逗号
-		title = title.replaceAll("，", ",");
+//		title = title.replaceAll("，", ",");
 		tag = tag.replaceAll("，", ",");
 		
-		//处理资源标题和分p标题
-		String mainTitle = null;
-		HashMap<String, String> subTitles = null;
-		if(title.contains(",")){
-			String[] titles = title.split(",");
-			mainTitle = titles[0];
-			subTitles = new HashMap<String, String>();
-			for (int i = 0; i < videoIds.length; i++) {
-				if(i+1 < titles.length)
-					subTitles.put(videoIds[i], titles[i+1]);
-			}
-		}else{
-			mainTitle = title;
+		//处理分p标题和videoId列表
+		HashMap<String, String> subTitles = new HashMap<String, String>();
+		List<String> videoIds = new ArrayList<String>();
+		for (Map<String, Object> vinfo : videoList) {
+			subTitles.put(
+					(String) vinfo.get("vid"),
+					StringUtils.isEmpty((String) vinfo.get("title")) ? title : (String) vinfo.get("title"));
+			videoIds.add((String) vinfo.get("vid"));
 		}
+		
+//		String mainTitle = null;
+//		HashMap<String, String> subTitles = null;
+//		if(title.contains(",")){
+//			String[] titles = title.split(",");
+//			mainTitle = titles[0];
+//			subTitles = new HashMap<String, String>();
+//			for (int i = 0; i < videoIds.length; i++) {
+//				if(i+1 < titles.length)
+//					subTitles.put(videoIds[i], titles[i+1]);
+//			}
+//		}else{
+//			mainTitle = title;
+//		}
 		
 		
 		String categoryId = categoryService.getCategoryByName(category).getId();
-		Resource resource = new Resource("system", mainTitle, description, Resource.IN_USING, "copy".equals(type)?false:true);
+		Resource resource = new Resource("system", title, description, Resource.IN_USING, "copy".equals(type)?false:true);
 		resource.setCategories(Arrays.asList(categoryId));
 		resource.setSubTitles(subTitles);
 		if(!StringUtils.isEmpty(img_name))
 			resource.setPreviewImg(img_name);
-		resource.setVideos(Arrays.asList(videoIds));
+		resource.setVideos(videoIds);
 		resourceService.add(resource);
 		
 		//添加到消息队列进行视频格式转换
 		for (String videoId : videoIds) {
-			Video v = videoService.getById(videoId);
-			//如果video状态是CONVERTED，跳过
-			if(Video.CONVERTED.equals(v.getStatus()))
-				continue;
-			
 			HashMap<String, Object> content = new HashMap<String, Object>();
 			content.put("convertTimes", 1);
 			content.put("videoId", videoId);

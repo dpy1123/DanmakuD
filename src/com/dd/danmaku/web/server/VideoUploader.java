@@ -115,10 +115,11 @@ public class VideoUploader {
 	            		
 	            		//保存文件
 	            		//计算用户上传文件的md5，如果在fs中已有此文件，则不再上传
-	            		String md5 = MD5BigFileUtil.md5(new File(videoTempPath + filename));
-	            		GridFSDBFile fsfile = gridFsTemplate.findOne(query(GridFsCriteria.where("md5").is(md5)));
+	            		//TODO 先注销掉，因为后面不真的转换了，video的相关信息和resource的相关信息都要更新。
+//	            		String md5 = MD5BigFileUtil.md5(new File(videoTempPath + filename));
+//	            		GridFSDBFile fsfile = gridFsTemplate.findOne(query(GridFsCriteria.where("md5").is(md5)));
 	            		
-	            		if(fsfile == null ){// 如果资源在fs中不存在
+//	            		if(fsfile == null ){// 如果资源在fs中不存在
 	            			try {
 		    					GridFSFile gfile = gridFsTemplate.store(new FileInputStream(videoTempPath + filename), fsfilename, myfile.getContentType());
 		    					// note: to set aliases, call put( "aliases" , List<String> )
@@ -135,14 +136,14 @@ public class VideoUploader {
 		    					logger.error("文件保存至fs失败", e);
 		    					fileInfo.put("error", "文件保存至fs失败");
 		    				}
-	            		}else {// 如果资源已存在
-	            			logger.info("文件已存在，fileId："+fsfile.getId());
-	    					
-	    					fileInfo.put("size", fsfile.getLength());//传完之后返回文件总大小，而不是该分块大小
-	    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfile.getFilename());
-	    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfile.getFilename());
-	    					fileInfo.put("deleteType", "DELETE");
-						}
+//	            		}else {// 如果资源已存在
+//	            			logger.info("文件已存在，fileId："+fsfile.getId());
+//	    					
+//	    					fileInfo.put("size", fsfile.getLength());//传完之后返回文件总大小，而不是该分块大小
+//	    					fileInfo.put("url", request.getContextPath()+"/getFsFile.do?filename=" + fsfile.getFilename());
+//	    					fileInfo.put("deleteUrl", request.getContextPath()+"/deleteVideo.do?filename=" + fsfile.getFilename());
+//	    					fileInfo.put("deleteType", "DELETE");
+//						}
 	    				
 	    				
 	    				
@@ -150,7 +151,9 @@ public class VideoUploader {
 	    				Video video = new Video(myfile.getOriginalFilename(), fsfilename, myfile.getSize());
 	    				try {
 	    					//如果视频文件上传过，video的状态设置为CONVERTED
-	    					if(fsfile != null ) video.setStatus(Video.CONVERTED);
+//	    					if(fsfile != null ){
+//	    						video.setStatus(Video.CONVERTED);
+//	    					}
 	    					String vId = videoService.add(video);
 	    					logger.info("文件信息入库，videoId：" + vId);
 	    					fileInfo.put("id", vId);
